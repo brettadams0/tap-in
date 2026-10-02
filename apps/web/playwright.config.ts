@@ -16,6 +16,8 @@ export default defineConfig({
   use: {
     baseURL: process.env.E2E_BASE_URL ?? `http://localhost:${WEB}`,
     trace: 'retain-on-failure',
+    // A stuck click fails with a clear message instead of eating the whole test budget.
+    actionTimeout: 20_000,
     screenshot: 'only-on-failure',
   },
   projects: [

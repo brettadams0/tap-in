@@ -14,6 +14,15 @@ async function phone(browser: Browser, contexts: BrowserContext[]): Promise<Page
   return ctx.newPage();
 }
 
+/**
+ * Click as that phone. Headless WebKit throttles animation frames on pages that aren't in front,
+ * and Playwright's "element is stable" check waits on those frames, so bring the phone forward first.
+ */
+async function tap(page: Page, selector: string | ReturnType<Page['getByRole']>): Promise<void> {
+  await page.bringToFront();
+  await (typeof selector === 'string' ? page.locator(selector) : selector).click();
+}
+
 async function joinAs(page: Page, name: string): Promise<void> {
   await page.getByLabel('Your name').fill(name);
   await page.getByRole('button', { name: 'Next' }).click();
@@ -65,8 +74,8 @@ test('Would You Rather: vote, refresh mid-vote, reveal, Drink, end, rematch', as
       }
     });
     await test.step('two vote A', async () => {
-      await host.locator('.wyr-a').click();
-      await priya.locator('.wyr-a').click();
+      await tap(host, '.wyr-a');
+      await tap(priya, '.wyr-a');
       await expect(host.getByText('2 of 3 locked in')).toBeVisible();
     });
 
@@ -78,28 +87,28 @@ test('Would You Rather: vote, refresh mid-vote, reveal, Drink, end, rematch', as
 
     // Marco is alone on B: the smaller side drinks.
     await test.step('lone B voter gets the Drink takeover', async () => {
-      await marco.locator('.wyr-b').click();
+      await tap(marco, '.wyr-b');
       await expect(host.getByTestId('wouldYouRather-reveal')).toBeVisible();
       await expect(marco.getByTestId('drink-you')).toBeVisible({ timeout: 15_000 });
       await expect(marco.getByRole('heading', { name: 'DRINK' })).toBeVisible();
       await expect(host.getByTestId('drink-other')).toBeVisible();
       await expect(host.locator('.drinker-name')).toHaveText(['Marco']);
-      await marco.getByRole('button', { name: /Done/ }).click();
+      await tap(marco, marco.getByRole('button', { name: /Done/ }));
       await expect(marco.getByText('Cheers!')).toBeVisible();
     });
 
     // Round 2 starts; the host wraps up from the menu.
     await test.step('host ends the game from the menu', async () => {
       await expect(host.getByText('Round 2 of 4')).toBeVisible({ timeout: 20_000 });
-      await host.getByRole('button', { name: 'Menu' }).click();
-      await host.getByRole('button', { name: 'End game → results' }).click();
+      await tap(host, host.getByRole('button', { name: 'Menu' }));
+      await tap(host, host.getByRole('button', { name: 'End game → results' }));
       for (const p of [host, priya, marco]) await expect(p.getByTestId('results')).toBeVisible();
       await expect(marco.locator('.standing').first()).toContainText('Marco');
       await expect(host.getByText('Most drinks')).toBeVisible();
     });
 
     await test.step('rematch starts a new session', async () => {
-      await host.getByRole('button', { name: /Rematch/ }).click();
+      await tap(host, host.getByRole('button', { name: /Rematch/ }));
       // Timers run fast: any in-game phase other than results proves the rematch started.
       for (const p of [host, priya, marco]) {
         await expect(p.getByTestId('in-game')).not.toHaveAttribute('data-phase', 'results');
