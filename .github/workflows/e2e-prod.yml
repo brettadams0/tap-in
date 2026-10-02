@@ -1,0 +1,45 @@
+name: E2E on production
+
+# Plays the full browser suite against the live site and room server (real timers, real
+# Cloudflare + Vercel). Runs after each server deploy, or by hand from the Actions tab.
+on:
+  workflow_run:
+    workflows: [Deploy room server]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-prod
+  cancel-in-progress: true
+
+jobs:
+  e2e-prod:
+    name: E2E on production (WebKit iPhone + Chromium Pixel)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SITE_URL: ${{ vars.SITE_URL || 'https://tap-in-omega.vercel.app' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install Playwright browsers
+        run: pnpm --filter @tap-in/web exec playwright install --with-deps chromium webkit
+      - name: Wait for the site (Vercel builds alongside the server deploy)
+        run: curl --fail --silent --retry 20 --retry-delay 6 --retry-all-errors "$SITE_URL" > /dev/null
+      - run: pnpm e2e
+        env:
+          CI: '1'
+          E2E_BASE_URL: ${{ env.SITE_URL }}
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-prod
+          path: apps/web/playwright-report
+          retention-days: 7
