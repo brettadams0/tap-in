@@ -1,0 +1,831 @@
+/* Play screens (DESIGN.md §4–6). Only transform/opacity animate; reduced motion is handled at the end. */
+
+.play-root {
+  min-height: 100dvh;
+  /* Tilted stickers must never widen the page (no sideways scroll on phones). */
+  overflow-x: clip;
+}
+/* Screens without a header strip keep the corner chip clear of their title. */
+.results,
+.outro,
+.drink-other {
+  padding-top: calc(var(--safe-top) + 76px);
+}
+.grow {
+  flex: 1;
+  justify-content: center;
+}
+
+/* ---------- status zone: header strip + timer ---------- */
+.strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 6px 112px 6px 12px; /* room for the corner chip */
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.strip-icon {
+  font-size: 28px;
+}
+.strip-text {
+  flex: 1;
+  min-width: 0;
+}
+.strip-name {
+  font-family: var(--display);
+  font-size: 22px;
+  line-height: 1;
+}
+.strip-round {
+  font-weight: 800;
+  font-size: 16px;
+}
+.timer {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.timer svg {
+  position: absolute;
+  inset: 0;
+}
+.timer-track {
+  fill: var(--foam);
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+.timer-ring {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 6;
+  transition: stroke-dashoffset 0.1s linear;
+}
+.timer-num {
+  position: relative;
+  font-family: var(--display);
+  font-size: 24px;
+  color: var(--ink);
+}
+.timer-urgent .timer-ring {
+  stroke: var(--tap);
+}
+.timer-urgent .timer-num {
+  color: var(--tap);
+  animation: pulse 0.5s var(--spring);
+}
+@keyframes pulse {
+  from {
+    transform: scale(1.6);
+  }
+}
+
+/* corner chip: sound + menu, always one tap away */
+.corner {
+  position: fixed;
+  top: calc(var(--safe-top) + 22px);
+  right: max(calc((100vw - 520px) / 2 + 24px), 24px);
+  z-index: 30;
+  display: flex;
+  gap: 6px;
+}
+.corner-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  background: var(--foam);
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: 2px 2px 0 #000;
+}
+.volume {
+  width: 100%;
+  height: 44px;
+  accent-color: var(--tap);
+}
+.menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+.sound-chip {
+  display: block;
+  width: calc(100% - 2 * var(--gutter));
+  max-width: 488px;
+  margin: calc(var(--safe-top) + 8px) auto 0;
+  padding: 8px 120px 8px 14px; /* keep clear of the corner chip */
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background: var(--sun);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* ---------- action zone helpers ---------- */
+.do-this {
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--foam);
+}
+.btn-big {
+  min-height: 76px;
+  font-size: 30px;
+}
+
+/* lock-in row */
+.lockrow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+.lockrow-caps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.lockrow-cap {
+  position: relative;
+}
+.stamp {
+  position: absolute;
+  right: -6px;
+  bottom: 4px;
+  padding: 2px 8px;
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  background: var(--tap);
+  color: var(--foam);
+  font-family: var(--display);
+  font-size: 22px;
+  transform: rotate(-8deg);
+  animation: stamp 0.28s var(--spring) both;
+}
+.stamp-small {
+  font-size: 13px;
+  padding: 0 4px;
+  border-width: 2px;
+  right: -8px;
+  bottom: 0;
+}
+@keyframes stamp {
+  from {
+    transform: scale(2.4) rotate(-20deg);
+    opacity: 0;
+  }
+}
+
+/* ---------- moments ---------- */
+.moment {
+  text-align: center;
+}
+.intro-logo {
+  font-size: 96px;
+}
+.intro-caps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.intro-caps li {
+  animation: roll-in 0.6s var(--spring) both;
+}
+@keyframes roll-in {
+  from {
+    transform: translateX(-120vw) rotate(-540deg);
+  }
+}
+
+.title-card {
+  background: var(--accent);
+  color: var(--ink);
+  max-width: none;
+}
+.title-card > * {
+  max-width: 520px;
+  margin-inline: auto;
+}
+.title-card .label {
+  color: var(--ink);
+}
+.tc-icon {
+  font-size: 64px;
+  animation: slam 0.5s var(--spring) both;
+}
+.tc-name {
+  font-size: 54px;
+  color: var(--foam);
+  text-shadow:
+    3px 3px 0 var(--ink),
+    -1px -1px 0 var(--ink);
+  animation: slam 0.5s 0.08s var(--spring) both;
+}
+.tc-rule {
+  font-size: 24px;
+  font-weight: 800;
+  animation: fade 0.3s 0.4s both;
+}
+.tc-gag {
+  display: inline-block;
+  align-self: center;
+  margin-top: 8px;
+  padding: 4px 12px;
+  background: var(--foam);
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  font-weight: 800;
+  transform: rotate(-3deg);
+  animation: stamp 0.3s 0.8s var(--spring) both;
+}
+/* Would You Rather: two coasters slam in from opposite sides */
+.tc-wouldYouRather .tc-icon {
+  animation-name: from-left;
+}
+.tc-wouldYouRather .tc-name {
+  animation-name: from-right;
+}
+@keyframes from-left {
+  from {
+    transform: translateX(-100vw) rotate(-30deg);
+  }
+}
+@keyframes from-right {
+  from {
+    transform: translateX(100vw) rotate(30deg);
+  }
+}
+/* Reaction Shotgun: one hard strobe (the one allowed hard cut) */
+.tc-reactionShotgun {
+  animation: strobe 0.36s steps(1) both;
+}
+@keyframes strobe {
+  0%,
+  50% {
+    filter: invert(1);
+  }
+  25%,
+  75% {
+    filter: none;
+  }
+}
+
+/* Drink: you */
+.drink-you {
+  position: relative;
+  overflow: hidden;
+}
+.flood {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  animation: flood 0.45s 0.1s var(--snap) both;
+}
+.flood-crest {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -38px;
+  width: 100%;
+  height: 40px;
+  fill: inherit;
+}
+.flood-crest path {
+  fill: currentColor;
+}
+@keyframes flood {
+  from {
+    transform: translateY(100%);
+  }
+}
+.drink-words {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+}
+.drink-word {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(96px, 30vw, 140px);
+  line-height: 0.9;
+  color: var(--foam);
+  -webkit-text-stroke: 3px var(--ink);
+  text-shadow: 5px 5px 0 var(--tap);
+  transform: rotate(-4deg);
+  animation: slam 0.45s 0.25s var(--spring) both;
+}
+.drink-name {
+  font-family: var(--display);
+  font-size: 36px;
+}
+.drink-reason {
+  font-size: 20px;
+  font-weight: 800;
+}
+.drink-action {
+  position: relative;
+  z-index: 1;
+}
+.cap-popoff {
+  animation: pop-off 0.6s 0.15s var(--spring) both;
+}
+@keyframes pop-off {
+  from {
+    transform: translateY(60vh) rotate(-200deg);
+  }
+}
+.shake {
+  animation: shake 0.4s 0.35s both;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: none;
+  }
+  20% {
+    transform: translate(-6px, 3px);
+  }
+  40% {
+    transform: translate(6px, -3px);
+  }
+  60% {
+    transform: translate(-4px, -2px);
+  }
+  80% {
+    transform: translate(4px, 2px);
+  }
+}
+.sticker {
+  align-self: center;
+  max-width: 320px;
+  padding: 8px 14px;
+  background: var(--sun);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  font-weight: 800;
+  transform: rotate(-2deg);
+  box-shadow: 3px 3px 0 #000;
+}
+
+/* Drink: someone else */
+.drinkers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.drinker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  animation: slide-in 0.35s var(--spring) both;
+}
+.drinker-cap {
+  position: relative;
+}
+.drink-sticker {
+  position: absolute;
+  left: -4px;
+  bottom: 8px;
+  padding: 0 6px;
+  background: var(--tap);
+  color: var(--foam);
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  font-family: var(--display);
+  font-size: 15px;
+  transform: rotate(-12deg);
+  animation: stamp 0.3s 0.3s var(--spring) both;
+}
+.drinker-name {
+  font-family: var(--display);
+  font-size: 30px;
+}
+
+/* Everyone drinks */
+.everyone {
+  position: relative;
+  overflow: hidden;
+}
+.stripes {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  z-index: 0;
+}
+.stripes span {
+  flex: 1;
+  animation: flood 0.5s var(--snap) both;
+}
+.everyone-word {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(64px, 20vw, 100px);
+}
+.everyone-word span:last-child {
+  font-size: 1.4em;
+}
+
+/* Nobody drinks: the seesaw levels out */
+.seesaw {
+  width: 200px;
+  height: 40px;
+  margin: 0 auto 8px;
+  display: grid;
+  place-items: center;
+}
+.seesaw-bar {
+  width: 200px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--foam);
+  border: 3px solid var(--ink);
+  animation: seesaw 1.2s ease-out both;
+}
+@keyframes seesaw {
+  0% {
+    transform: rotate(-14deg);
+  }
+  35% {
+    transform: rotate(10deg);
+  }
+  65% {
+    transform: rotate(-4deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* outro tally */
+.tally {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.tally li,
+.standing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 14px;
+  background: var(--stout-2);
+}
+.tally-name,
+.standing-name {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: left;
+}
+.tally-n,
+.standing-n {
+  font-family: var(--display);
+  font-size: 26px;
+}
+
+/* overlays */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(21, 16, 13, 0.82);
+  animation: fade 0.2s both;
+}
+.overlay-card {
+  width: min(100%, 420px);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  animation: stamp 0.3s var(--spring) both;
+}
+.overlay-card .title {
+  color: var(--ink);
+  text-shadow: 2px 2px 0 var(--sky);
+}
+.overlay-line {
+  font-size: 20px;
+  font-weight: 800;
+}
+.water {
+  display: flex;
+  align-items: flex-end;
+}
+.water-glass {
+  font-size: 44px;
+}
+
+/* ---------- Would You Rather ---------- */
+.wyr-ask {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--foam-dim);
+}
+.wyr-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 120px;
+  padding: 16px;
+  text-align: left;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  background: var(--foam);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.12s var(--spring),
+    opacity 0.15s;
+}
+.wyr-card:active:not(:disabled) {
+  transform: scale(0.97, 0.94);
+  box-shadow: none;
+}
+.wyr-card.is-picked {
+  background: var(--accent);
+  transform: rotate(-1deg) scale(1.02);
+}
+.wyr-card.is-other {
+  opacity: 0.45;
+}
+.wyr-card:disabled {
+  cursor: default;
+}
+.wyr-letter {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--foam);
+  font-family: var(--display);
+  font-size: 24px;
+}
+.wyr-text {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+.wyr-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.wyr-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 18px;
+  background: var(--stout-2);
+  border: 3px solid var(--stout-3);
+}
+.wyr-col-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.wyr-col-text {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.wyr-pile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 60px;
+}
+.wyr-pile li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pile-name {
+  font-weight: 800;
+  font-size: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fly-in {
+  animation: fly-in 0.45s var(--spring) both;
+}
+@keyframes fly-in {
+  from {
+    transform: translate(0, -60vh) rotate(-180deg) scale(0.6);
+    opacity: 0;
+  }
+}
+.wyr-count {
+  font-size: 48px;
+  text-align: center;
+}
+.wobble {
+  animation: wobble 0.5s 1s ease-in-out 3;
+}
+@keyframes wobble {
+  25% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+/* ---------- Reaction Shotgun ---------- */
+.shotgun {
+  flex: 1;
+  min-height: 60dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  border: 3px solid var(--ink);
+  border-radius: 26px;
+  background: var(--stout-2);
+  color: var(--foam);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.shotgun-big {
+  font-size: 48px;
+}
+.shotgun-huge {
+  font-size: 120px;
+}
+.shotgun-small {
+  font-size: 20px;
+  font-weight: 800;
+}
+.shotgun-flash {
+  background: var(--volt);
+  color: var(--ink);
+}
+.shotgun-fake {
+  background: var(--lilac);
+  color: var(--ink);
+}
+.shotgun-nope {
+  font-size: 22px;
+  letter-spacing: 0.2em;
+}
+.shotgun-early {
+  background: var(--tap);
+  color: var(--ink);
+}
+.shotgun-done {
+  background: var(--stout-3);
+}
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.board-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: var(--stout-2);
+  border: 3px solid var(--stout-3);
+}
+.board-row.is-best {
+  border-color: var(--volt);
+}
+.board-rank {
+  font-family: var(--display);
+  font-size: 24px;
+  width: 28px;
+}
+.board-name {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 800;
+}
+.board-ms {
+  font-size: 22px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.slide-in {
+  animation: slide-in 0.35s var(--spring) both;
+}
+@keyframes slide-in {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+}
+.is-hidden {
+  opacity: 0;
+}
+
+/* ---------- results ---------- */
+.awards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.award {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+}
+.award:nth-child(odd) {
+  transform: rotate(-1deg);
+}
+.award:nth-child(even) {
+  transform: rotate(1deg);
+}
+.slap {
+  animation: stamp 0.35s var(--spring) both;
+}
+.award-icon {
+  font-size: 34px;
+}
+.award-title {
+  font-family: var(--display);
+  font-size: 22px;
+}
+.award-who {
+  font-weight: 800;
+}
+.standings {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* living caps: an occasional blink (DESIGN.md §13) */
+.cap-eyes-live {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5.2s infinite;
+}
+li:nth-child(2n) .cap-eyes-live {
+  animation-delay: 1.3s;
+}
+li:nth-child(3n) .cap-eyes-live {
+  animation-delay: 2.9s;
+}
+@keyframes blink {
+  0%,
+  95%,
+  100% {
+    transform: none;
+  }
+  97% {
+    transform: scaleY(0.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shake,
+  .wobble,
+  .tc-reactionShotgun,
+  .cap-eyes-live {
+    animation: none !important;
+  }
+  .flood,
+  .stripes span,
+  .fly-in,
+  .intro-caps li,
+  .cap-popoff,
+  .drink-word,
+  .tc-icon,
+  .tc-name {
+    animation-name: fade !important;
+  }
+}

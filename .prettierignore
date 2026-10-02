@@ -1,0 +1,9 @@
+pnpm-lock.yaml
+dist
+coverage
+.wrangler
+playwright-report
+test-results
+SPEC.md
+design/styletile.html
+AGENTS.md

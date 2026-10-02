@@ -1,0 +1,28 @@
+{
+  "name": "@tap-in/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/node/main.ts",
+    "dev:worker": "wrangler dev",
+    "start:node": "tsx src/node/main.ts",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.worker.json",
+    "test": "vitest run --coverage && vitest run --config vitest.workers.config.ts"
+  },
+  "dependencies": {
+    "@tap-in/games": "workspace:*",
+    "@tap-in/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
+    "@cloudflare/workers-types": "^5.20261001.1",
+    "@types/node": "^22.18.0",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.20.0",
+    "wrangler": "^4.124.0",
+    "ws": "^8.18.3"
+  }
+}
