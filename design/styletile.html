@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tap In Style Tile</title>
+<!-- Preview only: the real app self-hosts these fonts as woff2 subsets. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;800&family=Bagel+Fat+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --stout:#15100D; --stout-2:#241B16; --ink:#15100D; --foam:#F7ECD8; --foam-dim:#B9A890; --tap:#FF4D3D;
+  --pink:#FF5FA8; --sun:#FFB81C; --mint:#5FE0B7; --sky:#6EC3FF; --lilac:#C49BFF; --tang:#FF8A3D;
+  --volt:#D4FF3A; --green:#4BD866; --lemon:#FFEE55; --blue:#8FA2FF;
+  --display:"Bagel Fat One", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--stout);color:var(--foam);font-family:var(--body);font-size:18px;line-height:1.35}
+body{padding:32px 16px 64px;
+  background-image:radial-gradient(rgba(247,236,216,.045) 1px, transparent 1.2px);
+  background-size:7px 7px}
+.wrap{max-width:1240px;margin:0 auto}
+h1.logo{font-family:var(--display);font-weight:400;font-size:clamp(64px,14vw,132px);line-height:.85;letter-spacing:-.01em;
+  color:var(--foam);text-shadow:4px 4px 0 var(--tap);display:flex;gap:.18em;align-items:flex-end;flex-wrap:wrap}
+h1.logo span{display:inline-block;animation:slam .5s var(--spring) both}
+h1.logo span:nth-child(2){animation-delay:.18s;color:var(--tap);text-shadow:4px 4px 0 var(--foam)}
+h1.logo .bang{animation-delay:.36s;color:var(--sun);text-shadow:4px 4px 0 var(--ink);transform-origin:bottom}
+@keyframes slam{0%{transform:scale(2.4) rotate(-8deg);opacity:0}60%{transform:scale(.92) rotate(2deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.tag{font-size:20px;color:var(--foam-dim);margin:14px 0 40px;max-width:640px}
+.tag b{color:var(--foam)}
+h2{font-family:var(--display);font-weight:400;font-size:30px;margin:56px 0 18px;color:var(--foam);text-shadow:2px 2px 0 var(--pink)}
+.note{color:var(--foam-dim);font-size:16px;margin-top:-8px;margin-bottom:18px}
+
+/* swatches */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.sw{border:3px solid var(--ink);border-radius:18px;box-shadow:4px 4px 0 #000;padding:14px 12px 12px;min-height:104px;color:var(--ink);display:flex;flex-direction:column;justify-content:flex-end}
+.sw b{font-family:var(--display);font-weight:400;font-size:20px;line-height:1}
+.sw small{font-size:14px;font-weight:700}
+.sw.dark{color:var(--foam);border-color:#3a2d25}
+
+/* type */
+.type{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.coaster{background:var(--stout-2);border-radius:22px;padding:22px;border:3px solid #33271f}
+.disp{font-family:var(--display);font-size:56px;line-height:.95;color:var(--foam);text-shadow:3px 3px 0 var(--mint)}
+.bodyt{font-size:30px;font-weight:700;line-height:1.15}
+.meta{color:var(--foam-dim);font-size:15px;margin-top:10px}
+
+/* phones */
+.phones{display:flex;flex-wrap:wrap;gap:28px;justify-content:flex-start}
+.phone{width:340px;max-width:100%;height:700px;border-radius:44px;border:10px solid #000;background:var(--stout);position:relative;overflow:hidden;
+  box-shadow:0 0 0 2px #3a2d25, 8px 8px 0 #000;display:flex;flex-direction:column}
+.phone .cap-label{position:absolute;top:-32px;left:4px;font-family:var(--display);font-size:16px;color:var(--foam-dim)}
+.screen{flex:1;display:flex;flex-direction:column;padding:18px 16px 22px;position:relative;
+  background-image:radial-gradient(rgba(247,236,216,.04) 1px, transparent 1.2px);background-size:7px 7px}
+.phone-wrap{position:relative;padding-top:30px}
+
+/* header strip */
+.strip{display:flex;align-items:center;gap:10px;background:var(--pink);color:var(--ink);border:3px solid var(--ink);border-radius:16px;padding:8px 10px;box-shadow:3px 3px 0 #000}
+.strip .gname{font-family:var(--display);font-size:19px;line-height:1}
+.strip .round{font-size:14px;font-weight:800}
+.strip .grow{flex:1;min-width:0}
+.timer{width:54px;height:54px;flex:none;position:relative}
+.timer svg{width:54px;height:54px;transform:rotate(-90deg)}
+.timer .num{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:22px;color:var(--ink)}
+.timer.urgent .num{animation:pulse 1s infinite}
+.timer.urgent circle.ring{stroke:var(--tap)}
+@keyframes pulse{0%{transform:scale(1)}15%{transform:scale(1.28)}40%{transform:scale(1)}}
+.donow{font-size:16px;font-weight:800;color:var(--foam-dim);text-transform:uppercase;letter-spacing:.06em;margin:16px 2px 8px}
+.prompt{font-size:30px;font-weight:800;line-height:1.12}
+
+/* choices */
+.choices{margin-top:auto;display:flex;flex-direction:column;gap:14px}
+.choice{font-family:var(--body);font-weight:800;font-size:22px;text-align:left;color:var(--ink);background:var(--foam);border:3px solid var(--ink);border-radius:20px;
+  padding:16px 18px;min-height:92px;box-shadow:5px 5px 0 #000;position:relative;cursor:pointer;transition:transform .08s, box-shadow .08s}
+.choice:nth-child(1){transform:rotate(-1deg)}
+.choice:nth-child(2){transform:rotate(.8deg);background:var(--pink)}
+.choice:active,.choice.pressed{transform:translate(4px,4px) scale(.98,.95);box-shadow:1px 1px 0 #000}
+.choice .or{position:absolute;right:14px;top:-16px;font-family:var(--display);font-size:16px;background:var(--ink);color:var(--foam);padding:2px 10px;border-radius:999px}
+
+/* locked row */
+.locked{display:flex;align-items:center;gap:6px;margin-top:14px}
+.locked .lbl{font-size:15px;font-weight:800;color:var(--foam-dim);margin-left:6px}
+.capwrap{position:relative;width:44px;height:44px}
+.stamp{position:absolute;inset:auto -6px -6px auto;font-family:var(--display);font-size:13px;color:var(--ink);background:var(--volt);border:2px solid var(--ink);
+  padding:1px 5px;border-radius:6px;transform:rotate(-10deg);animation:thunk 2.8s var(--spring) infinite}
+@keyframes thunk{0%,12%{transform:scale(2.6) rotate(-20deg);opacity:0}22%{transform:scale(.9) rotate(-8deg);opacity:1}30%,100%{transform:scale(1) rotate(-10deg);opacity:1}}
+.capwrap:nth-child(2) .stamp{animation-delay:.25s}.capwrap:nth-child(3) .stamp{animation-delay:.5s}.capwrap:nth-child(4) .stamp{animation-delay:.75s}
+
+/* lobby */
+.ticket{background:var(--foam);color:var(--ink);border-radius:18px;padding:14px 18px;position:relative;box-shadow:5px 5px 0 #000;border:3px solid var(--ink);transform:rotate(-1.5deg)}
+.ticket:before,.ticket:after{content:"";position:absolute;top:50%;width:22px;height:22px;background:var(--stout);border-radius:50%;transform:translateY(-50%);border:3px solid var(--ink)}
+.ticket:before{left:-13px}.ticket:after{right:-13px}
+.ticket .k{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.ticket .code{font-family:var(--display);font-size:62px;line-height:1;letter-spacing:.06em}
+.ticket .perf{border-top:3px dashed var(--ink);margin:8px 0 6px;opacity:.5}
+.ticket .row{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:15px}
+.qr{width:46px;height:46px;background:
+  conic-gradient(var(--ink) 25%,transparent 0 50%,var(--ink) 0 75%,transparent 0) 0 0/12px 12px;border:3px solid var(--ink);border-radius:4px}
+.lobbycaps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 6px;margin:26px 0 0}
+.lc{display:flex;flex-direction:column;align-items:center;gap:6px;animation:drop .7s var(--spring) both}
+.lc .nm{font-weight:800;font-size:17px}
+.lc.off{opacity:.45}
+.lc.off .nm:after{content:" · reconnecting";font-size:12px;font-weight:700;display:block;text-align:center;color:var(--foam-dim)}
+.lc:nth-child(2){animation-delay:.15s}.lc:nth-child(3){animation-delay:.3s}.lc:nth-child(4){animation-delay:.45s}.lc:nth-child(5){animation-delay:.6s}
+@keyframes drop{0%{transform:translateY(-220px) rotate(-120deg);opacity:0}60%{transform:translateY(10px) rotate(8deg);opacity:1}80%{transform:translateY(-6px) rotate(-3deg)}100%{transform:none}}
+.btn{margin-top:auto;font-family:var(--display);font-size:30px;color:var(--ink);background:var(--tap);border:3px solid var(--ink);border-radius:20px;min-height:72px;
+  box-shadow:5px 5px 0 #000;display:grid;place-items:center;cursor:pointer;user-select:none;position:relative}
+.btn:active{transform:translate(4px,4px) scale(.98,.94);box-shadow:1px 1px 0 #000}
+.hint{text-align:center;font-size:15px;color:var(--foam-dim);margin-top:10px}
+.burst{position:absolute;width:10px;height:10px;border-radius:50%;pointer-events:none;background:var(--sun);animation:burst .42s ease-out forwards}
+@keyframes burst{from{transform:translate(0,0) scale(1);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+
+/* drink */
+.drink .screen{padding:0;overflow:hidden}
+.flood{position:absolute;inset:0;background:var(--sky);transform:translateY(100%);animation:flood 3.6s cubic-bezier(.2,.9,.2,1) infinite}
+.flood svg{position:absolute;top:-28px;left:0;width:200%;height:30px;animation:wave 1.2s linear infinite}
+@keyframes flood{0%{transform:translateY(100%);opacity:1}18%,86%{transform:translateY(0);opacity:1}100%{transform:translateY(0);opacity:0}}
+@keyframes wave{to{transform:translateX(-50%)}}
+.drinkword{position:absolute;left:0;right:0;top:170px;text-align:center;font-family:var(--display);font-size:clamp(72px,29vw,100px);line-height:.9;color:var(--foam);
+  -webkit-text-stroke:3px var(--ink);text-shadow:6px 6px 0 var(--ink);transform:rotate(-4deg);animation:drinkslam 3.6s infinite}
+@keyframes drinkslam{0%,12%{transform:scale(3) rotate(-14deg);opacity:0}20%{transform:scale(.92) rotate(-2deg);opacity:1}24%{transform:scale(1.04) rotate(-5deg)}28%,86%{transform:scale(1) rotate(-4deg);opacity:1}100%{opacity:0}}
+.shake{animation:shake 3.6s infinite}
+@keyframes shake{0%,19%,32%,100%{transform:none}21%{transform:translate(-6px,3px) rotate(-1deg)}23%{transform:translate(7px,-4px) rotate(1deg)}25%{transform:translate(-5px,-2px)}27%{transform:translate(4px,3px)}29%{transform:translate(-2px,0)}}
+.drinkwho{position:absolute;left:0;right:0;top:330px;display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeup 3.6s infinite}
+.drinkwho .nm{font-family:var(--display);font-size:30px;color:var(--ink)}
+@keyframes fadeup{0%,24%{opacity:0;transform:translateY(20px)}32%,86%{opacity:1;transform:none}100%{opacity:0}}
+.drink .btn{position:absolute;left:16px;right:16px;bottom:22px;background:var(--foam);animation:fadeup 3.6s infinite}
+.capflip{animation:capflip 3.6s infinite}
+@keyframes capflip{0%,10%{transform:translateY(300px)}18%{transform:translateY(-40px) rotate(-200deg)}24%,86%{transform:none}}
+
+/* everyone */
+.stripes{position:absolute;inset:0;display:flex}
+.stripes i{flex:1;transform:translateY(100%);animation:fill 3.6s cubic-bezier(.2,.9,.2,1) infinite}
+.stripes i:nth-child(1){background:var(--tap)}.stripes i:nth-child(2){background:var(--sun);animation-delay:.08s}
+.stripes i:nth-child(3){background:var(--green);animation-delay:.16s}.stripes i:nth-child(4){background:var(--sky);animation-delay:.24s}
+.stripes i:nth-child(5){background:var(--pink);animation-delay:.32s}
+@keyframes fill{0%{transform:translateY(100%);opacity:1}20%,86%{transform:none;opacity:1}100%{transform:none;opacity:0}}
+.everyword{position:absolute;left:0;right:0;top:150px;text-align:center;font-family:var(--display);line-height:.88;color:var(--foam);-webkit-text-stroke:3px var(--ink);text-shadow:6px 6px 0 var(--ink);animation:drinkslam 3.6s infinite;animation-delay:.15s}
+.everyword .a{font-size:54px;display:block}.everyword .b{font-size:96px;display:block}
+.clink{position:absolute;left:0;right:0;top:395px;display:flex;justify-content:center;animation:fadeup 3.6s infinite}
+.clink .capwrap{width:58px;height:58px;margin:0 -7px;animation:clink 3.6s infinite}
+@keyframes clink{0%,30%{transform:translateX(0)}36%{transform:translateX(var(--cx))}40%,100%{transform:none}}
+
+/* title cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.tc{border:3px solid var(--ink);border-radius:20px;padding:16px;min-height:150px;color:var(--ink);box-shadow:5px 5px 0 #000;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.tc .n{font-family:var(--display);font-size:26px;line-height:.95}
+.tc .r{font-size:15px;font-weight:700}
+.tc .ic{position:absolute;right:-10px;top:-10px;width:70px;height:70px;opacity:.9}
+.tc:nth-child(odd){transform:rotate(-1deg)}.tc:nth-child(even){transform:rotate(1deg)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
+@media (max-width:420px){.phone{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="logo"><span>TAP</span><span>IN</span><span class="bang">!</span></h1>
+  <p class="tag"><b>Bottle Cap Riot:</b> a riso-printed bar coaster come to life. Flat fluorescent inks on a dark bar top, bottle-cap players, ink-stamp lock-ins, and a halftone burst on every tap. <i>Tap the red button below.</i></p>
+
+  <h2>Base inks</h2>
+  <div class="swatches">
+    <div class="sw dark" style="background:var(--stout)"><b>Stout</b><small>#15100D · background</small></div>
+    <div class="sw dark" style="background:var(--stout-2)"><b>Stout 2</b><small>#241B16 · coasters</small></div>
+    <div class="sw" style="background:var(--foam)"><b>Foam</b><small>#F7ECD8 · text 16:1</small></div>
+    <div class="sw" style="background:var(--foam-dim)"><b>Foam dim</b><small>#B9A890 · hints 8:1</small></div>
+    <div class="sw" style="background:var(--tap)"><b>Tap Red</b><small>#FF4D3D · brand, Drink</small></div>
+  </div>
+
+  <h2>One ink per game</h2>
+  <p class="note">Each game's ink fills the header strip, the timer and the main button. Every pair passes WCAG AA (≥5.1:1).</p>
+  <div class="cards" id="cards"></div>
+
+  <h2>Type</h2>
+  <div class="type">
+    <div class="coaster"><div class="disp">Bagel Fat One</div><div class="meta">Display: titles, Drink, numbers, room codes. Fat, round, sticker-ish.</div></div>
+    <div class="coaster"><div class="bodyt">Would you rather fight one horse-sized duck?</div><div class="meta">Atkinson Hyperlegible Next, 30px prompt. Built so Il1 and O0 never get confused, even after a few.</div></div>
+  </div>
+
+  <h2>Screens</h2>
+  <div class="phones">
+    <!-- Lobby -->
+    <div class="phone-wrap"><div class="cap-label">Lobby</div>
+    <div class="phone"><div class="screen">
+      <div class="ticket"><div class="k">Room code · Admit 3–8</div><div class="code">KZRP</div><div class="perf"></div>
+        <div class="row"><span>tap-in.vercel.app/KZRP</span><span class="qr"></span></div></div>
+      <div class="lobbycaps" id="lobby"></div>
+      <div class="btn" id="startbtn">Start!</div>
+      <div class="hint">5 in · Chill · Standard (~30 min)</div>
+    </div></div></div>
+
+    <!-- Would You Rather -->
+    <div class="phone-wrap"><div class="cap-label">In a game: last 5 seconds</div>
+    <div class="phone"><div class="screen">
+      <div class="strip"><div class="grow"><div class="gname">Would You Rather</div><div class="round">Round 2 of 4</div></div>
+        <div class="timer urgent"><svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="22" fill="var(--foam)" stroke="var(--ink)" stroke-width="3"/>
+          <circle class="ring" cx="27" cy="27" r="22" fill="none" stroke-width="6" stroke-dasharray="138" stroke-dashoffset="104"/></svg><div class="num">4</div></div></div>
+      <div class="donow">Do this now: pick one</div>
+      <div class="prompt">Would you rather…</div>
+      <div class="choices">
+        <div class="choice">Only whisper for the rest of the night<span class="or">or</span></div>
+        <div class="choice pressed">Narrate everything you do out loud</div>
+      </div>
+      <div class="locked" id="locked"><span class="lbl">4 of 5 in</span></div>
+    </div></div></div>
+
+    <!-- Drink -->
+    <div class="phone-wrap"><div class="cap-label">Your phone: you drink</div>
+    <div class="phone drink"><div class="screen shake">
+      <div class="flood"><svg viewBox="0 0 400 30" preserveAspectRatio="none"><path d="M0 15 Q25 0 50 15 T100 15 T150 15 T200 15 T250 15 T300 15 T350 15 T400 15 V30 H0Z" fill="var(--sky)"/></svg></div>
+      <div class="drinkword">DRINK</div>
+      <div class="drinkwho"><div class="capflip" id="drinkcap"></div><div class="nm">Priya</div></div>
+      <div class="btn">Done 🍺</div>
+    </div></div></div>
+
+    <!-- Everyone -->
+    <div class="phone-wrap"><div class="cap-label">Every phone, synced: everyone drinks</div>
+    <div class="phone"><div class="screen" style="padding:0;overflow:hidden">
+      <div class="stripes"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="everyword"><span class="a">EVERYONE</span><span class="b">DRINK</span></div>
+      <div class="clink" id="clink"></div>
+    </div></div></div>
+  </div>
+
+  <h2>Players are bottle caps</h2>
+  <p class="note">Each player keeps a fixed colour, face and note all session. Colour is never the only signal.</p>
+  <div class="coaster" style="display:flex;flex-wrap:wrap;gap:18px" id="allcaps"></div>
+</div>
+
+<script>
+const C={tap:'#FF4D3D',sun:'#FFB81C',green:'#4BD866',sky:'#6EC3FF',pink:'#FF5FA8',tang:'#FF8A3D',lilac:'#C49BFF',foam:'#F7ECD8'};
+const faces={
+  grin:'<circle cx="-9" cy="-5" r="3.4"/><circle cx="9" cy="-5" r="3.4"/><path d="M-11 5 Q0 16 11 5" fill="none" stroke-width="3.4" stroke-linecap="round"/>',
+  wink:'<path d="M-13 -5 h8" stroke-width="3.4" stroke-linecap="round"/><circle cx="9" cy="-5" r="3.4"/><path d="M-9 6 Q2 13 11 4" fill="none" stroke-width="3.4" stroke-linecap="round"/>',
+  shook:'<circle cx="-9" cy="-5" r="4.5" fill="none" stroke-width="2.6"/><circle cx="9" cy="-5" r="4.5" fill="none" stroke-width="2.6"/><ellipse cx="0" cy="9" rx="4" ry="5"/>',
+  cool:'<path d="M-16 -8 h32 v4 q-4 7 -11 0 h-10 q-7 7 -11 0z"/><path d="M-8 8 h14" stroke-width="3.4" stroke-linecap="round"/>',
+  sleepy:'<path d="M-13 -4 q4 4 8 0 M5 -4 q4 4 8 0" fill="none" stroke-width="3" stroke-linecap="round"/><circle cx="0" cy="9" r="3"/>',
+  smirk:'<circle cx="-9" cy="-5" r="3.4"/><circle cx="9" cy="-5" r="3.4"/><path d="M-8 8 Q4 10 11 3" fill="none" stroke-width="3.4" stroke-linecap="round"/>',
+  dizzy:'<path d="M-13 -9 l7 7 M-6 -9 l-7 7 M6 -9 l7 7 M13 -9 l-7 7" stroke-width="2.8" stroke-linecap="round"/><path d="M-9 9 q3 -4 6 0 t6 0 t6 0" fill="none" stroke-width="2.8"/>',
+  happy:'<path d="M-13 -3 q4 -6 8 0 M5 -3 q4 -6 8 0" fill="none" stroke-width="3" stroke-linecap="round"/><path d="M-10 4 Q0 18 10 4z"/>'
+};
+function crimp(r1,r2,n){let d='';for(let i=0;i<n*2;i++){const a=i*Math.PI/n,r=i%2?r2:r1;d+=(i?'L':'M')+(Math.cos(a)*r).toFixed(2)+' '+(Math.sin(a)*r).toFixed(2)}return d+'Z'}
+const CR=crimp(30,26.5,21);
+function cap(color,face,size=44,init){
+  return `<svg width="${size}" height="${size}" viewBox="-34 -34 68 68" aria-label="${init||face} cap">
+    <path d="${CR}" fill="${color}" stroke="#15100D" stroke-width="3" stroke-linejoin="round"/>
+    <circle r="21" fill="none" stroke="#15100D" stroke-opacity=".22" stroke-width="2.5"/>
+    <g fill="#15100D" stroke="#15100D">${faces[face]}</g></svg>`;
+}
+const players=[['Priya','sky','grin'],['Marco','tap','smirk'],['Jules','sun','cool'],['Dee','green','wink'],['Sam','pink','sleepy']];
+document.getElementById('lobby').innerHTML=players.map(([n,c,f],i)=>`<div class="lc${i===4?' off':''}">${cap(C[c],f,64)}<span class="nm">${n}</span></div>`).join('');
+document.getElementById('locked').insertAdjacentHTML('afterbegin',players.map(([n,c,f],i)=>`<div class="capwrap">${cap(C[c],f,44)}${i<4?'<span class="stamp">IN!</span>':''}</div>`).join(''));
+document.getElementById('drinkcap').innerHTML=cap(C.foam,'shook',96);
+document.getElementById('clink').innerHTML=players.map(([n,c,f],i)=>`<div class="capwrap" style="--cx:${(2-i)*10}px">${cap(C[c],'happy',58)}</div>`).join('');
+document.getElementById('allcaps').innerHTML=Object.keys(faces).map((f,i)=>{const col=Object.values(C)[i];return `<div style="text-align:center">${cap(col,f,72)}<div style="font-size:14px;color:var(--foam-dim);margin-top:4px">${['C','D','E','G','A','c','d','e'][i]} · ${['glass','wood','rubber'][i%3]}</div></div>`}).join('');
+const games=[['Would You Rather','#FF5FA8','Two sides. Smaller side drinks.'],['Rank It','#FFB81C','Rank 4 things. Furthest from the group drinks.'],["Liar's Prompt",'#5FE0B7','One of you got a different question.'],['Two Truths, One App','#6EC3FF','Spot the fact the app made up.'],['Secret Word','#C49BFF','One of you doesn’t know the word.'],['Fake Answer','#FF8A3D','Write a fake. Fool the room.'],['Reaction Shotgun','#D4FF3A','Wait for the flash. Don’t jump it.'],['Tap Race','#FF4D3D','Tap like your drink depends on it.'],['Spin the Bottle','#4BD866','Dare or Drink.'],['Fill in the Blank','#FFEE55','Funniest answer wins. Fewest votes drinks.'],['Countdown','#8FA2FF','Count to 8 together. No talking.']];
+document.getElementById('cards').innerHTML=games.map(([n,c,r])=>`<div class="tc" style="background:${c}"><svg class="ic" viewBox="-34 -34 68 68"><path d="${CR}" fill="none" stroke="#15100D" stroke-opacity=".25" stroke-width="3"/></svg><div class="n">${n}</div><div class="r">${r}</div></div>`).join('');
+// tap bursts on every button
+document.querySelectorAll('.btn,.choice').forEach(el=>el.addEventListener('pointerdown',e=>{
+  const r=el.getBoundingClientRect();
+  for(let i=0;i<9;i++){const b=document.createElement('span');b.className='burst';const a=Math.random()*Math.PI*2,d=40+Math.random()*50;
+    b.style.left=(e.clientX-r.left-5)+'px';b.style.top=(e.clientY-r.top-5)+'px';b.style.setProperty('--dx',Math.cos(a)*d+'px');b.style.setProperty('--dy',Math.sin(a)*d+'px');
+    b.style.background=['#FFB81C','#F7ECD8','#15100D'][i%3];el.appendChild(b);setTimeout(()=>b.remove(),450)}
+  navigator.vibrate&&navigator.vibrate(12);
+}));
+</script>
+</body>
+</html>

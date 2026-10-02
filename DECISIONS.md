@@ -1,0 +1,45 @@
+# Decisions
+
+One line per open choice, with the reason. Newest at the bottom of each section. See PLAN.md §0 for longer context.
+
+## Platform and stack
+
+| # | Decision | Reason |
+| --- | --- | --- |
+| D1 | Vite + React 19 SPA (not Next.js) | Every screen is live socket state, so SSR adds weight and buys nothing. Static files on Vercel's edge. |
+| D2 | Motion (`LazyMotion`) + CSS keyframes for animation | Layout and orchestration animations at about 15 KB gz, using only transform and opacity |
+| D3 | Raw Web Audio with an in-house synth + a few CC0 samples | Sample-accurate scheduling, and per-player variants cost no bytes. Tone.js is too heavy. |
+| D4 | Cloudflare Workers + Durable Objects (free plan) for the room server | Free, stateful, one object per room, durable storage, alarms. Fly.io isn't free, and Render's free tier sleeps and loses state. |
+| D5 | Durable Object location hint `enam` | Players are in Ontario, so the object should run near Toronto |
+| D6 | Engine is host-agnostic (injected Clock / Scheduler / Storage) | Pure tests, and the Node adapter gives fast integration tests |
+| D7 | Zod on the server only | Validates all input without adding it to the client bundle |
+| D8 | pnpm workspaces + Turborepo | Strict dependencies, cached CI |
+| D9 | Vercel Hobby, `tap-in.vercel.app` | Your free account. Non-commercial use is fine. |
+| D10 | `patch` messages are diffs of each player's already-filtered view | A patch can never leak more than a snapshot, and recovering from a version gap is simple |
+| D11 | Clock sync: median offset of the 3 lowest-RTT pings out of 5, refreshed every 30 s and on `visibilitychange` | Low-RTT samples have the least asymmetric error, and phones drift after sleeping |
+| D12 | `playAt` lead time 600 ms; cues up to 150 ms late play offset, later ones skip the sound | Absorbs Wi-Fi jitter while keeping sync |
+| D13 | `Date.now()` in Workers only advances at I/O, which is acceptable | `pong.serverTime` is stamped at message receipt, which is the instant sync needs |
+
+## Rules and interpretations
+
+| # | Decision | Reason |
+| --- | --- | --- |
+| R1 | No new players after Start. Only existing players get back in (rejoin token, or claiming a seat with host approval). The host can remove a player. | Your call. Claiming keeps a player's history, and strangers can't barge in. |
+| R2 | Prompt bank minimums count **per spice level** (60 Chill + 60 Spicy + 60 Unhinged…) | Every level feels fresh and repeats are rare |
+| R3 | Countdown: you can't tap twice in a row | Otherwise one player can count alone and nobody collides |
+| R4 | Secret Word: 15 s per hint turn (ends on submit); the outsider is never first | 25 s for everyone is too short, and 25 s each drags. Going first blind isn't fun. |
+| R5 | A connected non-submitter gets the worst outcome; a disconnected player abstains | Otherwise ignoring the phone would be the best strategy |
+| R6 | Fairness cap covers assigned drinks only (not "everyone drinks" or self-inflicted ones) | Redirecting group or self-caused drinks makes no sense and could be gamed |
+| R7 | Capped player in a multi-drinker result: they're excused and the others still drink. If that leaves nobody, the next-worst drinks, or "lucky escape" when there's no ranking. Spin the Bottle never lands on a capped player. | The cap rule works with every game shape |
+| R8 | Rank It: drag + tap-in-order fallback | Tipsy thumbs, accessibility |
+| R9 | Two Truths: a player can reroll their fake fact if it's actually true for them | Otherwise the round breaks on a fluke |
+| R10 | Names are always filtered; answers always block slurs; mild swearing is masked only at Chill | Matches each spice level's intent |
+| R11 | Imposter is "caught" when they get more than half of the votes cast; the imposter votes too | "Majority", read literally |
+| R12 | Fake Answer "too close" = normalised similarity ≥ 0.75 or containment; identical fakes are merged | Stops near-copies of the real answer; duplicates would give the answer away |
+| R13 | Spin the Bottle: 20 s Dare/Drink choice (a timeout counts as Drink), 20 s to perform, 10 s Done/Nope vote; the player drinks if Nope > Done | The spec doesn't give the flow |
+| R14 | Reaction Shotgun: about 30% of rounds have a fake-out. Under 90 ms, or received before `playAt - 50 ms`, counts as early. | A fair mix, plus anti-cheat |
+| R15 | Session length is a time budget that never cuts a game short. Two Truths is capped at 3 spotlights on Short or with 7+ players. | Keeps the length predictable |
+| R16 | Fewer than 3 active players mid-game → "Waiting for players…" pause | The game needs 3 or more |
+| R17 | Skip-prompt flags log only `{bankId, promptId}` | No identifying data |
+| R18 | Room codes: alphabet without I and O, filtered against a rude-word list | Spec: no ambiguous letters |
+| R19 | e2e screenshots run with reduced motion, a fixed seed and scaled timers | Stable baselines |
