@@ -15,7 +15,7 @@ Run everything locally with `pnpm lint && pnpm typecheck && pnpm test && pnpm e2
 Run e2e against production (after deploy) with:
 
 ```bash
-E2E_BASE_URL=https://tap-in.vercel.app pnpm e2e
+E2E_BASE_URL=https://tap-in-omega.vercel.app pnpm e2e
 ```
 
 ## Manual real-device checklist
