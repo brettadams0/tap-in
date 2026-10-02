@@ -94,7 +94,11 @@ export class Room extends DurableObject<Env> {
     }
     if (url.pathname === '/status') {
       const info = this.engine && !this.engine.snapshot.ended ? this.engine.welcomeInfo() : null;
-      const status: RoomStatus = { exists: !!info, phase: info?.phase ?? null, joinable: info?.joinable ?? false };
+      const status: RoomStatus = {
+        exists: !!info,
+        phase: info?.phase ?? null,
+        joinable: info?.joinable ?? false,
+      };
       return Response.json(status);
     }
     if (url.pathname === '/ws') {
@@ -107,7 +111,9 @@ export class Room extends DurableObject<Env> {
       if (this.engine) {
         this.engine.connect(connId);
       } else {
-        server.send(JSON.stringify({ type: 'error', code: 'ROOM_ENDED', message: 'This room has ended.' }));
+        server.send(
+          JSON.stringify({ type: 'error', code: 'ROOM_ENDED', message: 'This room has ended.' }),
+        );
         server.close(4000, 'ended');
       }
       return new Response(null, { status: 101, webSocket: client });
@@ -172,8 +178,12 @@ export default {
         return withCors(Response.json({ ok: true }));
       case 'create': {
         for (let attempt = 0; attempt < 8; attempt++) {
-          const code = generateRoomCode(() => crypto.getRandomValues(new Uint32Array(1))[0]! / 2 ** 32);
-          const res = await roomStub(env, code).fetch(`https://room/init?code=${code}`, { method: 'POST' });
+          const code = generateRoomCode(
+            () => (crypto.getRandomValues(new Uint32Array(1))[0] ?? 0) / 2 ** 32,
+          );
+          const res = await roomStub(env, code).fetch(`https://room/init?code=${code}`, {
+            method: 'POST',
+          });
           if (res.status === 201) return withCors(Response.json({ code }, { status: 201 }));
         }
         return withCors(Response.json({ error: 'busy, try again' }, { status: 503 }));
@@ -181,8 +191,10 @@ export default {
       case 'status':
         return withCors(await roomStub(env, r.code).fetch('https://room/status'));
       case 'socket': {
-        if (request.headers.get('Upgrade') !== 'websocket') return new Response('expected websocket', { status: 426 });
-        if (!isOriginAllowed(origin, env.ALLOWED_ORIGINS)) return new Response('forbidden', { status: 403 });
+        if (request.headers.get('Upgrade') !== 'websocket')
+          return new Response('expected websocket', { status: 426 });
+        if (!isOriginAllowed(origin, env.ALLOWED_ORIGINS))
+          return new Response('forbidden', { status: 403 });
         return roomStub(env, r.code).fetch('https://room/ws', { headers: request.headers });
       }
       default:

@@ -11,7 +11,10 @@ describe('client message schemas', () => {
       { type: 'claim', playerId: 'p_1' },
       { type: 'avatar', avatar },
       { type: 'hostAction', action: { kind: 'start' } },
-      { type: 'hostAction', action: { kind: 'settings', settings: { spice: 'spicy', games: ['tapRace'] } } },
+      {
+        type: 'hostAction',
+        action: { kind: 'settings', settings: { spice: 'spicy', games: ['tapRace'] } },
+      },
       { type: 'hostAction', action: { kind: 'remove', playerId: 'p_2' } },
       { type: 'hostAction', action: { kind: 'resolveClaim', claimId: 'c1', approve: true } },
       { type: 'ping', t0: 123.4 },
@@ -30,7 +33,10 @@ describe('client message schemas', () => {
       JSON.stringify({ type: 'join', name: 'Sam', avatar, admin: true }),
       JSON.stringify({ type: 'rejoin', playerId: '../etc', token: 'a'.repeat(32) }),
       JSON.stringify({ type: 'ping', t0: 'now' }),
-      JSON.stringify({ type: 'hostAction', action: { kind: 'settings', settings: { spice: 'nuclear' } } }),
+      JSON.stringify({
+        type: 'hostAction',
+        action: { kind: 'settings', settings: { spice: 'nuclear' } },
+      }),
       'x'.repeat(MAX_MESSAGE_BYTES + 1),
       42,
     ];

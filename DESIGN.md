@@ -15,14 +15,15 @@ When fun gets in the way of 1 or 2, fun loses. In practice:
 
 **Screen zones.** Every play screen has four zones, and nothing decorative is allowed in the first three:
 
-| Zone | Contains | Rule |
-| --- | --- | --- |
-| **Status** (top) | game, round, timer | always visible, never covered |
-| **Content** (middle) | prompt, answers, results | solid surfaces only, no texture or motion behind text |
-| **Action** (bottom third) | your buttons, plus the "Do this now" line | never covered, never moved while you're aiming |
-| **Margin** (edges, gaps, the cap strip) | decoration, mascot, reactions | the only place fun is allowed to live while you're reading or acting |
+| Zone                                    | Contains                                  | Rule                                                                 |
+| --------------------------------------- | ----------------------------------------- | -------------------------------------------------------------------- |
+| **Status** (top)                        | game, round, timer                        | always visible, never covered                                        |
+| **Content** (middle)                    | prompt, answers, results                  | solid surfaces only, no texture or motion behind text                |
+| **Action** (bottom third)               | your buttons, plus the "Do this now" line | never covered, never moved while you're aiming                       |
+| **Margin** (edges, gaps, the cap strip) | decoration, mascot, reactions             | the only place fun is allowed to live while you're reading or acting |
 
 **Motion budget.** While players are reading or answering:
+
 - motion is limited to idle cap bobbing and the timer
 - the big fun (slams, floods, confetti) happens **between** phases: title cards, reveals, Drink moments
 
@@ -32,14 +33,14 @@ When fun gets in the way of 1 or 2, fun loses. In practice:
 
 ## 1. The idea: "Bottle Cap Riot"
 
-**Tap In is a riso-printed bar coaster that came to life.** Picture a stack of cheap screen-printed coasters, a fistful of bottle caps and an ink stamp, all on a dark bar top. Every tap *punches*. It leaves an ink stamp, pops a halftone burst, or flips a cap.
+**Tap In is a riso-printed bar coaster that came to life.** Picture a stack of cheap screen-printed coasters, a fistful of bottle caps and an ink stamp, all on a dark bar top. Every tap _punches_. It leaves an ink stamp, pops a halftone burst, or flips a cap.
 
 The name carries three meanings, and the design uses all of them:
 
-| "Tap" means… | …so the design has |
-| --- | --- |
-| a finger tap | every press squashes, then bursts into halftone dots |
-| a beer tap | foam, caps, bottles and the pour that floods the Drink screen |
+| "Tap" means…             | …so the design has                                             |
+| ------------------------ | -------------------------------------------------------------- |
+| a finger tap             | every press squashes, then bursts into halftone dots           |
+| a beer tap               | foam, caps, bottles and the pour that floods the Drink screen  |
 | "tap in" (join the game) | ticket stubs and stamps for room codes, joining and locking in |
 
 ### Why this direction (and not the other two)
@@ -63,30 +64,30 @@ The dark bar top is the canvas, cream paper is the foreground, and each fluoresc
 
 ### Base
 
-| Token | Hex | Use |
-| --- | --- | --- |
-| `--stout` | `#15100D` | page background (a warm black, like a bar top at night) |
-| `--stout-2` | `#241B16` | raised surfaces (coasters, cards) |
-| `--ink` | `#15100D` | outlines (3px), text on ink fills, hard shadows |
-| `--foam` | `#F7ECD8` | primary text, paper cards (16:1 on stout) |
-| `--foam-dim` | `#B9A890` | secondary text, hints (8:1) |
-| `--tap` | `#FF4D3D` | brand red: primary buttons, the logo, timer urgency, **Drink** |
+| Token        | Hex       | Use                                                            |
+| ------------ | --------- | -------------------------------------------------------------- |
+| `--stout`    | `#15100D` | page background (a warm black, like a bar top at night)        |
+| `--stout-2`  | `#241B16` | raised surfaces (coasters, cards)                              |
+| `--ink`      | `#15100D` | outlines (3px), text on ink fills, hard shadows                |
+| `--foam`     | `#F7ECD8` | primary text, paper cards (16:1 on stout)                      |
+| `--foam-dim` | `#B9A890` | secondary text, hints (8:1)                                    |
+| `--tap`      | `#FF4D3D` | brand red: primary buttons, the logo, timer urgency, **Drink** |
 
 ### Game inks (each game owns one)
 
-| Game | Ink | Hex | Title-card move |
-| --- | --- | --- | --- |
-| Would You Rather | Fluoro Pink | `#FF5FA8` | two coasters slam in from opposite sides and clack together |
-| Rank It | Sunflower | `#FFB81C` | four tickets drop and stack 1-2-3-4 |
-| Liar's Prompt | Mint | `#5FE0B7` | the title flips like a card, and the back reads slightly *different* |
-| Two Truths, One App | Sky | `#6EC3FF` | three stickers deal in; one peels at the corner |
-| Secret Word | Lilac | `#C49BFF` | a redaction bar wipes across, then tears off |
-| Fake Answer | Tangerine | `#FF8A3D` | a card shuffle riffles and fans out |
-| Reaction Shotgun | Volt | `#D4FF3A` | the title *strobes* once (a hard cut, which is the one allowed exception) |
-| Tap Race | Tap Red | `#FF4D3D` | racing stripes zip through and the title skids in |
-| Spin the Bottle | Bottle Green | `#4BD866` | the title rides in on a spinning bottle that stops on it |
-| Fill in the Blank | Lemon | `#FFEE55` | the blank `____` underline draws itself, then words stamp onto it |
-| Countdown | Electric Blue | `#8FA2FF` | 3-2-1 punches out like ticket numbers |
+| Game                | Ink           | Hex       | Title-card move                                                           |
+| ------------------- | ------------- | --------- | ------------------------------------------------------------------------- |
+| Would You Rather    | Fluoro Pink   | `#FF5FA8` | two coasters slam in from opposite sides and clack together               |
+| Rank It             | Sunflower     | `#FFB81C` | four tickets drop and stack 1-2-3-4                                       |
+| Liar's Prompt       | Mint          | `#5FE0B7` | the title flips like a card, and the back reads slightly _different_      |
+| Two Truths, One App | Sky           | `#6EC3FF` | three stickers deal in; one peels at the corner                           |
+| Secret Word         | Lilac         | `#C49BFF` | a redaction bar wipes across, then tears off                              |
+| Fake Answer         | Tangerine     | `#FF8A3D` | a card shuffle riffles and fans out                                       |
+| Reaction Shotgun    | Volt          | `#D4FF3A` | the title _strobes_ once (a hard cut, which is the one allowed exception) |
+| Tap Race            | Tap Red       | `#FF4D3D` | racing stripes zip through and the title skids in                         |
+| Spin the Bottle     | Bottle Green  | `#4BD866` | the title rides in on a spinning bottle that stops on it                  |
+| Fill in the Blank   | Lemon         | `#FFEE55` | the blank `____` underline draws itself, then words stamp onto it         |
+| Countdown           | Electric Blue | `#8FA2FF` | 3-2-1 punches out like ticket numbers                                     |
 
 During a game, its ink fills the **header strip, the timer coaster and the primary button**, so you know which game you're in at a glance. Each game also shows its **name and icon**, so colour is never the only signal.
 
@@ -102,22 +103,22 @@ Red `#FF4D3D` · Tangerine `#FF8A3D` · Peach `#FFB38A` · Sunflower `#FFB81C` �
 
 ## 3. Type
 
-| Role | Font | Why |
-| --- | --- | --- |
-| Display (titles, Drink, numbers, room codes) | **Bagel Fat One** (OFL) | Fat, round and a little squishy, like a sticker or a printed bar sign. It reads from across a table and works great at 120px. Not a font AI templates use. |
-| Body (prompts, answers, UI) | **Atkinson Hyperlegible Next** (OFL) | Built by the Braille Institute for legibility, so every character is distinct (Il1, O0). That's exactly what a tipsy person in a dim room needs. |
+| Role                                         | Font                                 | Why                                                                                                                                                        |
+| -------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Display (titles, Drink, numbers, room codes) | **Bagel Fat One** (OFL)              | Fat, round and a little squishy, like a sticker or a printed bar sign. It reads from across a table and works great at 120px. Not a font AI templates use. |
+| Body (prompts, answers, UI)                  | **Atkinson Hyperlegible Next** (OFL) | Built by the Braille Institute for legibility, so every character is distinct (Il1, O0). That's exactly what a tipsy person in a dim room needs.           |
 
 - **Self-hosted** as woff2, subset to Latin, `font-display: swap`. About 60 KB total.
 - **Display text gets misregistration:** a second copy offset `2px 2px` in the game ink sits behind the cream text. It looks like a slightly-off riso print. Used on titles only, never on body text.
 - **Scale** (mobile, from the spec minimums up):
 
-| Role | Size |
-| --- | --- |
-| body | 18px |
-| buttons | 22px |
-| answers | 24px |
-| prompts | 30–34px |
-| titles | 48–64px |
+| Role      | Size                       |
+| --------- | -------------------------- |
+| body      | 18px                       |
+| buttons   | 22px                       |
+| answers   | 24px                       |
+| prompts   | 30–34px                    |
+| titles    | 48–64px                    |
 | **Drink** | 96–140px (fills the width) |
 
 - **Numbers:** timers and counters use Bagel Fat One. Millisecond leaderboards use Atkinson with `tabular-nums` so the digits line up.
@@ -126,16 +127,16 @@ Red `#FF4D3D` · Tangerine `#FF8A3D` · Peach `#FFB38A` · Sunflower `#FFB81C` �
 
 ## 4. The building blocks
 
-| Element | Looks like | Notes |
-| --- | --- | --- |
-| **Button** | a cream or ink sticker: 3px ink outline, `4px 4px 0` hard shadow, 18px radius, at least 64px tall | On press the shadow collapses (the sticker "presses into the table"), it squashes `scale(0.96, 0.92)` and pops a halftone burst. All of that happens on `pointerdown`, before any network call (well under 50 ms). |
-| **Card / panel** | a coaster: a `--stout-2` rounded square, or a cream paper card with a slight ±1° tilt | Tilts are random but fixed per card, so it feels hand-placed |
-| **Avatar** | a **bottle cap**: an SVG circle with 21 crimp teeth, built by the player (§11) | The face reacts to the game: it grimaces when that player has to drink, cheers when they win, and looks over at whoever just locked in. |
-| **Lock-in** | an **ink stamp** that thunks onto the player's cap: "IN!" in Bagel, rotated −8° to +8° | Everyone sees it land on that player's cap in the "4 of 5 locked in" row |
-| **Timer** | a **coaster dial** (a ring that drains) with the seconds in Bagel | Last 5 s: the ring turns `--tap`, the number pulses on every second, and a tick sound plays, getting faster |
-| **Room code** | a **raffle ticket stub** with a perforated edge and big Bagel letters | It appears on Create; the QR sits on the stub |
-| **Header strip** | game ink + icon + name, "Round 2 of 4", and the timer | Always visible during play, together with a **"Do this now"** line above the action area |
-| **Tap burst** | a cluster of 6–10 halftone dots in the current ink that scales out and fades in 300 ms | Fired on every tap. It's pooled DOM, transform/opacity only. |
+| Element          | Looks like                                                                                        | Notes                                                                                                                                                                                                              |
+| ---------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Button**       | a cream or ink sticker: 3px ink outline, `4px 4px 0` hard shadow, 18px radius, at least 64px tall | On press the shadow collapses (the sticker "presses into the table"), it squashes `scale(0.96, 0.92)` and pops a halftone burst. All of that happens on `pointerdown`, before any network call (well under 50 ms). |
+| **Card / panel** | a coaster: a `--stout-2` rounded square, or a cream paper card with a slight ±1° tilt             | Tilts are random but fixed per card, so it feels hand-placed                                                                                                                                                       |
+| **Avatar**       | a **bottle cap**: an SVG circle with 21 crimp teeth, built by the player (§11)                    | The face reacts to the game: it grimaces when that player has to drink, cheers when they win, and looks over at whoever just locked in.                                                                            |
+| **Lock-in**      | an **ink stamp** that thunks onto the player's cap: "IN!" in Bagel, rotated −8° to +8°            | Everyone sees it land on that player's cap in the "4 of 5 locked in" row                                                                                                                                           |
+| **Timer**        | a **coaster dial** (a ring that drains) with the seconds in Bagel                                 | Last 5 s: the ring turns `--tap`, the number pulses on every second, and a tick sound plays, getting faster                                                                                                        |
+| **Room code**    | a **raffle ticket stub** with a perforated edge and big Bagel letters                             | It appears on Create; the QR sits on the stub                                                                                                                                                                      |
+| **Header strip** | game ink + icon + name, "Round 2 of 4", and the timer                                             | Always visible during play, together with a **"Do this now"** line above the action area                                                                                                                           |
+| **Tap burst**    | a cluster of 6–10 halftone dots in the current ink that scales out and fades in 300 ms            | Fired on every tap. It's pooled DOM, transform/opacity only.                                                                                                                                                       |
 
 **Layout rules:** portrait only. Header at the top. Prompt in the middle third. **Every primary action in the bottom third**, inside the safe area. Mute and the menu live in a fixed corner chip.
 
@@ -153,19 +154,19 @@ Red `#FF4D3D` · Tangerine `#FF8A3D` · Peach `#FFB38A` · Sunflower `#FFB81C` �
 
 ### Signature moments
 
-| Moment | Choreography |
-| --- | --- |
-| Lobby join | the cap drops in from above, bounces twice, spins to show its face, and the name pops under it with the player's note |
-| Intro (synced) | the logo stamps down: "TAP" slams, "IN" slams, a foam burst, and every player's cap rolls across the screen and lines up |
-| Title card | the per-game move from §2; holds about 2 s with the one-line rule, then wipes out in the game ink |
-| Lock-in | the "IN!" stamp hits that player's cap; a small ink splat; the counter ticks |
-| Timer, last 5 s | the dial goes red, pulses every second, and the screen edge gets a thin red vignette (opacity only) |
-| Reveal | each card flips one by one, then the result **hit**: a big halftone burst + a 6px screen shake (no shake in reduced motion) |
-| Would You Rather | caps fly along curved paths to their side, land and stack. The smaller pile wobbles nervously. |
-| Tap Race | bars race up in sync, overshoot and settle. The lowest bar's cap gets dizzy eyes. |
-| Spin the Bottle | the bottle spins with real deceleration (an exponential decay curve, with ~3–5 turns computed so it stops on the server's result) and a last "almost tips to the next player" wobble |
-| Reaction Shotgun | a full-screen volt flash and the "TAP!" word. A fake-out is a **lilac** flash with "NOPE" in small letters (the colour, word *and* sound differ, so it isn't colour-only). |
-| Fake Answer | cards deal from a deck with a 60 ms stagger, slide into a fan, then straighten into a list |
+| Moment           | Choreography                                                                                                                                                                         |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Lobby join       | the cap drops in from above, bounces twice, spins to show its face, and the name pops under it with the player's note                                                                |
+| Intro (synced)   | the logo stamps down: "TAP" slams, "IN" slams, a foam burst, and every player's cap rolls across the screen and lines up                                                             |
+| Title card       | the per-game move from §2; holds about 2 s with the one-line rule, then wipes out in the game ink                                                                                    |
+| Lock-in          | the "IN!" stamp hits that player's cap; a small ink splat; the counter ticks                                                                                                         |
+| Timer, last 5 s  | the dial goes red, pulses every second, and the screen edge gets a thin red vignette (opacity only)                                                                                  |
+| Reveal           | each card flips one by one, then the result **hit**: a big halftone burst + a 6px screen shake (no shake in reduced motion)                                                          |
+| Would You Rather | caps fly along curved paths to their side, land and stack. The smaller pile wobbles nervously.                                                                                       |
+| Tap Race         | bars race up in sync, overshoot and settle. The lowest bar's cap gets dizzy eyes.                                                                                                    |
+| Spin the Bottle  | the bottle spins with real deceleration (an exponential decay curve, with ~3–5 turns computed so it stops on the server's result) and a last "almost tips to the next player" wobble |
+| Reaction Shotgun | a full-screen volt flash and the "TAP!" word. A fake-out is a **lilac** flash with "NOPE" in small letters (the colour, word _and_ sound differ, so it isn't colour-only).           |
+| Fake Answer      | cards deal from a deck with a 60 ms stagger, slide into a fan, then straighten into a list                                                                                           |
 
 ---
 
@@ -179,13 +180,13 @@ The most important screen in the game. It says **only the word "Drink"**, never 
 2. **150 ms:** the cap **pops off** with a spin. A foam flood in the player's colour rises from the bottom and covers the screen, with a wobbly SVG wave crest.
 3. **350 ms:** **DRINK** slams in, Bagel Fat One, 120px+, foam-cream with an ink outline and the riso double print, tilted −4°. The screen shakes for 400 ms, halftone confetti bursts, and the vibration pattern `[60, 40, 120]` fires on Android.
 4. The player's name and cap sit under it. A big **"Done 🍺"** button is at the bottom (the emoji is decoration in the label, not the illustration).
-5. If the fairness cap moved the drink here, a sticker on top says why: *"Saved by the 2-in-a-row rule. Sam's drinking for you!"* (shown on Sam's screen as "Taking one for the team").
+5. If the fairness cap moved the drink here, a sticker on top says why: _"Saved by the 2-in-a-row rule. Sam's drinking for you!"_ (shown on Sam's screen as "Taking one for the team").
 
 Sound: the player's own signature "pop-glug" + the comedic **Drink horn**. It's loud and private, and only this phone plays it.
 
 ### On everyone else's phone ("Sam drinks")
 
-A coaster slides in with Sam's cap wearing a small **DRINK** sticker that slaps on at an angle, plus "Sam" in Bagel. A soft glass *clink* plays. It's a smaller moment so the room focuses on the person drinking.
+A coaster slides in with Sam's cap wearing a small **DRINK** sticker that slaps on at an angle, plus "Sam" in Bagel. A soft glass _clink_ plays. It's a smaller moment so the room focuses on the person drinking.
 
 ### "Everyone drinks"
 
@@ -210,18 +211,18 @@ Two caps balance on a seesaw and level out. A soft "ahh" chord plays. "Nobody dr
 
 Almost everything is **synthesised in the browser** with Web Audio (rendered to buffers once, then scheduled precisely), so it all sounds like objects on a bar.
 
-| Family | Sounds | How |
-| --- | --- | --- |
-| **Glass** | lock-in clink, someone-else-drinks clink, Countdown ding | FM bell partials, short decay |
-| **Cap and pop** | joins, tap bursts, the Drink pop | pitch-dropping sine + noise click |
-| **Wood and coaster** | title-card slams, stamps, card deals | filtered noise thump + body resonance |
-| **Brass (comedy)** | the **Drink horn**, the everyone-drinks sting | detuned saw stack with a lip bend down and vibrato: a sad trombone, but party |
-| **Mechanics** | timer ticks (speeding up), bottle-spin whoosh + clunk, Reaction flash crack | noise sweeps, clicks |
-| **Crowd** | winner cheer, Countdown celebration | 2–3 short **CC0 samples** (cheer, crowd "hey!"), credited in `CREDITS.md`, about 150 KB total |
+| Family               | Sounds                                                                      | How                                                                                           |
+| -------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Glass**            | lock-in clink, someone-else-drinks clink, Countdown ding                    | FM bell partials, short decay                                                                 |
+| **Cap and pop**      | joins, tap bursts, the Drink pop                                            | pitch-dropping sine + noise click                                                             |
+| **Wood and coaster** | title-card slams, stamps, card deals                                        | filtered noise thump + body resonance                                                         |
+| **Brass (comedy)**   | the **Drink horn**, the everyone-drinks sting                               | detuned saw stack with a lip bend down and vibrato: a sad trombone, but party                 |
+| **Mechanics**        | timer ticks (speeding up), bottle-spin whoosh + clunk, Reaction flash crack | noise sweeps, clicks                                                                          |
+| **Crowd**            | winner cheer, Countdown celebration                                         | 2–3 short **CC0 samples** (cheer, crowd "hey!"), credited in `CREDITS.md`, about 150 KB total |
 
 - **Per-device signature:** each player slot gets a note from a C-major pentatonic scale (C D E G A c d e), so 8 players never clash. Each player also gets one of three timbre colourings: glass, wood or rubber. Your join pop, your lock-in clink and your Drink all use your note and timbre, so everyone learns whose phone just sounded.
 - **Private sounds** (your secret role, your Drink) sit an octave lower and get a short "whisper" filter sweep. **Shared sounds** are brighter and drier.
-- **Per-game stings:** each title card gets a 1-second sting built from that game's family. For example, the Liar's Prompt sting resolves on a *wrong* note, and Countdown's is three ticket punches.
+- **Per-game stings:** each title card gets a 1-second sting built from that game's family. For example, the Liar's Prompt sting resolves on a _wrong_ note, and Countdown's is three ticket punches.
 - **Loudness:** shared sounds play at about −14 LUFS; "You drink" plays about 4 dB louder. A volume slider and mute are always one tap away, and mute is stored on the device.
 
 ---
@@ -243,15 +244,15 @@ It's drawn once in SVG with swappable eye and mouth parts, which also generates 
 
 Short, cheeky, warm. It talks like the friend running the game, never like an app.
 
-| Moment | Copy |
-| --- | --- |
-| Join button | **Tap In** |
-| Waiting | "Waiting on 2 slowpokes…" |
-| Locked in | "IN!" |
-| Too close (Fake Answer) | "Too close, try again." (from the spec) |
-| Water break | "Water break? Next round in 10s" (from the spec) |
-| Silent switch notice | "iPhone on silent? Flip the switch to hear the game." |
-| Room ended | "This room has ended. Last call was a while ago." + **Create New Room** |
+| Moment                  | Copy                                                                    |
+| ----------------------- | ----------------------------------------------------------------------- |
+| Join button             | **Tap In**                                                              |
+| Waiting                 | "Waiting on 2 slowpokes…"                                               |
+| Locked in               | "IN!"                                                                   |
+| Too close (Fake Answer) | "Too close, try again." (from the spec)                                 |
+| Water break             | "Water break? Next round in 10s" (from the spec)                        |
+| Silent switch notice    | "iPhone on silent? Flip the switch to hear the game."                   |
+| Room ended              | "This room has ended. Last call was a while ago." + **Create New Room** |
 
 Banned words in game copy: amounts, "sip", "shot", "chug", "finish your drink". The Drink instruction is only ever **Drink**.
 
@@ -271,12 +272,12 @@ Banned words in game copy: amounts, "sip", "shot", "chug", "finish your drink". 
 
 Shown right after you enter your name (and from the lobby at any time by tapping your own cap). It's one screen: a big live preview of your cap on top and four tabs underneath, with no scrolling needed on a 360×640 screen.
 
-| Tab | Options | Notes |
-| --- | --- | --- |
-| **Colour** | 16 colours (§2) | Colours other players have taken are marked with their mini-cap |
-| **Pattern** | solid, stripes, polka, checker, starburst, swirl, split two-tone, sunrays (8) | A pattern uses the same colour one shade deeper, so the cap still reads as *your colour* from across the table, and the face stays readable on top |
-| **Face** | eyes (10) × mouths (10) = 100 faces | Hand-drawn SVG parts: eyes like dots, hearts, stars, wink, sleepy, shades, spirals, side-eye, sparkle, big-anime; mouths like grin, smirk, tongue, O, fangs, whistle, wobbly, toothy, cat, kiss |
-| **Topper** | none, party hat, crown, cowboy hat, beanie, flower, devil horns, halo, headphones, bow, chef hat, tiny umbrella drink (12) | Toppers sit *above* the cap, so they never cover the face |
+| Tab         | Options                                                                                                                    | Notes                                                                                                                                                                                           |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Colour**  | 16 colours (§2)                                                                                                            | Colours other players have taken are marked with their mini-cap                                                                                                                                 |
+| **Pattern** | solid, stripes, polka, checker, starburst, swirl, split two-tone, sunrays (8)                                              | A pattern uses the same colour one shade deeper, so the cap still reads as _your colour_ from across the table, and the face stays readable on top                                              |
+| **Face**    | eyes (10) × mouths (10) = 100 faces                                                                                        | Hand-drawn SVG parts: eyes like dots, hearts, stars, wink, sleepy, shades, spirals, side-eye, sparkle, big-anime; mouths like grin, smirk, tongue, O, fangs, whistle, wobbly, toothy, cat, kiss |
+| **Topper**  | none, party hat, crown, cowboy hat, beanie, flower, devil horns, halo, headphones, bow, chef hat, tiny umbrella drink (12) | Toppers sit _above_ the cap, so they never cover the face                                                                                                                                       |
 
 - **🎲 Shuffle:** a big button that rolls a random combo. The cap spins on each roll.
 - **Remembered:** your last cap is saved on this phone and preselected next time.
@@ -295,15 +296,16 @@ Tap any other player's cap in the **cap strip** (the row of caps along the botto
 **Emoji (fixed, the 8 most-used, one tap):** 😂 ❤️ 🤣 👍 😭 🙏 😘 🔥
 
 **Notes, three tabs: Kind · Funny · Glaze 🍩** ("Glaze" = laying on the compliments, and yes, it's properly flirty)
+
 - Each tab shows **4 lines drawn at random** from a big pool (40+ per tab in `content/reactions.v1.json`). They're reshuffled every time the sheet opens, and a **🔀 New lines** button deals 4 more. Lines you've already sent this session are dealt last, so they stay fresh.
 - Pool entries are tagged by spice like every bank: **Chill** gets cheesy-sweet glaze, and **Spicy/Unhinged** add bolder lines. Glaze is still held to the stranger-safety rules: no bodies or appearance, nothing about touching, meeting up, numbers or socials.
 
-| Kind (samples) | Funny (samples) | Glaze (samples) |
-| --- | --- | --- |
-| "You're a legend." | "Absolute menace behaviour." | "Save me a seat next round 😉" |
-| "Glad you're here!" | "Who let you cook?? 🍳" | "Are you the imposter? Because you stole my attention." |
-| "Carry me, please." | "I'm reporting you to the fun police 🚨" | "Is it hot in here or is it just your answers? 🔥" |
-| "You make this fun." | "Not you being the smartest one here." | "Losing to you doesn't even feel bad." |
+| Kind (samples)       | Funny (samples)                          | Glaze (samples)                                         |
+| -------------------- | ---------------------------------------- | ------------------------------------------------------- |
+| "You're a legend."   | "Absolute menace behaviour."             | "Save me a seat next round 😉"                          |
+| "Glad you're here!"  | "Who let you cook?? 🍳"                  | "Are you the imposter? Because you stole my attention." |
+| "Carry me, please."  | "I'm reporting you to the fun police 🚨" | "Is it hot in here or is it just your answers? 🔥"      |
+| "You make this fun." | "Not you being the smartest one here."   | "Losing to you doesn't even feel bad."                  |
 
 **Where and when it shows (it never covers important content):**
 
@@ -333,4 +335,3 @@ Fun that never costs readability:
 - **Drink moment variety:** the flood has 4 variants (foam, fizz bubbles, confetti cannon, cap shower), so the 15th Drink still feels fresh. The word is always exactly **DRINK**.
 - **Results screen as a party:** award stickers slap onto caps one by one, then the group photo: every cap in a row, with their earned toppers.
 - **Easter eggs:** tapping Capn 5 times makes him burp a bubble. The lobby cap "bump" (tap your own cap) plays your note, so people will make songs in the lobby.
-

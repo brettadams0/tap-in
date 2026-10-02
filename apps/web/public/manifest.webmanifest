@@ -1,0 +1,10 @@
+{
+  "name": "Tap In",
+  "short_name": "Tap In",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#15100D",
+  "theme_color": "#15100D",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

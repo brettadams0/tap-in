@@ -11,7 +11,12 @@ function isObject(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
-export function diff(prev: unknown, next: unknown, path: Path = [], out: PatchOp[] = []): PatchOp[] {
+export function diff(
+  prev: unknown,
+  next: unknown,
+  path: Path = [],
+  out: PatchOp[] = [],
+): PatchOp[] {
   if (Object.is(prev, next)) return out;
   if (Array.isArray(prev) && Array.isArray(next)) {
     if (prev.length !== next.length) {

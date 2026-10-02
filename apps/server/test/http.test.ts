@@ -16,7 +16,9 @@ describe('routing', () => {
 describe('cors', () => {
   const allowed = 'https://tap-in.vercel.app,http://localhost:5173';
   it('allows listed origins and Vercel previews only', () => {
-    expect(corsHeaders('https://tap-in.vercel.app', allowed)['Access-Control-Allow-Origin']).toBe('https://tap-in.vercel.app');
+    expect(corsHeaders('https://tap-in.vercel.app', allowed)['Access-Control-Allow-Origin']).toBe(
+      'https://tap-in.vercel.app',
+    );
     expect(isOriginAllowed('https://tap-in-git-feature-brett.vercel.app', allowed)).toBe(true);
     expect(isOriginAllowed('https://evil.example', allowed)).toBe(false);
     expect(isOriginAllowed('https://tap-in.vercel.app.evil.example', allowed)).toBe(false);

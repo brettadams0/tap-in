@@ -75,7 +75,11 @@ export class NodeRoomServer {
       for (const ws of room.sockets.values()) ws.terminate();
     }
     this.wss.close();
-    await new Promise<void>((resolve) => this.http.close(() => { resolve(); }));
+    await new Promise<void>((resolve) =>
+      this.http.close(() => {
+        resolve();
+      }),
+    );
   }
 
   createRoom(): string {
@@ -97,7 +101,13 @@ export class NodeRoomServer {
   }
 
   private makeRoom(code: string, state: RoomState): NodeRoom {
-    const room: NodeRoom = { engine: undefined as unknown as RoomEngine, sockets: new Map(), alarmAt: null, timer: null, state };
+    const room: NodeRoom = {
+      engine: undefined as unknown as RoomEngine,
+      sockets: new Map(),
+      alarmAt: null,
+      timer: null,
+      state,
+    };
     room.engine = new RoomEngine(state, {
       now: this.now,
       randomId,
@@ -113,10 +123,16 @@ export class NodeRoomServer {
         room.alarmAt = at;
         if (!this.realTimers) return;
         if (room.timer) clearTimeout(room.timer);
-        room.timer = at === null ? null : setTimeout(() => {
-          room.alarmAt = null;
-          room.engine.alarm();
-        }, Math.max(0, at - this.now()));
+        room.timer =
+          at === null
+            ? null
+            : setTimeout(
+                () => {
+                  room.alarmAt = null;
+                  room.engine.alarm();
+                },
+                Math.max(0, at - this.now()),
+              );
       },
       save: (s) => {
         room.state = s;
@@ -134,13 +150,18 @@ export class NodeRoomServer {
     const room = this.rooms.get(code);
     const connId = `n${++this.connSeq}`;
     if (!room) {
-      ws.send(JSON.stringify({ type: 'error', code: 'ROOM_ENDED', message: 'This room has ended.' }));
+      ws.send(
+        JSON.stringify({ type: 'error', code: 'ROOM_ENDED', message: 'This room has ended.' }),
+      );
       ws.close(4000, 'ended');
       return;
     }
     room.sockets.set(connId, ws);
     ws.on('message', (data, isBinary) => {
-      room.engine.message(connId, isBinary ? null : data.toString());
+      room.engine.message(
+        connId,
+        isBinary || !Buffer.isBuffer(data) ? null : data.toString('utf8'),
+      );
     });
     ws.on('close', () => {
       if (room.sockets.get(connId) === ws) room.sockets.delete(connId);
@@ -171,7 +192,11 @@ export class NodeRoomServer {
       case 'status': {
         const room = this.rooms.get(r.code);
         const info = room?.engine.welcomeInfo();
-        const status: RoomStatus = { exists: !!room, phase: info?.phase ?? null, joinable: info?.joinable ?? false };
+        const status: RoomStatus = {
+          exists: !!room,
+          phase: info?.phase ?? null,
+          joinable: info?.joinable ?? false,
+        };
         json(200, status);
         return;
       }

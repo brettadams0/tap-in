@@ -6,7 +6,11 @@ import type { ClientMessage } from './protocol.js';
 
 export const MAX_MESSAGE_BYTES = 4096;
 
-const id = z.string().min(1).max(64).regex(/^[A-Za-z0-9_-]+$/);
+const id = z
+  .string()
+  .min(1)
+  .max(64)
+  .regex(/^[A-Za-z0-9_-]+$/);
 
 export const avatarSchema = z.strictObject({
   color: z.enum(CAP_COLOR_IDS as [string, ...string[]]),
@@ -38,7 +42,7 @@ export const clientMessageSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('claim'), playerId: id }),
   z.strictObject({ type: z.literal('avatar'), avatar: avatarSchema }),
   z.strictObject({ type: z.literal('hostAction'), action: hostActionSchema }),
-  z.strictObject({ type: z.literal('ping'), t0: z.number().finite() }),
+  z.strictObject({ type: z.literal('ping'), t0: z.number() }),
   z.strictObject({ type: z.literal('resync') }),
   z.strictObject({ type: z.literal('leave') }),
 ]);

@@ -22,7 +22,7 @@ class Phone {
     const p = new Phone();
     p.ws = new WebSocket(url);
     p.ws.on('message', (data) => {
-      const msg = JSON.parse(data.toString()) as ServerMessage;
+      const msg = JSON.parse((data as Buffer).toString('utf8')) as ServerMessage;
       p.inbox.push(msg);
       if (msg.type === 'credentials') {
         p.playerId = msg.playerId;
@@ -38,7 +38,9 @@ class Phone {
       for (const w of p.waiters.splice(0)) w();
     });
     await new Promise<void>((resolve, reject) => {
-      p.ws.once('open', () => { resolve(); });
+      p.ws.once('open', () => {
+        resolve();
+      });
       p.ws.once('error', reject);
     });
     return p;
@@ -61,7 +63,9 @@ class Phone {
 
   close(): Promise<void> {
     return new Promise((resolve) => {
-      this.ws.once('close', () => { resolve(); });
+      this.ws.once('close', () => {
+        resolve();
+      });
       this.ws.close();
     });
   }
@@ -107,7 +111,11 @@ describe('room server over real WebSockets', () => {
   it('serves health, room status and 404s', async () => {
     expect((await fetch(`${base}/healthz`)).status).toBe(200);
     const code = await createRoom();
-    expect(await (await fetch(`${base}/rooms/${code}`)).json()).toEqual({ exists: true, phase: 'lobby', joinable: true });
+    expect(await (await fetch(`${base}/rooms/${code}`)).json()).toEqual({
+      exists: true,
+      phase: 'lobby',
+      joinable: true,
+    });
     expect(await (await fetch(`${base}/rooms/ZZZZ`)).json()).toMatchObject({ exists: false });
     expect((await fetch(`${base}/nope`)).status).toBe(404);
     expect((await fetch(`${base}/rooms`, { method: 'OPTIONS' })).status).toBe(204);
@@ -145,7 +153,9 @@ describe('room server over real WebSockets', () => {
     await second.until((p) => p.view?.players[0]?.presence === 'reconnecting');
     time += HOST_TRANSFER_MS;
     server.runDueAlarms();
-    await Promise.all(phones.slice(1).map((p) => p.until((x) => x.view?.hostId === second.playerId)));
+    await Promise.all(
+      phones.slice(1).map((p) => p.until((x) => x.view?.hostId === second.playerId)),
+    );
   });
 
   it('measures clock offset via ping/pong', async () => {
@@ -153,7 +163,11 @@ describe('room server over real WebSockets', () => {
     const p = await Phone.open(wsUrl(code));
     p.send({ type: 'ping', t0: 5 });
     await p.until((x) => x.inbox.some((m) => m.type === 'pong'));
-    expect(p.inbox.find((m) => m.type === 'pong')).toEqual({ type: 'pong', t0: 5, serverTime: time });
+    expect(p.inbox.find((m) => m.type === 'pong')).toEqual({
+      type: 'pong',
+      t0: 5,
+      serverTime: time,
+    });
   });
 
   it('tells a phone when a room does not exist', async () => {
@@ -166,7 +180,10 @@ describe('room server over real WebSockets', () => {
     const code = await createRoom();
     const phones = await fiveJoin(code);
     const started = performance.now();
-    (phones[0] as Phone).send({ type: 'hostAction', action: { kind: 'settings', settings: { spice: 'unhinged' } } });
+    (phones[0] as Phone).send({
+      type: 'hostAction',
+      action: { kind: 'settings', settings: { spice: 'unhinged' } },
+    });
     await Promise.all(phones.map((p) => p.until((x) => x.view?.settings.spice === 'unhinged')));
     expect(performance.now() - started).toBeLessThan(150);
   });

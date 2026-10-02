@@ -32,7 +32,7 @@ describe('clock sync', () => {
     const trueOffset = -123456;
     const sync = new ClockSync();
     let seed = 7;
-    const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
     for (let i = 0; i < 8; i++) {
       const t0 = i * 1000;
       const up = 10 + rand() * 40;
@@ -62,8 +62,16 @@ describe('clock sync', () => {
   });
 
   it('schedules playAt: on time, slightly late, too late', () => {
-    expect(schedulePlayAt(10_000, 4_000, 5_000)).toEqual({ at: 5_000, lateBy: 0, skipSound: false });
-    expect(schedulePlayAt(10_000, 5_100, 5_000)).toEqual({ at: 5_000, lateBy: 100, skipSound: false });
+    expect(schedulePlayAt(10_000, 4_000, 5_000)).toEqual({
+      at: 5_000,
+      lateBy: 0,
+      skipSound: false,
+    });
+    expect(schedulePlayAt(10_000, 5_100, 5_000)).toEqual({
+      at: 5_000,
+      lateBy: 100,
+      skipSound: false,
+    });
     expect(schedulePlayAt(10_000, 5_200, 5_000).skipSound).toBe(true);
   });
 });

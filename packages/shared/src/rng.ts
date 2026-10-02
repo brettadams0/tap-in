@@ -5,13 +5,13 @@
 export type RngState = [number, number, number, number];
 
 export interface Rng {
-  /** Float in [0, 1). */
-  next(): number;
+  /** Float in [0, 1). Safe to pass around unbound. */
+  next: () => number;
   /** Integer in [0, max). */
-  int(max: number): number;
-  pick<T>(items: readonly T[]): T;
-  shuffle<T>(items: readonly T[]): T[];
-  state(): RngState;
+  int: (max: number) => number;
+  pick: <T>(items: readonly T[]) => T;
+  shuffle: <T>(items: readonly T[]) => T[];
+  state: () => RngState;
 }
 
 export function seedFromString(seed: string): RngState {
@@ -54,11 +54,11 @@ export function createRng(initial: RngState | string): Rng {
   return {
     next,
     int,
-    pick<T>(items: readonly T[]): T {
+    pick: <T>(items: readonly T[]): T => {
       if (items.length === 0) throw new Error('pick from empty list');
       return items[int(items.length)] as T;
     },
-    shuffle<T>(items: readonly T[]): T[] {
+    shuffle: <T>(items: readonly T[]): T[] => {
       const out = [...items];
       for (let i = out.length - 1; i > 0; i--) {
         const j = int(i + 1);

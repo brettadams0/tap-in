@@ -22,7 +22,10 @@ export function dedupeName(name: string, taken: readonly string[]): string {
   if (!lower.has(name.toLocaleLowerCase())) return name;
   for (let n = 2; ; n++) {
     const suffix = ` ${n}`;
-    const base = graphemes(name).slice(0, NAME_MAX - suffix.length).join('').trimEnd();
+    const base = graphemes(name)
+      .slice(0, NAME_MAX - suffix.length)
+      .join('')
+      .trimEnd();
     const candidate = `${base}${suffix}`;
     if (!lower.has(candidate.toLocaleLowerCase())) return candidate;
   }

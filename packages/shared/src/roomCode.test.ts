@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { createRng } from './rng.js';
-import { CODE_ALPHABET, generateRoomCode, isBlockedCode, isValidCode, normalizeCode } from './roomCode.js';
+import {
+  CODE_ALPHABET,
+  generateRoomCode,
+  isBlockedCode,
+  isValidCode,
+  normalizeCode,
+} from './roomCode.js';
 
 describe('room codes', () => {
   it('never contains ambiguous characters', () => {
@@ -15,7 +21,9 @@ describe('room codes', () => {
 
   it('skips blocked words', () => {
     // Feed the letters of a blocked word first, then a clean one.
-    const seq = [...'DAMN', ...'TAPS'].map((ch) => (CODE_ALPHABET.indexOf(ch) + 0.5) / CODE_ALPHABET.length);
+    const seq = Array.from('DAMNTAPS').map(
+      (ch) => (CODE_ALPHABET.indexOf(ch) + 0.5) / CODE_ALPHABET.length,
+    );
     let i = 0;
     expect(generateRoomCode(() => seq[i++] ?? 0)).toBe('TAPS');
   });

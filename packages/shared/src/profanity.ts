@@ -1,8 +1,4 @@
-import {
-  RegExpMatcher,
-  englishDataset,
-  englishRecommendedTransformers,
-} from 'obscenity';
+import { RegExpMatcher, englishDataset, englishRecommendedTransformers } from 'obscenity';
 
 const matcher = new RegExpMatcher({
   ...englishDataset.build(),

@@ -39,6 +39,9 @@ describe('view diff', () => {
     expect(applyPatch({ x: [1] }, diff({ x: [1] }, { x: { y: 1 } }))).toEqual({ x: { y: 1 } });
     expect(applyPatch([1, 2, 3], [{ op: 'del', path: [1] }])).toEqual([1, 3]);
     expect(applyPatch(5, diff(5, 'five'))).toBe('five');
-    expect(applyPatch({ a: 1 }, [{ op: 'set', path: ['b', 'c'], value: 2 }])).toEqual({ a: 1, b: { c: 2 } });
+    expect(applyPatch({ a: 1 }, [{ op: 'set', path: ['b', 'c'], value: 2 }])).toEqual({
+      a: 1,
+      b: { c: 2 },
+    });
   });
 });

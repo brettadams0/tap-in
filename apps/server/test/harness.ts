@@ -1,5 +1,11 @@
 /** In-memory harness: drives RoomEngine with a fake clock and fake clients that apply patches like the real app. */
-import { applyPatch, type Avatar, type ClientMessage, type RoomView, type ServerMessage } from '@tap-in/shared';
+import {
+  applyPatch,
+  type Avatar,
+  type ClientMessage,
+  type RoomView,
+  type ServerMessage,
+} from '@tap-in/shared';
 import { RoomEngine } from '../src/engine/engine.js';
 import { createRoomState, type RoomState } from '../src/engine/state.js';
 
@@ -37,14 +43,17 @@ export class FakeClient {
       this.view = msg.view;
       this.version = msg.version;
     } else if (msg.type === 'patch') {
-      if (msg.base !== this.version || !this.view) throw new Error(`${this.connId}: version gap ${msg.base} vs ${this.version}`);
+      if (msg.base !== this.version || !this.view)
+        throw new Error(`${this.connId}: version gap ${msg.base} vs ${this.version}`);
       this.view = applyPatch(this.view, msg.ops);
       this.version = msg.version;
     }
   }
 
   last<T extends ServerMessage['type']>(type: T): Extract<ServerMessage, { type: T }> | undefined {
-    return [...this.inbox].reverse().find((m) => m.type === type) as Extract<ServerMessage, { type: T }> | undefined;
+    return [...this.inbox].reverse().find((m) => m.type === type) as
+      | Extract<ServerMessage, { type: T }>
+      | undefined;
   }
 
   errors(): string[] {

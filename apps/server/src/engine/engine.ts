@@ -78,12 +78,20 @@ export class RoomEngine {
 
   connect(connId: string): void {
     if (this.state.ended) {
-      this.deps.send(connId, { type: 'error', code: 'ROOM_ENDED', message: 'This room has ended.' });
+      this.deps.send(connId, {
+        type: 'error',
+        code: 'ROOM_ENDED',
+        message: 'This room has ended.',
+      });
       this.deps.close(connId, CLOSE_ENDED, 'ended');
       return;
     }
     this.conns.set(connId, this.newConn(null));
-    this.deps.send(connId, { type: 'welcome', info: this.welcomeInfo(), serverTime: this.deps.now() });
+    this.deps.send(connId, {
+      type: 'welcome',
+      info: this.welcomeInfo(),
+      serverTime: this.deps.now(),
+    });
   }
 
   /** Re-attach a socket that survived hibernation. */
@@ -125,13 +133,23 @@ export class RoomEngine {
   alarm(): void {
     const now = this.deps.now();
     for (const p of this.state.players) {
-      if (p.status === 'active' && !p.connected && p.disconnectedAt !== null && now - p.disconnectedAt >= GONE_AFTER_MS) {
+      if (
+        p.status === 'active' &&
+        !p.connected &&
+        p.disconnectedAt !== null &&
+        now - p.disconnectedAt >= GONE_AFTER_MS
+      ) {
         p.status = 'gone';
         this.touch();
       }
     }
     const host = this.player(this.state.hostId);
-    if (host && !host.connected && host.disconnectedAt !== null && now - host.disconnectedAt >= HOST_TRANSFER_MS) {
+    if (
+      host &&
+      !host.connected &&
+      host.disconnectedAt !== null &&
+      now - host.disconnectedAt >= HOST_TRANSFER_MS
+    ) {
       this.transferHost();
     }
     for (const claim of this.state.claims.filter((c) => now - c.at >= CLAIM_TIMEOUT_MS)) {
@@ -190,16 +208,36 @@ export class RoomEngine {
   }
 
   private join(connId: string, conn: Conn, rawName: string, avatar: Avatar): void {
-    if (conn.playerId) return this.error(connId, 'ALREADY_JOINED', 'You are already in.');
+    if (conn.playerId) {
+      this.error(connId, 'ALREADY_JOINED', 'You are already in.');
+      return;
+    }
     if (this.state.phase !== 'lobby') {
-      return this.error(connId, 'LOBBY_LOCKED', 'This game already started. Only existing players can get back in.');
+      this.error(
+        connId,
+        'LOBBY_LOCKED',
+        'This game already started. Only existing players can get back in.',
+      );
+      return;
     }
     const seated = this.seated();
-    if (seated.length >= MAX_PLAYERS) return this.error(connId, 'ROOM_FULL', 'This room is full (8 players).');
+    if (seated.length >= MAX_PLAYERS) {
+      this.error(connId, 'ROOM_FULL', 'This room is full (8 players).');
+      return;
+    }
     const cleaned = cleanName(rawName);
-    if (cleaned.length === 0) return this.error(connId, 'NAME_REJECTED', 'Enter a name.');
-    if (isProfane(cleaned)) return this.error(connId, 'NAME_REJECTED', 'Pick a different name.');
-    const name = dedupeName(cleaned, seated.map((p) => p.name));
+    if (cleaned.length === 0) {
+      this.error(connId, 'NAME_REJECTED', 'Enter a name.');
+      return;
+    }
+    if (isProfane(cleaned)) {
+      this.error(connId, 'NAME_REJECTED', 'Pick a different name.');
+      return;
+    }
+    const name = dedupeName(
+      cleaned,
+      seated.map((p) => p.name),
+    );
     const taken = seated.map((p) => p.avatar.color);
     const color = taken.includes(avatar.color) ? firstFreeColor(taken) : avatar.color;
     const now = this.deps.now();
@@ -219,14 +257,20 @@ export class RoomEngine {
     this.state.hostId ??= player.id;
     this.state.emptySince = null;
     conn.playerId = player.id;
-    this.deps.send(connId, { type: 'credentials', code: this.state.code, playerId: player.id, token: player.token });
+    this.deps.send(connId, {
+      type: 'credentials',
+      code: this.state.code,
+      playerId: player.id,
+      token: player.token,
+    });
     this.touch();
   }
 
   private rejoin(connId: string, conn: Conn, playerId: PlayerId, token: string): void {
     const player = this.player(playerId);
     if (!player || player.status === 'removed' || !safeEqual(player.token, token)) {
-      return this.error(connId, 'BAD_TOKEN', 'That seat is no longer yours.');
+      this.error(connId, 'BAD_TOKEN', 'That seat is no longer yours.');
+      return;
     }
     // A newer tab wins: retire any older socket bound to the same player.
     for (const [otherId, other] of this.conns) {
@@ -242,10 +286,19 @@ export class RoomEngine {
   }
 
   private claim(connId: string, conn: Conn, playerId: PlayerId): void {
-    if (conn.playerId) return this.error(connId, 'ALREADY_JOINED', 'You are already in.');
+    if (conn.playerId) {
+      this.error(connId, 'ALREADY_JOINED', 'You are already in.');
+      return;
+    }
     const player = this.player(playerId);
-    if (!player || player.status === 'removed') return this.error(connId, 'UNKNOWN_PLAYER', 'No such player.');
-    if (player.connected) return this.error(connId, 'NOT_ALLOWED', `${player.name} is still connected.`);
+    if (!player || player.status === 'removed') {
+      this.error(connId, 'UNKNOWN_PLAYER', 'No such player.');
+      return;
+    }
+    if (player.connected) {
+      this.error(connId, 'NOT_ALLOWED', `${player.name} is still connected.`);
+      return;
+    }
     // One pending claim per seat: a newer claim replaces the older one.
     for (const old of this.state.claims.filter((c) => c.playerId === playerId)) {
       this.deps.send(old.connId, { type: 'claimDenied', playerId });
@@ -283,16 +336,27 @@ export class RoomEngine {
     }
     conn.playerId = player.id;
     conn.last = null;
-    this.deps.send(claim.connId, { type: 'credentials', code: this.state.code, playerId: player.id, token: player.token });
+    this.deps.send(claim.connId, {
+      type: 'credentials',
+      code: this.state.code,
+      playerId: player.id,
+      token: player.token,
+    });
     this.markConnected(player);
   }
 
   private setAvatar(connId: string, me: PlayerRecord, avatar: Avatar): void {
     if (this.state.phase !== 'lobby' && this.state.phase !== 'results') {
-      return this.error(connId, 'NOT_ALLOWED', 'You can change your cap in the lobby.');
+      this.error(connId, 'NOT_ALLOWED', 'You can change your cap in the lobby.');
+      return;
     }
-    const takenByOther = this.seated().some((p) => p.id !== me.id && p.avatar.color === avatar.color);
-    if (takenByOther) return this.error(connId, 'COLOR_TAKEN', 'Someone already has that colour.');
+    const takenByOther = this.seated().some(
+      (p) => p.id !== me.id && p.avatar.color === avatar.color,
+    );
+    if (takenByOther) {
+      this.error(connId, 'COLOR_TAKEN', 'Someone already has that colour.');
+      return;
+    }
     me.avatar = avatar;
     this.touch();
   }
@@ -300,20 +364,30 @@ export class RoomEngine {
   private hostAction(connId: string, me: PlayerRecord, action: HostAction): void {
     switch (action.kind) {
       case 'settings': {
-        if (this.state.phase !== 'lobby') return this.error(connId, 'NOT_ALLOWED', 'Settings are locked once the game starts.');
+        if (this.state.phase !== 'lobby') {
+          this.error(connId, 'NOT_ALLOWED', 'Settings are locked once the game starts.');
+          return;
+        }
         const next = { ...this.state.settings, ...action.settings };
         next.games = [...new Set(next.games)];
         if (next.games.length < MIN_ENABLED_GAMES) {
-          return this.error(connId, 'NOT_ALLOWED', `Keep at least ${MIN_ENABLED_GAMES} games on.`);
+          this.error(connId, 'NOT_ALLOWED', `Keep at least ${MIN_ENABLED_GAMES} games on.`);
+          return;
         }
         this.state.settings = next;
         this.touch();
         return;
       }
       case 'start': {
-        if (this.state.phase !== 'lobby') return this.error(connId, 'NOT_ALLOWED', 'Already started.');
+        if (this.state.phase !== 'lobby') {
+          this.error(connId, 'NOT_ALLOWED', 'Already started.');
+          return;
+        }
         const ready = this.seated().filter((p) => p.connected).length;
-        if (ready < MIN_PLAYERS) return this.error(connId, 'NOT_ENOUGH_PLAYERS', `Need ${MIN_PLAYERS}+ players to start.`);
+        if (ready < MIN_PLAYERS) {
+          this.error(connId, 'NOT_ENOUGH_PLAYERS', `Need ${MIN_PLAYERS}+ players to start.`);
+          return;
+        }
         // Phase 2 replaces this with the synced intro and the game rotation.
         this.state.phase = 'intro';
         this.state.phaseEndsAt = null;
@@ -321,8 +395,14 @@ export class RoomEngine {
         return;
       }
       case 'remove': {
-        if (action.playerId === me.id) return this.error(connId, 'NOT_ALLOWED', "You can't remove yourself.");
-        if (!this.player(action.playerId)) return this.error(connId, 'UNKNOWN_PLAYER', 'No such player.');
+        if (action.playerId === me.id) {
+          this.error(connId, 'NOT_ALLOWED', "You can't remove yourself.");
+          return;
+        }
+        if (!this.player(action.playerId)) {
+          this.error(connId, 'UNKNOWN_PLAYER', 'No such player.');
+          return;
+        }
         this.removePlayer(action.playerId, 'removed');
         return;
       }
@@ -367,7 +447,11 @@ export class RoomEngine {
     // No host, or the host has been gone past the handover window: hand over now.
     const host = this.player(this.state.hostId);
     if (!host) this.state.hostId = player.id;
-    else if (!host.connected && host.disconnectedAt !== null && this.deps.now() - host.disconnectedAt >= HOST_TRANSFER_MS) {
+    else if (
+      !host.connected &&
+      host.disconnectedAt !== null &&
+      this.deps.now() - host.disconnectedAt >= HOST_TRANSFER_MS
+    ) {
       this.transferHost();
     }
     this.touch();
@@ -388,7 +472,10 @@ export class RoomEngine {
   private transferHost(): void {
     const candidates = this.seated()
       .filter((p) => p.connected && p.status === 'active' && p.id !== this.state.hostId)
-      .sort((a, b) => (a.connectedSince ?? Infinity) - (b.connectedSince ?? Infinity) || a.seat - b.seat);
+      .sort(
+        (a, b) =>
+          (a.connectedSince ?? Infinity) - (b.connectedSince ?? Infinity) || a.seat - b.seat,
+      );
     const next = candidates[0];
     if (next) {
       this.state.hostId = next.id;
@@ -453,13 +540,22 @@ export class RoomEngine {
   private broadcast(): void {
     for (const [connId, conn] of this.conns) {
       if (conn.playerId) this.sendView(connId, conn);
-      else this.deps.send(connId, { type: 'welcome', info: this.welcomeInfo(), serverTime: this.deps.now() });
+      else
+        this.deps.send(connId, {
+          type: 'welcome',
+          info: this.welcomeInfo(),
+          serverTime: this.deps.now(),
+        });
     }
   }
 
   private sendView(connId: string, conn: Conn): void {
     if (!conn.playerId) {
-      this.deps.send(connId, { type: 'welcome', info: this.welcomeInfo(), serverTime: this.deps.now() });
+      this.deps.send(connId, {
+        type: 'welcome',
+        info: this.welcomeInfo(),
+        serverTime: this.deps.now(),
+      });
       return;
     }
     const view = this.viewFor(conn.playerId);
@@ -489,7 +585,11 @@ export class RoomEngine {
       you: { id: playerId },
       claims:
         s.hostId === playerId
-          ? s.claims.map((c) => ({ claimId: c.claimId, playerId: c.playerId, name: this.player(c.playerId)?.name ?? '?' }))
+          ? s.claims.map((c) => ({
+              claimId: c.claimId,
+              playerId: c.playerId,
+              name: this.player(c.playerId)?.name ?? '?',
+            }))
           : [],
     };
   }
@@ -502,7 +602,9 @@ export class RoomEngine {
       joinable: this.state.phase === 'lobby' && seated.length < MAX_PLAYERS,
       full: seated.length >= MAX_PLAYERS,
       takenColors: seated.map((p) => p.avatar.color),
-      claimable: seated.filter((p) => !p.connected).map((p) => ({ id: p.id, name: p.name, avatar: p.avatar })),
+      claimable: seated
+        .filter((p) => !p.connected)
+        .map((p) => ({ id: p.id, name: p.name, avatar: p.avatar })),
     };
   }
 
@@ -521,11 +623,18 @@ export class RoomEngine {
   }
 
   private player(id: PlayerId | null): PlayerRecord | undefined {
-    return id === null ? undefined : this.state.players.find((p) => p.id === id && p.status !== 'removed');
+    return id === null
+      ? undefined
+      : this.state.players.find((p) => p.id === id && p.status !== 'removed');
   }
 
   private newConn(playerId: PlayerId | null): Conn {
-    return { playerId, bucket: new TokenBucket(40, 20, this.deps.now()), last: null, lastRateError: 0 };
+    return {
+      playerId,
+      bucket: new TokenBucket(40, 20, this.deps.now()),
+      last: null,
+      lastRateError: 0,
+    };
   }
 
   private error(connId: string, code: ErrorCode, message: string): void {

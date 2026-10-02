@@ -1,8 +1,12 @@
 /** Runs inside workerd: the real Worker + Room Durable Object, real WebSockets, real storage and alarms. */
-import { env, runDurableObjectAlarm, runInDurableObject, SELF } from 'cloudflare:test';
+import { runDurableObjectAlarm, runInDurableObject } from 'cloudflare:test';
+import { env as rawEnv, exports } from 'cloudflare:workers';
 import { describe, expect, it } from 'vitest';
 import type { RoomState } from '../../src/engine/state.js';
 import type { Env } from '../../src/worker/index.js';
+
+const env = rawEnv as unknown as Env;
+const worker = (exports as unknown as { default: Fetcher }).default;
 
 interface Msg {
   type: string;
@@ -10,19 +14,23 @@ interface Msg {
 }
 
 async function createRoom(): Promise<string> {
-  const res = await SELF.fetch('https://api/rooms', { method: 'POST' });
+  const res = await worker.fetch('https://api/rooms', { method: 'POST' });
   expect(res.status).toBe(201);
-  return ((await res.json()) as { code: string }).code;
+  return (await res.json<{ code: string }>()).code;
 }
 
-async function openSocket(code: string): Promise<{ ws: WebSocket; inbox: Msg[]; next: (type: string) => Promise<Msg> }> {
-  const res = await SELF.fetch(`https://api/rooms/${code}/ws`, { headers: { Upgrade: 'websocket' } });
+async function openSocket(
+  code: string,
+): Promise<{ ws: WebSocket; inbox: Msg[]; next: (type: string) => Promise<Msg> }> {
+  const res = await worker.fetch(`https://api/rooms/${code}/ws`, {
+    headers: { Upgrade: 'websocket' },
+  });
   const ws = res.webSocket;
   if (!ws) throw new Error('no websocket');
   ws.accept();
   const inbox: Msg[] = [];
   const waiters: { type: string; resolve: (m: Msg) => void }[] = [];
-  ws.addEventListener('message', (e) => {
+  ws.addEventListener('message', (e: MessageEvent) => {
     const msg = JSON.parse(e.data as string) as Msg;
     inbox.push(msg);
     for (const w of waiters.filter((x) => x.type === msg.type)) {
@@ -42,7 +50,7 @@ const avatar = { color: 'red', pattern: 'solid', eyes: 'dots', mouth: 'grin', to
 describe('Room Durable Object', () => {
   it('creates a room, joins over WebSocket and persists state', async () => {
     const code = await createRoom();
-    const status = await (await SELF.fetch(`https://api/rooms/${code}`)).json();
+    const status = await (await worker.fetch(`https://api/rooms/${code}`)).json();
     expect(status).toEqual({ exists: true, phase: 'lobby', joinable: true });
 
     const a = await openSocket(code);
@@ -52,8 +60,10 @@ describe('Room Durable Object', () => {
     expect((await creds).code).toBe(code);
     expect(((await state).view as { players: unknown[] }).players).toHaveLength(1);
 
-    const stub = (env as unknown as Env).ROOMS.get((env as unknown as Env).ROOMS.idFromName(code));
-    const stored = await runInDurableObject(stub, async (_obj, ctx) => ctx.storage.get<RoomState>('state'));
+    const stub = env.ROOMS.get(env.ROOMS.idFromName(code));
+    const stored = await runInDurableObject(stub, async (_obj, ctx) =>
+      ctx.storage.get<RoomState>('state'),
+    );
     expect(stored?.players[0]?.name).toBe('Brett');
     a.ws.close();
   });
@@ -87,7 +97,7 @@ describe('Room Durable Object', () => {
 
   it('expires an empty room via its alarm and wipes storage', async () => {
     const code = await createRoom();
-    const stub = (env as unknown as Env).ROOMS.get((env as unknown as Env).ROOMS.idFromName(code));
+    const stub = env.ROOMS.get(env.ROOMS.idFromName(code));
     // Pretend the room has been empty for over 30 minutes.
     await runInDurableObject(stub, async (_obj, ctx) => {
       const s = await ctx.storage.get<RoomState>('state');
@@ -101,12 +111,14 @@ describe('Room Durable Object', () => {
     expect(await runDurableObjectAlarm(stub)).toBe(true);
     const left = await runInDurableObject(stub, async (_obj, ctx) => ctx.storage.get('state'));
     expect(left).toBeUndefined();
-    expect(await (await SELF.fetch(`https://api/rooms/${code}`)).json()).toMatchObject({ exists: false });
+    expect(await (await worker.fetch(`https://api/rooms/${code}`)).json()).toMatchObject({
+      exists: false,
+    });
   });
 
   it('rejects non-websocket requests to the socket route and unknown paths', async () => {
-    expect((await SELF.fetch('https://api/rooms/ABCD/ws')).status).toBe(426);
-    expect((await SELF.fetch('https://api/healthz')).status).toBe(200);
-    expect((await SELF.fetch('https://api/nope')).status).toBe(404);
+    expect((await worker.fetch('https://api/rooms/ABCD/ws')).status).toBe(426);
+    expect((await worker.fetch('https://api/healthz')).status).toBe(200);
+    expect((await worker.fetch('https://api/nope')).status).toBe(404);
   });
 });

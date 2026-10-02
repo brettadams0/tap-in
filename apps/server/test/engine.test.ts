@@ -1,11 +1,26 @@
 import { describe, expect, it } from 'vitest';
 import { GAME_IDS } from '@tap-in/shared';
-import { CLAIM_TIMEOUT_MS, GONE_AFTER_MS, HOST_TRANSFER_MS, ROOM_EXPIRY_MS } from '../src/engine/state.js';
+import {
+  CLAIM_TIMEOUT_MS,
+  GONE_AFTER_MS,
+  HOST_TRANSFER_MS,
+  ROOM_EXPIRY_MS,
+} from '../src/engine/state.js';
 import { avatar, Harness, type FakeClient } from './harness.js';
 
 function lobbyOf(n: number): { h: Harness; players: FakeClient[] } {
   const h = new Harness();
-  const colors = ['red', 'sky', 'green', 'pink', 'lemon', 'mint', 'aqua', 'lilac', 'peach'] as const;
+  const colors = [
+    'red',
+    'sky',
+    'green',
+    'pink',
+    'lemon',
+    'mint',
+    'aqua',
+    'lilac',
+    'peach',
+  ] as const;
   const players = Array.from({ length: n }, (_, i) => h.join(`P${i + 1}`, colors[i]));
   return { h, players };
 }
@@ -15,7 +30,13 @@ describe('lobby join', () => {
     const h = new Harness();
     const c = h.connect();
     const w = c.last('welcome');
-    expect(w?.info).toMatchObject({ code: 'KZRP', phase: 'lobby', joinable: true, full: false, takenColors: [] });
+    expect(w?.info).toMatchObject({
+      code: 'KZRP',
+      phase: 'lobby',
+      joinable: true,
+      full: false,
+      takenColors: [],
+    });
   });
 
   it('first joiner becomes host and everyone sees everyone', () => {
@@ -97,11 +118,23 @@ describe('host controls', () => {
   it('only the host changes settings; settings stay valid', () => {
     const { players } = lobbyOf(2);
     const [host, guest] = players as [FakeClient, FakeClient];
-    guest.send({ type: 'hostAction', action: { kind: 'settings', settings: { spice: 'unhinged' } } });
+    guest.send({
+      type: 'hostAction',
+      action: { kind: 'settings', settings: { spice: 'unhinged' } },
+    });
     expect(guest.errors()).toContain('NOT_HOST');
-    host.send({ type: 'hostAction', action: { kind: 'settings', settings: { spice: 'spicy', games: ['tapRace', 'tapRace', 'countdown'] } } });
+    host.send({
+      type: 'hostAction',
+      action: {
+        kind: 'settings',
+        settings: { spice: 'spicy', games: ['tapRace', 'tapRace', 'countdown'] },
+      },
+    });
     expect(guest.view?.settings).toMatchObject({ spice: 'spicy', games: ['tapRace', 'countdown'] });
-    host.send({ type: 'hostAction', action: { kind: 'settings', settings: { games: ['tapRace'] } } });
+    host.send({
+      type: 'hostAction',
+      action: { kind: 'settings', settings: { games: ['tapRace'] } },
+    });
     expect(host.errors()).toContain('NOT_ALLOWED');
   });
 
@@ -115,7 +148,9 @@ describe('host controls', () => {
     expect(host.view?.phase).toBe('intro');
     const late = h.join('Late', 'lemon');
     expect(late.errors()).toContain('LOBBY_LOCKED');
-    expect(late.inbox.find((m) => m.type === 'welcome')).toMatchObject({ info: { joinable: false } });
+    expect(late.inbox.find((m) => m.type === 'welcome')).toMatchObject({
+      info: { joinable: false },
+    });
     host.send({ type: 'hostAction', action: { kind: 'settings', settings: { spice: 'spicy' } } });
     host.send({ type: 'hostAction', action: { kind: 'start' } });
     expect(host.errors().filter((e) => e === 'NOT_ALLOWED')).toHaveLength(2);
@@ -267,7 +302,14 @@ describe('claiming a seat', () => {
     const second = h.connect();
     second.send({ type: 'claim', playerId: lost.playerId ?? '' });
     expect(first.last('claimDenied')).toBeTruthy();
-    host.send({ type: 'hostAction', action: { kind: 'resolveClaim', claimId: host.view?.claims[0]?.claimId ?? '', approve: false } });
+    host.send({
+      type: 'hostAction',
+      action: {
+        kind: 'resolveClaim',
+        claimId: host.view?.claims[0]?.claimId ?? '',
+        approve: false,
+      },
+    });
     expect(second.last('claimDenied')).toBeTruthy();
     const third = h.connect();
     third.send({ type: 'claim', playerId: lost.playerId ?? '' });
@@ -356,7 +398,10 @@ describe('views and patches', () => {
   it('patched client views always equal the server view', () => {
     const { h, players } = lobbyOf(5);
     const host = players[0] as FakeClient;
-    host.send({ type: 'hostAction', action: { kind: 'settings', settings: { games: [...GAME_IDS].slice(0, 4) } } });
+    host.send({
+      type: 'hostAction',
+      action: { kind: 'settings', settings: { games: [...GAME_IDS].slice(0, 4) } },
+    });
     players[3]?.disconnect();
     h.advance(GONE_AFTER_MS);
     host.send({ type: 'hostAction', action: { kind: 'start' } });

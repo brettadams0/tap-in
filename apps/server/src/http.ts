@@ -24,8 +24,13 @@ export function route(method: string, pathname: string): Route {
 
 /** `allowed` is a comma-separated list; "*" allows any origin (dev only). */
 export function corsHeaders(origin: string | null, allowed: string): Record<string, string> {
-  const list = allowed.split(',').map((s) => s.trim()).filter(Boolean);
-  const ok = origin !== null && (list.includes('*') || list.includes(origin) || isPreviewOrigin(origin, list));
+  const list = allowed
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const ok =
+    origin !== null &&
+    (list.includes('*') || list.includes(origin) || isPreviewOrigin(origin, list));
   return ok
     ? {
         'Access-Control-Allow-Origin': origin,
@@ -38,7 +43,10 @@ export function corsHeaders(origin: string | null, allowed: string): Record<stri
 
 /** Vercel preview deploys: allow https://tap-in-*.vercel.app when https://tap-in.vercel.app is allowed. */
 function isPreviewOrigin(origin: string, list: string[]): boolean {
-  return list.includes('https://tap-in.vercel.app') && /^https:\/\/tap-in-[a-z0-9-]+\.vercel\.app$/.test(origin);
+  return (
+    list.includes('https://tap-in.vercel.app') &&
+    /^https:\/\/tap-in-[a-z0-9-]+\.vercel\.app$/.test(origin)
+  );
 }
 
 export function isOriginAllowed(origin: string | null, allowed: string): boolean {
