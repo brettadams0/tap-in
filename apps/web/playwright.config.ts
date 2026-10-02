@@ -31,7 +31,8 @@ export default defineConfig({
         {
           command: `pnpm --filter @tap-in/server start:node`,
           url: `http://localhost:${SERVER}/healthz`,
-          env: { PORT: String(SERVER) },
+          // Game timers run faster in e2e (presence and expiry timers are never scaled).
+          env: { PORT: String(SERVER), TIME_SCALE: process.env.E2E_TIME_SCALE ?? '0.4' },
           reuseExistingServer: !process.env.CI,
         },
         {

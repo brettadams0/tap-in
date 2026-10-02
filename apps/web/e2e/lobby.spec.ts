@@ -74,11 +74,11 @@ test('5 phones: create, join by code and link, refresh, start, claim a seat', as
 
     // Start locks the lobby.
     await host.getByRole('button', { name: 'Start!' }).click();
-    for (const p of [host, ...guests]) await expect(p.getByTestId('started')).toBeVisible();
+    for (const p of [host, ...guests]) await expect(p.getByTestId('in-game')).toBeVisible();
 
     // Refresh mid-game returns to the same screen.
     await at(guests, 2).reload();
-    await expect(at(guests, 2).getByTestId('started')).toBeVisible();
+    await expect(at(guests, 2).getByTestId('in-game')).toBeVisible();
 
     // Dee's phone dies; a new phone claims Dee's seat and the host lets her in.
     await at(contexts, 4).close();
@@ -90,7 +90,7 @@ test('5 phones: create, join by code and link, refresh, start, claim a seat', as
     await newPhone.getByRole('button', { name: 'Dee' }).click();
     await expect(newPhone.getByText('Knock knock…')).toBeVisible();
     await host.getByRole('button', { name: 'Let in' }).click();
-    await expect(newPhone.getByTestId('started')).toBeVisible();
+    await expect(newPhone.getByTestId('in-game')).toBeVisible();
   } finally {
     await Promise.all(contexts.map((c) => c.close().catch(() => undefined)));
   }

@@ -120,10 +120,20 @@ export interface CapProps {
   className?: string;
   /** Greyed for reconnecting/gone players (always paired with a text badge). */
   dim?: boolean;
+  /** The face reacts to the game (DESIGN.md §4): grimace when drinking, cheer when winning. */
+  mood?: 'drink' | 'win';
+  /** Living cap: blinks now and then (DESIGN.md §13). */
+  live?: boolean;
 }
 
-export function Cap({ avatar, size = 64, label, className, dim }: CapProps) {
+const MOOD_FACE: Record<NonNullable<CapProps['mood']>, Pick<Avatar, 'eyes' | 'mouth'>> = {
+  drink: { eyes: 'spiral', mouth: 'wobbly' },
+  win: { eyes: 'sparkle', mouth: 'grin' },
+};
+
+export function Cap({ avatar, size = 64, label, className, dim, mood, live }: CapProps) {
   const clip = useId();
+  const face = mood ? MOOD_FACE[mood] : avatar;
   return (
     <svg
       width={size}
@@ -152,10 +162,12 @@ export function Cap({ avatar, size = 64, label, className, dim }: CapProps) {
       />
       <circle r="21" fill="none" stroke={INK} strokeOpacity=".22" strokeWidth="2.5" />
       <g
+        className={live ? 'cap-eyes-live' : undefined}
         fill={INK}
         stroke={INK}
-        dangerouslySetInnerHTML={{ __html: EYES[avatar.eyes] + MOUTHS[avatar.mouth] }}
+        dangerouslySetInnerHTML={{ __html: EYES[face.eyes] }}
       />
+      <g fill={INK} stroke={INK} dangerouslySetInnerHTML={{ __html: MOUTHS[face.mouth] }} />
       <g dangerouslySetInnerHTML={{ __html: TOPPERS[avatar.topper] }} />
     </svg>
   );

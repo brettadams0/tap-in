@@ -11,4 +11,4 @@ React, Vite, Zod, obscenity (profanity filtering), qrcode-generator, ws, Wrangle
 
 ## Sound
 
-None yet. Phase 2 adds synthesised sounds (no third-party audio). Any CC0 samples added later will be listed here with their source and licence.
+Every sound is synthesised in the browser with the Web Audio API (`apps/web/src/audio/synth.ts`). There is no third-party audio. Any CC0 samples added later will be listed here with their source and licence.

@@ -277,15 +277,16 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 
 ### Phase 2: First playable
 
-- [ ] Design system from DESIGN.md: tokens, fonts, screen zones (status / content / action / margin), Button, Timer (urgent last 5 s), Stamp, TitleCard, banners
-- [ ] **Cap builder** (DESIGN §11): 16 exclusive colours, 8 patterns, 10×10 faces, 12 toppers, Shuffle, remembered per phone; living caps (idle bob, blink, glance)
-- [ ] Audio: unlock on Join/Ready, synth bank, scheduler (`playAt`), mute/volume, iOS silent-switch notice, tap-to-resume chip
-- [ ] Engine: intro → gameIntro → roundInput → roundReveal → drink → gameOutro → results; rotation; session budget; pause and water break
-- [ ] Drink system: cap (P4), logging, Drink takeover / other-drinks / everyone-drinks moments
-- [ ] Games: **Would You Rather**, **Reaction Shotgun** (logic + tests + UI + sounds)
-- [ ] Results screen (basic) + rematch
-- [ ] Starter content for those two banks; content validator wired into the build
-- [ ] Integration tests for both games + leak scaffold; e2e full loop; **first real-phone party test** (TESTING.md checklist)
+- [x] Design system from DESIGN.md: tokens, fonts, screen zones (status / content / action / margin), Button, Timer (urgent last 5 s), Stamp, TitleCard, banners
+- [x] **Cap builder** (DESIGN §11): 16 exclusive colours, 8 patterns, 10×10 faces, 12 toppers, Shuffle, remembered per phone; living caps (idle bob, blink; glance moves to phase 6)
+- [x] Audio: unlock on Join/Ready, synth bank, scheduler (`playAt`), mute/volume, iOS silent-switch notice, tap-to-resume chip
+- [x] Engine: intro → gameIntro → roundInput → roundReveal → drink → gameOutro → results; rotation; session budget; pause and water break
+- [x] Drink system: cap (P4), logging, Drink takeover / other-drinks / everyone-drinks moments
+- [x] Games: **Would You Rather**, **Reaction Shotgun** (logic + tests + UI + sounds)
+- [x] Results screen (basic) + rematch
+- [x] Starter content for those two banks; content validator wired into the build
+- [x] Integration tests for both games + leak scaffold; e2e full loop
+- [ ] **First real-phone party test** (TESTING.md checklist): needs the deploy
 
 ### Phase 3: Deception games
 

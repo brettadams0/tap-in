@@ -70,6 +70,13 @@ export class RoomConnection {
   leave(): void {
     this.send({ type: 'leave' });
   }
+  submit(step: string, data: unknown): void {
+    this.send({ type: 'submit', step, data });
+  }
+  /** "Done" after a Drink. */
+  ready(): void {
+    this.send({ type: 'ready' });
+  }
   clearError(): void {
     this.set({ ...this.state, error: null });
   }
@@ -80,6 +87,11 @@ export class RoomConnection {
    */
   serverNow(): number {
     return this.clock.toServer(performance.now()) + performance.timeOrigin;
+  }
+
+  /** A server timestamp (epoch ms) on the local performance.now() timeline. */
+  toPerf(serverTime: number): number {
+    return this.clock.toLocal(serverTime - performance.timeOrigin);
   }
 
   private send(msg: ClientMessage): void {

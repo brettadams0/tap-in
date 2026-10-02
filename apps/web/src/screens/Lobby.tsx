@@ -4,6 +4,7 @@ import {
   GAME_NAMES,
   MIN_ENABLED_GAMES,
   MIN_PLAYERS,
+  READY_GAMES,
   SESSION_MINUTES,
   type Avatar,
   type PlayerView,
@@ -339,7 +340,10 @@ function SettingsEditor({ conn, settings }: { conn: RoomConnection; settings: Ro
                   toggleGame(id);
                 }}
               >
-                <span>{GAME_NAMES[id]}</span>
+                <span>
+                  {GAME_NAMES[id]}
+                  {!READY_GAMES.includes(id) && <span className="tag tag-soon">Soon</span>}
+                </span>
                 <span className="toggle-pill">{on ? 'On' : 'Off'}</span>
               </button>
             </li>

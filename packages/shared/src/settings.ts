@@ -27,6 +27,9 @@ export const GAME_NAMES: Record<GameId, string> = {
   countdown: 'Countdown',
 };
 
+/** Games playable in this build (the rest arrive in phases 3–4). The lobby marks the others "Soon". */
+export const READY_GAMES: readonly GameId[] = ['wouldYouRather', 'reactionShotgun'];
+
 export const SPICE_LEVELS = ['chill', 'spicy', 'unhinged'] as const;
 export type Spice = (typeof SPICE_LEVELS)[number];
 

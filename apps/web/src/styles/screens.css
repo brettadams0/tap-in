@@ -414,3 +414,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.tag-soon {
+  margin-left: 8px;
+  background: var(--stout-3);
+  color: var(--foam-dim);
+  vertical-align: middle;
+}

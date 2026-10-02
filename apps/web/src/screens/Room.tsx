@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { useRoom } from '../hooks/useRoom.js';
 import { useWakeLock } from '../hooks/useWakeLock.js';
 import { loadSession } from '../net/storage.js';
@@ -7,7 +7,9 @@ import { ClaimSeat } from './ClaimSeat.js';
 import { Ended } from './Ended.js';
 import { JoinForm } from './JoinForm.js';
 import { Lobby } from './Lobby.js';
-import { Started } from './Started.js';
+
+// The game screens, audio and their CSS load only once a session starts.
+const Play = lazy(() => import('../play/Play.js'));
 
 /** Errors the screens already explain in place; everything else becomes a toast. */
 const SILENT = new Set(['BAD_TOKEN', 'ROOM_ENDED', 'RATE_LIMITED']);
@@ -36,7 +38,9 @@ export function Room({ code }: { code: string }) {
       room.view.phase === 'lobby' ? (
         <Lobby conn={conn} view={room.view} />
       ) : (
-        <Started conn={conn} view={room.view} />
+        <Suspense fallback={<Pouring />}>
+          <Play conn={conn} view={room.view} />
+        </Suspense>
       );
   } else if (
     !room.welcome ||

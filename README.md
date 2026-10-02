@@ -15,7 +15,8 @@ A party drinking game for 3–8 people (built for 5), each on their own phone. T
 apps/web        Vite + React client (Vercel project "tap-in")
 apps/server     Room server: Cloudflare Worker + Durable Object "Room" (and a Node adapter for tests/dev)
 packages/shared Protocol types, Zod schemas, clock sync, seeded RNG, room codes, names, avatars, view diff
-content/        Prompt banks (phase 5)
+packages/games  Pure mini-game modules (logic + tests), the registry and the content validator
+content/        Prompt banks (JSON, spice-tagged; server-side only)
 ```
 
 ## Run it locally
@@ -52,6 +53,7 @@ pnpm e2e             # Playwright: 5 phones on WebKit (iPhone 14) + Chromium (Pi
 | GitHub Actions secret         | `CLOUDFLARE_ACCOUNT_ID`   | Your Cloudflare account ID                                                                                                  |
 | GitHub Actions variable       | `SERVER_URL`              | Same as `VITE_SERVER_URL`; used for the post-deploy health check                                                            |
 | Local dev (Node adapter)      | `PORT`, `ALLOWED_ORIGINS` | Defaults: `8787`, `*`                                                                                                       |
+| Local dev / e2e (Node only)   | `TIME_SCALE`              | Speeds up game timers, e.g. `0.4` (e2e default). Never set in production.                                                   |
 
 No secrets ever go into the client bundle.
 
