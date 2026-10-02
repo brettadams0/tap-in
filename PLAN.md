@@ -1,21 +1,21 @@
 # Tap In: Build Plan
 
-Status: **draft, waiting for approval.** Nothing gets built until this is signed off.
+Status: **approved 2026-10-02**, with the answers below folded in. Changes since the first draft: the room server moves from Fly.io to Cloudflare Durable Objects (free plan), and there is now a "claim a seat" rejoin flow.
 Source of truth: [`SPEC.md`](./SPEC.md). This plan covers how I'll build it, where I read the spec a certain way, and where I think the spec should change.
 
 ---
 
-## 0. Questions and spec gaps (please answer these first)
+## 0. Questions and spec gaps
 
-### 0.1 Blocking questions (I need your answers)
+### 0.1 Answers (from Brett, 2026-10-02)
 
-| # | Question | My default if you don't mind |
+| # | Question | Answer → what I'm doing |
 | --- | --- | --- |
-| Q1 | **Room server host account.** I'm proposing Fly.io (see §1). Do you have a Fly.io account? To deploy from CI I need a `FLY_API_TOKEN` saved as a GitHub Actions secret, and the org name. If you'd rather use Railway or Cloudflare, say so. | Fly.io, one app `tap-in-server` |
-| Q2 | **Region.** Where will people mostly play? The room server runs in one region, and the "<150 ms broadcast" budget depends on it being near the players. | `iad` (US East) |
-| Q3 | **Vercel.** Which Vercel team or scope should own the `tap-in` project? Is the default `tap-in.vercel.app` URL fine for v1, or is there a custom domain? | Personal scope, `tap-in.vercel.app` |
-| Q4 | **Prompt bank minimums: per level or cumulative?** "60 per spice level" plus "higher levels include lower levels" can mean either (a) 60 entries *tagged* at each level, so 180 Would You Rather in total, or (b) at least 60 *available* at each level, which Chill alone would cover. (a) works out to about 1,380 hand-written entries. | (a), the stricter one. See P9 for the spice-neutral banks. |
-| Q5 | **Late joiners.** The spec covers the lobby (3–8 players) but not someone opening the link once the game has started. | Allow it (up to 8). They watch as a spectator until the next game block, then join the rotation. |
+| Q1 | Room server host | "Best free option." Fly.io no longer has a free tier, and Render's free tier sleeps and loses memory. **Cloudflare Workers + Durable Objects** is free and fits this exactly: one stateful object per room, WebSockets, timers (alarms) and built-in storage that survives restarts. See §1. **You'll need:** a free Cloudflare account, plus an API token + account ID saved as GitHub secrets. I'll send step-by-step instructions in phase 1. |
+| Q2 | Region | Ontario, everyone in the same room. Rooms get a location hint of `enam` (eastern North America), so the object runs close to Toronto (~10–30 ms). |
+| Q3 | Vercel | Free Hobby account, `tap-in.vercel.app`. That's fine for a non-commercial party game. |
+| Q4 | Prompt bank minimums | You left this to me. **Each spice level gets its own full set**, e.g. 60 Chill + 60 Spicy + 60 Unhinged Would You Rather. That keeps every level feeling fresh and makes repeats rare. It's about 1,380 prompts in total, written in phase 5. |
+| Q5 | Late joiners | **No new players after Start.** Only existing players can get back in. Two tools cover the real-world problems:<br>• **Claim a seat:** if a player's phone loses its saved session (new browser, private tab, opened the link in an in-app browser), they open the room link and see "Are you…?" with the *disconnected* players listed. They tap their name, the host gets an Approve / Deny prompt, and they're back with their drinks, stats and secrets restored. Their old tab is kicked.<br>• **Remove player (host):** for someone who has really left. They're out of the rotation right away and their seat is closed.<br>Why not "remove then let someone join": claiming keeps the player's history and stops a stranger with the link from barging in. |
 
 ### 0.2 Push-backs (spec changes I recommend; I'll build these unless you object)
 
@@ -55,20 +55,29 @@ Source of truth: [`SPEC.md`](./SPEC.md). This plan covers how I'll build it, whe
 | Client | **Vite + React 19** SPA | No SSR needed (every screen is live socket state), the smallest bundle, and Vercel serves it as static files from the edge. Next.js would add weight and server features we'd never use. |
 | Animation | **Motion** (`motion/react`, using `LazyMotion` + `m`) for layout and orchestration; plain CSS keyframes for loops | Layout animations (avatars flying to sides, cards dealing, `Reorder` drag for Rank It) are Motion's strength. `LazyMotion` keeps it at about 15 KB gz. Everything animates only `transform` and `opacity`. |
 | Audio | Raw **Web Audio API**: a tiny in-house synth that renders to `AudioBuffer`s via `OfflineAudioContext`, plus a few CC0 samples | Sample-accurate `start(when)` scheduling for sync. Per-player pitch and timbre variants are free with synthesis. Nearly zero bytes, well under the 1.5 MB budget. Tone.js (~100 KB) isn't worth it. |
-| Realtime server | **Node 22 + `ws`**, one process holding rooms in memory, deployed to **Fly.io** (single machine + volume) | A long-lived stateful process with real `setTimeout` timers. Integration tests run the actual server in-process with 5 real WebSocket clients and nothing to emulate. `ws` is the fastest and best-tested Node WebSocket library. |
+| Realtime server | **Cloudflare Workers + Durable Objects** (SQLite-backed, free plan), one object per room, with the WebSocket Hibernation API and alarms | One single-threaded, stateful object per room is exactly the "one authoritative state machine" the spec asks for. Room state is saved to the object's own storage on every change, so deploys, evictions and crashes don't lose a party. The free plan gives 100k requests/day and 13k GB-s/day, which covers dozens of 45-minute sessions a day. No server to babysit. |
 | Validation | **Zod** (server only) for every inbound message and content bank | Rejects malformed input and cheating. Kept *out* of the client bundle: the client trusts typed server output and only needs the TS types. |
 | Profanity | `obscenity` | Handles leetspeak and lookalike characters, with a tunable word set (needed for P7) |
 | QR | `qrcode-generator` (lazy-loaded) | About 10 KB, and loaded only on the lobby share sheet |
 | Tests | Vitest (unit + integration, v8 coverage), Playwright (WebKit iPhone 14 + Chromium Pixel 7), Lighthouse CI | Matches the spec's test pyramid |
 | Lint/format | ESLint (typescript-eslint strict-type-checked) + Prettier | Enforced in CI |
-| CI/CD | GitHub Actions. Vercel Git integration for the client; `flyctl deploy` from Actions for the server after CI is green on `main` | `main` is always deployable, and nothing deploys unless it's green |
+| CI/CD | GitHub Actions. Vercel Git integration for the client; `wrangler deploy` from Actions for the room server after CI is green on `main` | `main` is always deployable, and nothing deploys unless it's green |
 
 **Why not the alternatives**
 
-- **PartyKit / Cloudflare Durable Objects:** Durable Objects are great, but an object can be evicted and has a *single* alarm, so per-room timers would have to be multiplexed through storage. Integration tests also need Miniflare. Fly gives plain Node semantics.
-- **Railway:** an equally fine Node host. I'm proposing Fly because of its regions, volumes and cost. The server is a Docker image, so swapping hosts is a config change.
+- **Fly.io:** the best plain-Node option, but it's no longer free.
+- **Railway:** a trial credit, then a small monthly fee.
+- **Render free:** sleeps after 15 min idle (about a 50 s cold start) and loses in-memory rooms.
+- **Supabase Realtime with host authority:** ruled out by the spec.
 
-**Fly.io's main risk (deploy restarts) and how I'll handle it:** rooms live in memory. On `SIGTERM` the server writes every live room snapshot (state + RNG state + timer deadlines) to the Fly volume. On boot it restores them, and clients reconnect through the normal backoff flow, so a deploy mid-party shows a "Reconnecting…" banner for a few seconds. Snapshots are also written periodically (every 10 s for dirty rooms) to survive crashes. Typed answers in snapshots are deleted together with the room, so nothing is kept after expiry.
+**How Durable Objects shape the code**
+
+- **Host-agnostic engine.** The `RoomEngine` is pure TypeScript with injected `Clock`, `Scheduler` and `Storage` interfaces. The Durable Object is a thin adapter around it: WebSocket in, views out, alarm, then `engine.onTimer()`.
+- **Timers.** A Durable Object has one alarm, so the adapter keeps a small timer queue in state and points the alarm at the earliest deadline. Short timers while sockets are active (e.g. the 600 ms Countdown window) also use in-memory `setTimeout`, with the alarm as the backstop.
+- **Hibernation.** Idle rooms (lobby chatter, long votes) hibernate and cost nothing. On wake, the engine reloads from storage. Each socket's `playerId` is kept in its hibernation attachment.
+- **Clock.** In Workers, `Date.now()` only advances between I/O events. That's fine for us: `pong.serverTime` is stamped when the ping arrives, which is exactly the instant clock sync needs. Documented in DECISIONS.md.
+- **Testing.** Integration tests run the real Worker and Durable Object in-process through `@cloudflare/vitest-pool-workers` (workerd), with 5 real WebSocket clients. Most engine and integration tests also run against a tiny Node `ws` adapter for speed. Both adapters share one test suite.
+- **Privacy at rest.** Room storage is deleted when the room expires (30 min with nobody connected, via an alarm), so typed answers never outlive the session.
 
 ---
 
@@ -89,14 +98,14 @@ tap-in/
 │  │  │  └─ store/              # tiny store: current RoomView + local prefs
 │  │  ├─ public/fonts/          # self-hosted woff2 subsets
 │  │  └─ e2e/                   # Playwright specs + screenshot baselines
-│  └─ server/                   # Node room server (Fly app "tap-in-server")
+│  └─ server/                   # room server: Cloudflare Worker "tap-in-server" + Durable Object "Room"
 │     ├─ src/
 │     │  ├─ room/               # RoomEngine (state machine), drink system, rotation, host/presence
-│     │  ├─ transport/          # ws wiring, rate limiter, HTTP (create room, health)
-│     │  ├─ persistence/        # snapshot/restore to volume
+│     │  ├─ adapters/           # durable-object.ts (prod), node-ws.ts (fast tests / local dev)
+│     │  ├─ transport/          # message routing, rate limiter, HTTP (create room, health)
 │     │  └─ views/              # per-player projection + diffing
 │     ├─ test/integration/      # 5-client in-process tests, leak tests, chaos tests
-│     ├─ Dockerfile  fly.toml
+│     ├─ wrangler.toml
 ├─ packages/
 │  ├─ shared/                   # message types + Zod schemas, RoomView types, clock math, RNG
 │  └─ games/
@@ -133,9 +142,10 @@ The server owns everything. A room is one `RoomEngine` instance with an injected
 - **Early end:** after each input the engine asks the game `awaiting(state)` for who is still expected to act. If none of those players are connected, the engine fires the step's timer immediately.
 - **Pause:** the engine stores `remaining = endsAt - now`, cancels the timer, and on resume re-issues `endsAt = now + remaining` with a new version.
 - **Presence (engine, not games):**
-  - per player: `connected | reconnecting (grey badge) | gone (>3 min, out of rotation) | spectator`
+  - per player: `connected | reconnecting (grey badge) | gone (>3 min, out of rotation) | removed`
   - host gone 30 s or more → host moves to the connected player with the earliest `connectedSince`
-  - no connections for 30 min → room deleted, along with its snapshot
+  - no connections for 30 min → room deleted, along with its stored state
+  - after Start, `join` is refused. A seat can only be **claimed** (host approves), and the host can **remove** a player (seat closed, out of the rotation)
 - **Drink system (engine):** the game's `RoundResult` → apply the fairness cap (P4) → produce a `DrinkOutcome`: `{ individual: PlayerId[], everyone: boolean, exceptions?: PlayerId[], capNote? }` → log the drinks → schedule cues (`drink.you` only for the drinker's socket, `drink.other` for everyone else, `drink.everyone` for all).
 - **Rotation (engine, pure function in `packages/shared`):** `pickNextGame(history, enabled, meta, rng)`:
   - hard rule: no repeats until every enabled game has played
@@ -175,7 +185,7 @@ type Step<S> =
 type Reject = { kind: 'reject'; reason: 'tooClose' | 'containsWord' | 'invalid' | … };
 ```
 
-- **Pure and deterministic.** `GameCtx` injects `rng` (a seeded, serialisable sfc32), `now`, the content slice and the player list. No I/O, no `Date`, no `Math.random`. That makes every game unit-testable with no network, and snapshot/restore works for free.
+- **Pure and deterministic.** `GameCtx` injects `rng` (a seeded, serialisable sfc32), `now`, the content slice and the player list. No I/O, no `Date`, no `Math.random`. That makes every game unit-testable with no network, and persisting and restoring state works for free.
 - **Privacy by construction.** The server never broadcasts state. Each socket gets `RoomView = { room, game: publicView(s), me: privateView(s, id) }`. Votes, real answers, roles and fake facts live only in `S` until `reveal` puts them into the public payload.
 - **Content stays on the server.** Prompt banks (including Fake Answer's real answers) are never bundled into the client. Only the current round's text is sent.
 
@@ -236,8 +246,8 @@ I'll write DESIGN.md and show it to you before building any screens, as you aske
 
 ## 8. Deployment
 
-- **Client:** Vercel project `tap-in` (root `apps/web`), with an SPA rewrite so `/:code` serves `index.html`. Env: `VITE_SERVER_URL`. Preview deploys point at the production server, and protocol changes are gated by a `protocolVersion` handshake. If a PR changes the protocol, I'll deploy a `tap-in-server-staging` Fly app for it.
-- **Server:** Fly app `tap-in-server`, one `shared-cpu-1x` machine (256–512 MB) + a 1 GB volume for snapshots, `auto_stop_machines = false`. The deploy GitHub Action runs only after CI is green on `main`. Health check: `GET /healthz`. Env: `ALLOWED_ORIGINS`, `SNAPSHOT_DIR`, `LOG_LEVEL`.
+- **Client:** Vercel project `tap-in` (root `apps/web`), with an SPA rewrite so `/:code` serves `index.html`. Env: `VITE_SERVER_URL`. Preview deploys point at the production server, and protocol changes are gated by a `protocolVersion` handshake. If a PR changes the protocol, I'll deploy a `tap-in-server-staging` Worker for it.
+- **Server:** Cloudflare Worker `tap-in-server` (free plan) at `tap-in-server.<account>.workers.dev`, with a `Room` Durable Object class (SQLite-backed) and a location hint of `enam`. `wrangler deploy` runs from GitHub Actions only after CI is green on `main`. Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. Health check: `GET /healthz`. Vars: `ALLOWED_ORIGINS`, `LOG_LEVEL`.
 - **Testing the real setup:** every phase ends with the e2e happy path run against the *production* URLs (a `pnpm e2e:prod` target), not just localhost.
 
 ---
@@ -255,10 +265,10 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 - [ ] pnpm monorepo, TS strict, ESLint + Prettier, Vitest workspace, Turborepo
 - [ ] `packages/shared`: message union + Zod schemas, RoomView types, seeded RNG, clock-sync math (+ tests)
 - [ ] Server: `POST /rooms` (code generation), ws transport, rate limiter, RoomEngine lobby (join, names with suffixing and profanity filter, avatars, settings broadcast)
-- [ ] Rejoin with token, presence badges, host transfer (30 s), drop (3 min), room expiry (30 min), snapshot/restore
+- [ ] Rejoin with token, presence badges, host transfer (30 s), drop (3 min), room expiry (30 min), state persisted to Durable Object storage; **claim a seat** (host approval) and **remove player**; lobby locks at Start
 - [ ] Client shell: Home / Create / Join (code + link), lobby with live players and settings, reconnect banner, "room ended" screen, wake lock, portrait guard, safe areas (functional, unstyled until DESIGN.md is approved)
 - [ ] Clock sync client + `/sync-test` page
-- [ ] CI workflow (lint, typecheck, unit, integration, build), Vercel project, Fly app, deploy workflow
+- [ ] CI workflow (lint, typecheck, unit, integration, build), Vercel project, Cloudflare Worker, deploy workflow
 - [ ] Integration: 5 clients join, host transfer, rejoin restores the view. e2e: create + join by code and by link on both engines.
 
 ### Phase 2: First playable
@@ -306,6 +316,7 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 | iOS audio: suspended after lock, and the silent switch mutes Web Audio | Unlock on the first gesture, the resume chip, `navigator.audioSession.type = 'playback'` where supported (to be checked on a device), and the one-time silent-switch notice |
 | Wake Lock missing on iOS < 16.4 | Feature-detect, plus a muted looping-video fallback only during play |
 | Sync drift after a phone sleeps | Re-sync on `visibilitychange` and before every scheduled cue that's older than 30 s |
-| A deploy mid-party | Snapshot on SIGTERM + restore + client backoff (§1) |
+| A deploy mid-party | Durable Object state lives in storage, so the object reloads it and clients reconnect via backoff (§1) |
+| Free-plan limits (100k req/day) | Taps are counted on the phone and sent once (Tap Race); Countdown taps are rate-limited. A 45-minute, 5-player session is about 3–5k requests, well within the daily limit. If it's ever outgrown, the $5/mo Workers plan lifts the limits with no code change. |
 | Content quality at ~1,400 entries | Written in themed batches, then a stranger-safety review pass; you get a sample of every bank to sign off early in phase 5 |
 | Bundle budget with React + Motion | `LazyMotion`, one lazy chunk per game, fonts subset to Latin, `size-limit` in CI |
