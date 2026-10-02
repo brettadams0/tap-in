@@ -60,7 +60,7 @@ h2{font-family:var(--display);font-weight:400;font-size:30px;margin:56px 0 18px;
 /* header strip */
 .strip{display:flex;align-items:center;gap:10px;background:var(--pink);color:var(--ink);border:3px solid var(--ink);border-radius:16px;padding:8px 10px;box-shadow:3px 3px 0 #000}
 .strip .gname{font-family:var(--display);font-size:19px;line-height:1}
-.strip .round{font-size:14px;font-weight:800}
+.strip .round{font-size:16px;font-weight:800}
 .strip .grow{flex:1;min-width:0}
 .timer{width:54px;height:54px;flex:none;position:relative}
 .timer svg{width:54px;height:54px;transform:rotate(-90deg)}
@@ -152,6 +152,57 @@ h2{font-family:var(--display);font-weight:400;font-size:30px;margin:56px 0 18px;
 .tc .ic{position:absolute;right:-10px;top:-10px;width:70px;height:70px;opacity:.9}
 .tc:nth-child(odd){transform:rotate(-1deg)}.tc:nth-child(even){transform:rotate(1deg)}
 
+
+/* ---------- v2: priority zones, cap builder, reactions ---------- */
+.capbob{animation:bob 2.4s ease-in-out infinite}
+.capbob:nth-child(2n){animation-delay:-.8s}.capbob:nth-child(3n){animation-delay:-1.5s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.zone{border-radius:18px;padding:14px 16px;border:3px dashed #4a3a30}
+.zone b{font-family:var(--display);font-weight:400;font-size:20px;display:block}
+.zone span{font-size:15px;color:var(--foam-dim)}
+.zone.margin{border-color:var(--pink)}
+.bh{font-family:var(--display);font-size:28px;text-align:center;line-height:1}
+.preview{display:grid;place-items:center;margin:8px 0 6px;height:178px;position:relative}
+.preview .shuffle{position:absolute;right:0;bottom:6px;width:58px;height:58px;border-radius:16px;background:var(--foam);color:var(--ink);border:3px solid var(--ink);box-shadow:3px 3px 0 #000;display:grid;place-items:center;font-size:28px}
+.tabs{display:flex;gap:6px;margin:4px 0 12px}
+.tabs span{flex:1;text-align:center;font-weight:800;font-size:16px;padding:10px 0;border-radius:12px;background:var(--stout-2);color:var(--foam-dim);border:2px solid #33271f}
+.tabs span.on{background:var(--foam);color:var(--ink);border-color:var(--ink)}
+.swgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.swc{aspect-ratio:1;border-radius:50%;border:3px solid var(--ink);box-shadow:2px 2px 0 #000;position:relative;min-height:56px}
+.swc.sel{outline:4px solid var(--foam);outline-offset:2px}
+.swc.taken:after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-linear-gradient(45deg,rgba(21,16,13,.55) 0 4px,transparent 4px 9px)}
+.swc .who{position:absolute;right:-6px;bottom:-6px;z-index:1}
+.strip2{display:flex;justify-content:space-between;align-items:flex-end;padding:8px 6px 0;border-top:2px dashed #33271f;margin-top:8px}
+.strip2 .capwrap{width:46px;height:52px}
+.strip2 .tapme{outline:3px solid var(--foam);outline-offset:3px;border-radius:50%}
+.lane{height:76px;display:flex;align-items:center;margin-top:auto}
+.sticker{display:flex;align-items:center;gap:10px;background:var(--foam);color:var(--ink);border:3px solid var(--ink);border-radius:16px;padding:6px 12px 6px 6px;box-shadow:4px 4px 0 #000;
+  font-weight:800;font-size:18px;line-height:1.15;transform:rotate(-2deg);animation:slap 4s var(--spring) infinite;max-width:100%}
+@keyframes slap{0%,8%{transform:translateX(-120%) rotate(-12deg);opacity:1}18%,80%{transform:rotate(-2deg);opacity:1}92%,100%{transform:translateY(80px) rotate(8deg);opacity:0}}
+.sticker small{display:block;font-size:14px;color:#5b4a3e}
+.waitcard{background:var(--stout-2);border-radius:18px;padding:16px;border:3px solid #33271f;margin-top:12px}
+.waitcard .big{font-family:var(--display);font-size:28px;color:var(--volt)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--foam);color:var(--ink);border-radius:26px 26px 0 0;border:3px solid var(--ink);padding:14px 14px 18px;box-shadow:0 -6px 0 rgba(0,0,0,.35);
+  animation:sheetup 4s var(--spring) infinite}
+@keyframes sheetup{0%,6%{transform:translateY(100%)}16%,100%{transform:none}}
+.sheet .grab{width:44px;height:5px;border-radius:3px;background:#b9a890;margin:0 auto 10px}
+.sheet .to{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:22px}
+.sheet .to .x{margin-left:auto;width:44px;height:44px;border-radius:12px;border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--body);font-weight:800}
+.emojis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.emojis span{height:56px;border-radius:14px;border:3px solid var(--ink);background:#fff7ea;display:grid;place-items:center;font-size:28px;box-shadow:2px 2px 0 var(--ink)}
+.ntabs{display:flex;gap:6px;margin-bottom:8px}
+.ntabs span{flex:1;text-align:center;font-weight:800;font-size:17px;padding:8px 0;border-radius:10px;border:2px solid var(--ink)}
+.ntabs span.on{background:var(--pink)}
+.note2{min-height:56px;display:flex;align-items:center;border:3px solid var(--ink);border-radius:14px;padding:8px 12px;font-weight:800;font-size:18px;margin-top:8px;background:#fff7ea}
+.fly{position:absolute;font-size:26px;animation:fly 2.6s ease-in-out infinite}
+@keyframes fly{0%,20%{transform:translate(0,0) scale(.4);opacity:0}30%{opacity:1;transform:translate(0,-10px) scale(1)}70%{transform:translate(var(--fx),-24px) scale(1.1);opacity:1}85%,100%{transform:translate(var(--fx),0) scale(.6);opacity:0}}
+.bars{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.bar{display:flex;align-items:center;gap:8px}
+.bar i{height:30px;border-radius:8px;border:3px solid var(--ink);display:block;transform-origin:left;animation:grow 1s var(--spring) both}
+.bar b{font-weight:800;font-size:18px;min-width:62px}
+@keyframes grow{from{transform:scaleX(0)}}
+
 @media (prefers-reduced-motion: reduce){
   *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important}
 }
@@ -227,8 +278,55 @@ h2{font-family:var(--display);font-weight:400;font-size:30px;margin:56px 0 18px;
     </div></div></div>
   </div>
 
-  <h2>Players are bottle caps</h2>
-  <p class="note">Each player keeps a fixed colour, face and note all session. Colour is never the only signal.</p>
+  <h2>Readable first, then playable, then fun</h2>
+  <p class="note">Every play screen has four zones. Fun is only allowed in the Margin while people are reading or answering. The big fun happens between phases.</p>
+  <div class="zones">
+    <div class="zone"><b>Status</b><span>Game, round, timer. Always visible, never covered.</span></div>
+    <div class="zone"><b>Content</b><span>Prompt, answers, results. Solid surfaces, no motion behind text.</span></div>
+    <div class="zone"><b>Action</b><span>Your buttons, in the bottom third. Never covered, never moved while you aim.</span></div>
+    <div class="zone margin"><b>Margin</b><span>Caps, Capn, reactions. The only place fun lives during input.</span></div>
+  </div>
+
+  <h2>Build your cap</h2>
+  <div class="phones">
+    <div class="phone-wrap"><div class="cap-label">After entering your name</div>
+    <div class="phone"><div class="screen">
+      <div class="bh">Build your cap</div>
+      <div class="preview"><div class="capbob" id="bigcap"></div><div class="shuffle">🎲</div></div>
+      <div class="tabs"><span class="on">Colour</span><span>Pattern</span><span>Face</span><span>Topper</span></div>
+      <div class="swgrid" id="swgrid"></div>
+      <div class="btn" style="margin-top:14px">Tap In</div>
+    </div></div></div>
+
+    <div class="phone-wrap"><div class="cap-label">Waiting after locking in: tap a cap</div>
+    <div class="phone"><div class="screen">
+      <div class="strip" style="background:var(--sun)"><div class="grow"><div class="gname">Rank It</div><div class="round">Round 1 of 3</div></div>
+        <div class="timer"><svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="22" fill="var(--foam)" stroke="var(--ink)" stroke-width="3"/>
+          <circle class="ring" cx="27" cy="27" r="22" fill="none" stroke="var(--ink)" stroke-width="6" stroke-dasharray="138" stroke-dashoffset="50"/></svg><div class="num">18</div></div></div>
+      <div class="waitcard"><div class="big">Locked in!</div><div style="font-weight:700;margin-top:4px">Waiting on Sam… Tap someone's cap to send them something.</div></div>
+      <div class="sheet">
+        <div class="grab"></div>
+        <div class="to"><span id="sheetcap"></span>Send Marco…<span class="x">✕</span></div>
+        <div class="emojis"><span>😂</span><span>🔥</span><span>😘</span><span>👏</span><span>🫡</span><span>😈</span><span>🍻</span><span>💀</span></div>
+        <div class="ntabs"><span>Kind</span><span>Funny</span><span class="on">Flirty</span></div>
+        <div class="note2">Save me a seat next round 😉</div>
+        <div class="note2">Okay, you're kind of iconic.</div>
+      </div>
+    </div></div></div>
+
+    <div class="phone-wrap"><div class="cap-label">Marco's phone during the reveal</div>
+    <div class="phone"><div class="screen">
+      <div class="strip" style="background:var(--sun)"><div class="grow"><div class="gname">Rank It</div><div class="round">Round 1 of 3 · Results</div></div></div>
+      <div class="donow">Furthest from the group drinks</div>
+      <div class="bars" id="bars"></div>
+      <div class="lane"><div class="sticker"><span id="stickcap"></span><span><small>Priya says</small>Okay, you're kind of iconic.</span></div></div>
+      <div class="strip2" id="strip2" style="position:relative"></div>
+    </div></div></div>
+  </div>
+  <p class="note" style="margin-top:14px">The sticker lands in a reserved 76px lane above the cap strip, so it never covers the results or a button. Other phones only see a 💌 fly from Priya's cap to Marco's.</p>
+
+  <h2>Caps: colour, pattern, face, topper</h2>
+  <p class="note">16 colours (one per player), 8 patterns, 100 faces, 12 toppers. Colour + face + name always identify a player.</p>
   <div class="coaster" style="display:flex;flex-wrap:wrap;gap:18px" id="allcaps"></div>
 </div>
 
@@ -257,9 +355,62 @@ document.getElementById('lobby').innerHTML=players.map(([n,c,f],i)=>`<div class=
 document.getElementById('locked').insertAdjacentHTML('afterbegin',players.map(([n,c,f],i)=>`<div class="capwrap">${cap(C[c],f,44)}${i<4?'<span class="stamp">IN!</span>':''}</div>`).join(''));
 document.getElementById('drinkcap').innerHTML=cap(C.foam,'shook',96);
 document.getElementById('clink').innerHTML=players.map(([n,c,f],i)=>`<div class="capwrap" style="--cx:${(2-i)*10}px">${cap(C[c],'happy',58)}</div>`).join('');
-document.getElementById('allcaps').innerHTML=Object.keys(faces).map((f,i)=>{const col=Object.values(C)[i];return `<div style="text-align:center">${cap(col,f,72)}<div style="font-size:14px;color:var(--foam-dim);margin-top:4px">${['C','D','E','G','A','c','d','e'][i]} · ${['glass','wood','rubber'][i%3]}</div></div>`}).join('');
 const games=[['Would You Rather','#FF5FA8','Two sides. Smaller side drinks.'],['Rank It','#FFB81C','Rank 4 things. Furthest from the group drinks.'],["Liar's Prompt",'#5FE0B7','One of you got a different question.'],['Two Truths, One App','#6EC3FF','Spot the fact the app made up.'],['Secret Word','#C49BFF','One of you doesn’t know the word.'],['Fake Answer','#FF8A3D','Write a fake. Fool the room.'],['Reaction Shotgun','#D4FF3A','Wait for the flash. Don’t jump it.'],['Tap Race','#FF4D3D','Tap like your drink depends on it.'],['Spin the Bottle','#4BD866','Dare or Drink.'],['Fill in the Blank','#FFEE55','Funniest answer wins. Fewest votes drinks.'],['Countdown','#8FA2FF','Count to 8 together. No talking.']];
 document.getElementById('cards').innerHTML=games.map(([n,c,r])=>`<div class="tc" style="background:${c}"><svg class="ic" viewBox="-34 -34 68 68"><path d="${CR}" fill="none" stroke="#15100D" stroke-opacity=".25" stroke-width="3"/></svg><div class="n">${n}</div><div class="r">${r}</div></div>`).join('');
+
+// ---------- v2 caps: pattern + eyes + mouth + topper ----------
+const EYES={dots:'<circle cx="-9" cy="-5" r="3.4"/><circle cx="9" cy="-5" r="3.4"/>',
+ hearts:'<path d="M-9 -2 l-4.5 -4.5 a2.6 2.6 0 0 1 4.5 -3 a2.6 2.6 0 0 1 4.5 3z M9 -2 l-4.5 -4.5 a2.6 2.6 0 0 1 4.5 -3 a2.6 2.6 0 0 1 4.5 3z"/>',
+ stars:'<path d="M-9 -10 l1.6 3.4 3.6 .4 -2.7 2.4 .8 3.6 -3.3 -1.9 -3.3 1.9 .8 -3.6 -2.7 -2.4 3.6 -.4z M9 -10 l1.6 3.4 3.6 .4 -2.7 2.4 .8 3.6 -3.3 -1.9 -3.3 1.9 .8 -3.6 -2.7 -2.4 3.6 -.4z"/>',
+ shades:'<path d="M-16 -9 h32 v4 q-4 7 -11 0 h-10 q-7 7 -11 0z"/>',
+ sleepy:'<path d="M-13 -4 q4 4 8 0 M5 -4 q4 4 8 0" fill="none" stroke-width="3" stroke-linecap="round"/>',
+ side:'<circle cx="-9" cy="-5" r="4.6" fill="#F7ECD8" stroke-width="2"/><circle cx="9" cy="-5" r="4.6" fill="#F7ECD8" stroke-width="2"/><circle cx="-6.5" cy="-5" r="2.2"/><circle cx="11.5" cy="-5" r="2.2"/>',
+ spiral:'<path d="M-13 -9 l7 7 M-6 -9 l-7 7 M6 -9 l7 7 M13 -9 l-7 7" stroke-width="2.8" stroke-linecap="round"/>',
+ wink:'<path d="M-13 -5 h8" stroke-width="3.4" stroke-linecap="round"/><circle cx="9" cy="-5" r="3.4"/>'};
+const MOUTH={grin:'<path d="M-11 5 Q0 16 11 5" fill="none" stroke-width="3.4" stroke-linecap="round"/>',
+ tongue:'<path d="M-10 4 Q0 14 10 4z"/><path d="M-3 9 q3 7 6 0" fill="#FF5FA8" stroke-width="2"/>',
+ o:'<ellipse cx="0" cy="9" rx="4" ry="5"/>', smirk:'<path d="M-8 8 Q4 10 11 3" fill="none" stroke-width="3.4" stroke-linecap="round"/>',
+ cat:'<path d="M-9 6 q4.5 5 9 0 q4.5 5 9 0" fill="none" stroke-width="3" stroke-linecap="round"/>',
+ fangs:'<path d="M-10 5 h20" stroke-width="3" stroke-linecap="round"/><path d="M-6 5 l2 5 l2 -5 M2 5 l2 5 l2 -5" fill="#F7ECD8" stroke-width="1.6"/>',
+ kiss:'<path d="M-2 4 q5 2 0 5 q5 2 0 5" fill="none" stroke-width="3" stroke-linecap="round"/>',
+ wobbly:'<path d="M-10 9 q3 -4 5 0 t5 0 t5 0 t5 0" fill="none" stroke-width="3" stroke-linecap="round"/>'};
+const PAT={solid:'',stripes:'<g stroke="#15100D" stroke-opacity=".16" stroke-width="5">'+[-30,-18,-6,6,18,30].map(x=>`<line x1="${x}" y1="-34" x2="${x+20}" y2="34"/>`).join('')+'</g>',
+ polka:'<g fill="#15100D" fill-opacity=".15">'+[[-16,-16],[0,-22],[16,-16],[-22,0],[22,0],[-16,16],[0,22],[16,16]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.6"/>`).join('')+'</g>',
+ sunrays:'<g fill="#15100D" fill-opacity=".14">'+Array.from({length:12},(_,i)=>{const a=i*Math.PI/6,b=a+Math.PI/14;return `<path d="M0 0 L${Math.cos(a)*34} ${Math.sin(a)*34} L${Math.cos(b)*34} ${Math.sin(b)*34}Z"/>`}).join('')+'</g>',
+ split:'<path d="M-34 -34 L34 34 L34 -34Z" fill="#15100D" fill-opacity=".16"/>',
+ checker:'<g fill="#15100D" fill-opacity=".14">'+Array.from({length:49},(_,i)=>{const x=i%7,y=(i/7|0);return (x+y)%2?'':`<rect x="${-35+x*10}" y="${-35+y*10}" width="10" height="10"/>`}).join('')+'</g>'};
+const TOP={none:'',
+ party:'<path d="M-12 -27 L0 -56 L12 -27Z" fill="#FFEE55" stroke="#15100D" stroke-width="3" stroke-linejoin="round"/><path d="M-7 -38 l11 -5 M-4 -46 l7 -3" stroke="#FF5FA8" stroke-width="3"/><circle cx="0" cy="-57" r="4.5" fill="#FF5FA8" stroke="#15100D" stroke-width="2.5"/>',
+ crown:'<path d="M-17 -27 L-19 -47 L-9 -37 L0 -50 L9 -37 L19 -47 L17 -27Z" fill="#FFB81C" stroke="#15100D" stroke-width="3" stroke-linejoin="round"/>',
+ halo:'<ellipse cx="0" cy="-42" rx="17" ry="5.5" fill="none" stroke="#FFEE55" stroke-width="4.5"/>',
+ horns:'<path d="M-18 -24 q-8 -14 -2 -24 q3 12 12 18z M18 -24 q8 -14 2 -24 q-3 12 -12 18z" fill="#FF4D3D" stroke="#15100D" stroke-width="2.6" stroke-linejoin="round"/>',
+ cowboy:'<path d="M-30 -27 q30 10 60 0 q-6 6 -14 6 h-32 q-8 0 -14 -6z" fill="#B9773E" stroke="#15100D" stroke-width="2.6"/><path d="M-14 -28 q2 -18 14 -16 q12 -2 14 16z" fill="#B9773E" stroke="#15100D" stroke-width="2.6"/>',
+ flower:'<g transform="translate(16 -26)" stroke="#15100D" stroke-width="2">'+[0,72,144,216,288].map(a=>`<circle cx="${Math.cos(a*Math.PI/180)*6}" cy="${Math.sin(a*Math.PI/180)*6}" r="5" fill="#FFA6D2"/>`).join('')+'<circle r="4" fill="#FFEE55"/></g>'};
+let uid=0;
+function cap2({color,pat='solid',eyes='dots',mouth='grin',top='none',size=64,init}){
+  const id='c'+(uid++);
+  return `<svg width="${size}" height="${size*1.3}" viewBox="-36 -62 72 98" aria-label="${init||'player'} cap">
+   <defs><clipPath id="${id}"><circle r="27"/></clipPath></defs>
+   <path d="${CR}" fill="${color}" stroke="#15100D" stroke-width="3" stroke-linejoin="round"/>
+   <g clip-path="url(#${id})">${PAT[pat]}</g>
+   <circle r="21" fill="none" stroke="#15100D" stroke-opacity=".22" stroke-width="2.5"/>
+   <g fill="#15100D" stroke="#15100D">${EYES[eyes]}${MOUTH[mouth]}</g>${TOP[top]}</svg>`;
+}
+const PC=['#FF4D3D','#FF8A3D','#FFB38A','#FFB81C','#FFEE55','#D4FF3A','#4BD866','#5FE0B7','#3ED6E0','#6EC3FF','#8FA2FF','#C49BFF','#E07CFF','#FF5FA8','#FFA6D2','#F7ECD8'];
+document.getElementById('bigcap').innerHTML=cap2({color:'#E07CFF',pat:'sunrays',eyes:'stars',mouth:'tongue',top:'party',size:128});
+const taken={0:'Marco',9:'Priya',3:'Jules'};
+document.getElementById('swgrid').innerHTML=PC.map((c,i)=>`<div class="swc${i===12?' sel':''}${taken[i]?' taken':''}" style="background:${c}" aria-label="${taken[i]?'taken by '+taken[i]:'colour'}">${taken[i]?`<span class="who">${cap2({color:c,size:22})}</span>`:''}</div>`).join('');
+document.getElementById('sheetcap').innerHTML=cap2({color:'#FF4D3D',pat:'stripes',eyes:'side',mouth:'smirk',top:'horns',size:40});
+document.getElementById('stickcap').innerHTML=cap2({color:'#6EC3FF',pat:'polka',eyes:'hearts',mouth:'grin',top:'flower',size:40});
+const crew=[{n:'Priya',color:'#6EC3FF',pat:'polka',eyes:'hearts',mouth:'grin',top:'flower',d:'1'},{n:'Marco',color:'#FF4D3D',pat:'stripes',eyes:'side',mouth:'smirk',top:'horns',d:'2'},
+ {n:'Jules',color:'#FFB81C',pat:'checker',eyes:'shades',mouth:'cat',top:'cowboy',d:'5'},{n:'Dee',color:'#4BD866',pat:'split',eyes:'wink',mouth:'kiss',top:'halo',d:'3'},{n:'Sam',color:'#E07CFF',pat:'sunrays',eyes:'stars',mouth:'tongue',top:'party',d:'7'}];
+document.getElementById('bars').innerHTML=crew.slice().sort((a,b)=>a.d-b.d).map(p=>`<div class="bar"><b>${p.n}</b><i style="width:${p.d*24}px;background:${p.color}"></i><span style="font-weight:800">${p.d}</span></div>`).join('');
+document.getElementById('strip2').innerHTML=crew.map(p=>`<div class="capwrap capbob">${cap2({...p,size:42,init:p.n})}</div>`).join('')+'<span class="fly" style="left:6px;bottom:40px;--fx:52px">💌</span>';
+const combos=[['#FF4D3D','stripes','side','smirk','horns'],['#FF8A3D','solid','dots','grin','crown'],['#FFB38A','polka','sleepy','o','halo'],['#FFEE55','checker','spiral','wobbly','none'],
+ ['#D4FF3A','split','shades','fangs','cowboy'],['#5FE0B7','sunrays','hearts','kiss','flower'],['#3ED6E0','solid','wink','cat','party'],['#8FA2FF','stripes','stars','tongue','crown'],
+ ['#C49BFF','polka','side','grin','horns'],['#FFA6D2','solid','hearts','o','flower'],['#F7ECD8','checker','dots','smirk','halo'],['#E07CFF','sunrays','shades','grin','party']];
+document.getElementById('allcaps').innerHTML=combos.map(([color,pat,eyes,mouth,top])=>`<div class="capbob">${cap2({color,pat,eyes,mouth,top,size:70})}</div>`).join('');
+
 // tap bursts on every button
 document.querySelectorAll('.btn,.choice').forEach(el=>el.addEventListener('pointerdown',e=>{
   const r=el.getBoundingClientRect();

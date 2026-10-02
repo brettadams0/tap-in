@@ -195,8 +195,8 @@ type Reject = { kind: 'reject'; reason: 'tooClose' | 'containsWord' | 'invalid' 
 
 **Messages** (a discriminated union on `type`, in `packages/shared`):
 
-- Client → server: `join`, `rejoin`, `ready`, `submit`, `vote`, `tap`, `hostAction` (settings / start / pause / kick / rematch / end), `flag`, `ping`, `resync`
-- Server → client: `state` (full view + `version`), `patch` (`baseVersion → version` diff), `schedule` (`{cue, playAt, data}`), `pong` (`{t0, serverTime}`), `error`
+- Client → server: `join`, `rejoin`, `ready`, `submit`, `vote`, `tap`, `hostAction` (settings / start / pause / kick / rematch / end), `flag`, `ping`, `resync`, plus `avatar` (lobby/results only) and `react {to, reactionId}`
+- Server → client: `state` (full view + `version`), `patch` (`baseVersion → version` diff), `schedule` (`{cue, playAt, data}`), `pong` (`{t0, serverTime}`), `error`, plus `reaction`. The recipient gets the full reaction. Everyone else gets only `{from, to, kind}` (the emoji, or 💌 for a note), so the words of a note never reach a third phone. Reactions are outside game state and versioning and are never stored (DESIGN.md §12).
 - Room creation is `POST /rooms` (returns the code); everything after that goes over WS.
 - **Versioning:** if a client sees `patch.baseVersion !== myVersion`, it sends `resync` and gets a `state`.
 - **Rate limits:** a token bucket per socket (about 20 msgs/s, burst 40) plus per-phase input rules (one submit per step, Countdown taps at most 1 per 250 ms). Input from the wrong phase or step gets an `error` and is ignored.
@@ -272,7 +272,8 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 - [ ] Integration: 5 clients join, host transfer, rejoin restores the view. e2e: create + join by code and by link on both engines.
 
 ### Phase 2: First playable
-- [ ] Design system from DESIGN.md: tokens, fonts, Button, Timer (urgent last 5 s), Avatar, Stamp, TitleCard, banners
+- [ ] Design system from DESIGN.md: tokens, fonts, screen zones (status / content / action / margin), Button, Timer (urgent last 5 s), Stamp, TitleCard, banners
+- [ ] **Cap builder** (DESIGN §11): 16 exclusive colours, 8 patterns, 10×10 faces, 12 toppers, Shuffle, remembered per phone; living caps (idle bob, blink, glance)
 - [ ] Audio: unlock on Join/Ready, synth bank, scheduler (`playAt`), mute/volume, iOS silent-switch notice, tap-to-resume chip
 - [ ] Engine: intro → gameIntro → roundInput → roundReveal → drink → gameOutro → results; rotation; session budget; pause and water break
 - [ ] Drink system: cap (P4), logging, Drink takeover / other-drinks / everyone-drinks moments
@@ -288,10 +289,12 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 
 ### Phase 4: Remaining games
 - [ ] **Rank It** (drag via Motion `Reorder` + tap-to-place, P5), **Tap Race** (local count, server cap of 20/s), **Spin the Bottle** (server-decided, physics-feel easing, dare flow), **Fill in the Blank**, **Countdown** (600 ms server-side collision window, P1)
+- [ ] **Reactions** (DESIGN §12): cap-strip sheet, `react` message, server rate limits + mute lists, recipient queue gated by phase, margin-zone sticker, note privacy leak test
 - [ ] Integration + e2e: one round of all 11 games
 
 ### Phase 5: Content
 - [ ] All 8 banks at their minimums for all 3 spice levels (per Q4), stranger-safety review pass, validator green
+- [ ] Reaction lines bank (kind / funny / flirty, with flirty limited to Spicy+), plus Capn commentary lines
 - [ ] Skip-prompt flag flow (2 flags → skip + log)
 
 ### Phase 6: Polish

@@ -1,7 +1,32 @@
 # Tap In: Design
 
-Status: **proposal, waiting for approval.** No screens get built until this is signed off.
+Status: **approved 2026-10-02** with three changes, now folded in: more avatar customisation (§11), more fun while keeping readability first (§0, §13), and player-to-player reactions (§12).
 Visual preview: [`design/styletile.html`](./design/styletile.html) (open it on your phone).
+
+---
+
+## 0. Priority order (this wins every argument)
+
+1. **Readable.** You can read the prompt, your task, the timer and the result at arm's length in a dim bar, after a few drinks.
+2. **Playable.** You know what to do right now and can do it with one thumb, quickly, without mistakes.
+3. **Fun.** Personality, jokes, bursts, reactions.
+
+When fun gets in the way of 1 or 2, fun loses. In practice:
+
+**Screen zones.** Every play screen has four zones, and nothing decorative is allowed in the first three:
+
+| Zone | Contains | Rule |
+| --- | --- | --- |
+| **Status** (top) | game, round, timer | always visible, never covered |
+| **Content** (middle) | prompt, answers, results | solid surfaces only, no texture or motion behind text |
+| **Action** (bottom third) | your buttons, plus the "Do this now" line | never covered, never moved while you're aiming |
+| **Margin** (edges, gaps, the cap strip) | decoration, mascot, reactions | the only place fun is allowed to live while you're reading or acting |
+
+**Motion budget.** While players are reading or answering:
+- motion is limited to idle cap bobbing and the timer
+- the big fun (slams, floods, confetti) happens **between** phases: title cards, reveals, Drink moments
+
+**Text.** Prompt text never sits on patterns, never animates letter-by-letter, and never shrinks below the spec minimums to make room for decoration.
 
 ---
 
@@ -65,11 +90,13 @@ The dark bar top is the canvas, cream paper is the foreground, and each fluoresc
 
 During a game, its ink fills the **header strip, the timer coaster and the primary button**, so you know which game you're in at a glance. Each game also shows its **name and icon**, so colour is never the only signal.
 
-### Player colours (8 slots, fixed for the whole session)
+### Player colours (16 to choose from, one per player per room)
 
-Red `#FF4D3D` · Sunflower `#FFB81C` · Bottle Green `#4BD866` · Sky `#6EC3FF` · Fluoro Pink `#FF5FA8` · Tangerine `#FF8A3D` · Lilac `#C49BFF` · Foam `#F7ECD8`
+Red `#FF4D3D` · Tangerine `#FF8A3D` · Peach `#FFB38A` · Sunflower `#FFB81C` · Lemon `#FFEE55` · Volt `#D4FF3A` · Green `#4BD866` · Mint `#5FE0B7` · Aqua `#3ED6E0` · Sky `#6EC3FF` · Periwinkle `#8FA2FF` · Lilac `#C49BFF` · Orchid `#E07CFF` · Pink `#FF5FA8` · Bubblegum `#FFA6D2` · Foam `#F7ECD8`
 
-A player is **never** identified by colour alone. Every player has a **cap colour + a face + their name**, and in tight spots an initial is stamped on the cap.
+- **Contrast:** dark ink (faces, initials) on every one of these colours is at least 5.7:1.
+- **Colours are exclusive in a room:** a colour someone else has taken shows their mini-cap on the swatch, so no two players ever share one.
+- **Never colour alone:** every player has a **colour + pattern + face + topper + name**, and in tight spots an initial is stamped on the cap.
 
 ---
 
@@ -103,7 +130,7 @@ A player is **never** identified by colour alone. Every player has a **cap colou
 | --- | --- | --- |
 | **Button** | a cream or ink sticker: 3px ink outline, `4px 4px 0` hard shadow, 18px radius, at least 64px tall | On press the shadow collapses (the sticker "presses into the table"), it squashes `scale(0.96, 0.92)` and pops a halftone burst. All of that happens on `pointerdown`, before any network call (well under 50 ms). |
 | **Card / panel** | a coaster: a `--stout-2` rounded square, or a cream paper card with a slight ±1° tilt | Tilts are random but fixed per card, so it feels hand-placed |
-| **Avatar** | a **bottle cap**: an SVG circle with 21 crimp teeth, in the player's colour, with a face inside | 12 hand-drawn faces (grin, smirk, shook, wink, sleepy, cool…), picked at join. The face reacts: it grimaces when that player has to drink and cheers when they win. |
+| **Avatar** | a **bottle cap**: an SVG circle with 21 crimp teeth, built by the player (§11) | The face reacts to the game: it grimaces when that player has to drink, cheers when they win, and looks over at whoever just locked in. |
 | **Lock-in** | an **ink stamp** that thunks onto the player's cap: "IN!" in Bagel, rotated −8° to +8° | Everyone sees it land on that player's cap in the "4 of 5 locked in" row |
 | **Timer** | a **coaster dial** (a ring that drains) with the seconds in Bagel | Last 5 s: the ring turns `--tap`, the number pulses on every second, and a tick sound plays, getting faster |
 | **Room code** | a **raffle ticket stub** with a perforated edge and big Bagel letters | It appears on Create; the QR sits on the stub |
@@ -237,3 +264,70 @@ Banned words in game copy: amounts, "sip", "shot", "chug", "finish your drink". 
 - State is never shown by colour alone: icons, words, faces and patterns always go with it (e.g. a "reconnecting" cap is greyed **and** shows a plug icon **and** the word "reconnecting").
 - `prefers-reduced-motion` is respected (§5.7).
 - Rotating to landscape shows a friendly "rotate back" screen: Capn tipping over.
+
+---
+
+## 11. Avatar builder: "Build your cap"
+
+Shown right after you enter your name (and from the lobby at any time by tapping your own cap). It's one screen: a big live preview of your cap on top and four tabs underneath, with no scrolling needed on a 360×640 screen.
+
+| Tab | Options | Notes |
+| --- | --- | --- |
+| **Colour** | 16 colours (§2) | Colours other players have taken are marked with their mini-cap |
+| **Pattern** | solid, stripes, polka, checker, starburst, swirl, split two-tone, sunrays (8) | A pattern uses the same colour one shade deeper, so the cap still reads as *your colour* from across the table, and the face stays readable on top |
+| **Face** | eyes (10) × mouths (10) = 100 faces | Hand-drawn SVG parts: eyes like dots, hearts, stars, wink, sleepy, shades, spirals, side-eye, sparkle, big-anime; mouths like grin, smirk, tongue, O, fangs, whistle, wobbly, toothy, cat, kiss |
+| **Topper** | none, party hat, crown, cowboy hat, beanie, flower, devil horns, halo, headphones, bow, chef hat, tiny umbrella drink (12) | Toppers sit *above* the cap, so they never cover the face |
+
+- **🎲 Shuffle:** a big button that rolls a random combo. The cap spins on each roll.
+- **Remembered:** your last cap is saved on this phone and preselected next time.
+- **Edit time:** in the lobby and on the results screen, never mid-game (so a cap never changes while people are reading it).
+- **Uniqueness:** if two players end up with the same face + pattern + topper, nothing breaks. Colour is unique, and the name is always shown.
+- **Reduced motion:** no spin on Shuffle; a quick swap instead.
+
+The 12 toppers also unlock fun moments for free. The crown goes on the round winner's cap for the next round, and the end-screen awards hand out special toppers: "Fastest thumbs" gets a lightning bolt. Earned toppers are **temporary** and float above your chosen one.
+
+---
+
+## 12. Reactions: send someone a little something
+
+Tap any other player's cap in the **cap strip** (the row of caps along the bottom edge of the content zone, which is already on most screens). A small sheet slides up from the bottom with two tabs:
+
+| Emoji (8, one tap) | Notes: Kind | Notes: Funny | Notes: Flirty |
+| --- | --- | --- | --- |
+| 😂 🔥 😘 👏 🫡 😈 🍻 💀 | "You're a legend." | "Absolute menace behaviour." | "Save me a seat next round 😉" |
+| | "Great answer, honestly." | "Who let you cook?? 🍳" | "Okay, you're kind of iconic." |
+| | "Glad you're here!" | "I'm reporting you to the fun police 🚨" | "Your vibe? Immaculate." |
+| | "Carry me, please." | "That was criminal." | "Is it hot in here or is it your answers? 🔥" |
+| | "You make this fun." | "Bold of you. Respect." | "Cheers to you, specifically 🥂" |
+| | "Big main-character energy." | "Not you being the smartest one here." | "You've got the best laugh in the room." |
+
+**Where and when it shows (it never covers important content):**
+
+- **Sending is only allowed when there's time:** lobby, waiting after you've locked in, reveals, someone-else-drinks moments, game outro, results. The cap strip simply isn't tappable while you still owe an answer, during title cards, during speed games (Reaction Shotgun, Tap Race, Countdown) and during your own Drink takeover.
+- **On the receiving phone**, a note arrives as a **sticker in the margin zone**: it slaps onto the edge of the screen just above the cap strip, shows the sender's cap + the line, and peels off after 4 s. Tapping it dismisses it immediately. It is **never** a modal and never overlaps the status, content or action zones. Screens that allow reactions **reserve a 76px reaction lane** (two lines at the 18px body minimum) just above the cap strip (Capn's commentary uses it when it's empty), so a sticker never pushes or covers anything. At most one is shown at a time; extras queue.
+- **If the receiver is busy** (answering, flash games, a Drink moment), the reaction **waits in a queue** and plays when they're free. Anything older than 20 s is dropped, so stale jokes don't land mid-game.
+- **Everyone else's phones** see an emoji fly from the sender's cap to the receiver's cap in the cap strip (in the margin zone, about 600 ms). For notes, others just see a little 💌 fly; the words stay private between the two of you. That's a fun tease, and nobody is embarrassed in front of the room.
+
+**Safety and fairness (strangers, remember):**
+
+- **Fixed lists only:** no free text, so nothing rude can be typed. Lines live in `content/reactions.v1.json`, validated like every other bank and held to the same stranger-safety rules: no appearance, body, or anything that implies touching or meeting up.
+- **Flirty notes** are only offered at **Spicy and Unhinged**. Chill shows Kind + Funny.
+- **Rate limits** (server-enforced): 1 reaction every 3 s per sender, at most 4 per minute to the same person.
+- **Mute:** tap a player's cap and choose **Mute** to block reactions from them. There's also a global "Reactions off" in your own menu, and the host can turn reactions off for the whole room in lobby settings.
+- **Haptic and sound:** a soft "pop" with the sender's personal note, so you know who it's from without looking. No haptics during input phases.
+- **Server path:** reactions go through the server for validation and the rate limit, are never stored, and are not part of game state.
+
+---
+
+## 13. The fun layer (inside the readability rules)
+
+Fun that never costs readability:
+
+- **Living caps:** caps idle-bob a few pixels, blink at random, glance toward whoever just locked in, and nervously sweat while their timer runs out (sweat drops sit in the margin around the cap).
+- **Capn the commentator:** the mascot pops into the margin zone between phases with one-liners such as "Ooh, a tie. Spicy.", "That was fast. Suspiciously fast." and "Somebody's lying…". He never speaks during input phases.
+- **Combo bursts:** two wins in a row adds a 🔥 topper; three gives "ON FIRE" stamped across your cap at the reveal.
+- **Hype interstitials:** the 3 s title card gets a random sticker gag on top (e.g. "Stretch those thumbs", "Hydrate or die-drate"), always below the rule text.
+- **Drink moment variety:** the flood has 4 variants (foam, fizz bubbles, confetti cannon, cap shower), so the 15th Drink still feels fresh. The word is always exactly **DRINK**.
+- **Results screen as a party:** award stickers slap onto caps one by one, then the group photo: every cap in a row, with their earned toppers.
+- **Easter eggs:** tapping Capn 5 times makes him burp a bubble. The lobby cap "bump" (tap your own cap) plays your note, so people will make songs in the lobby.
+
