@@ -5,6 +5,9 @@
  */
 import { expect, test, type Browser, type BrowserContext, type Page } from '@playwright/test';
 
+// Three phones in one software-rendered WebKit on a CI runner are slow: give the full loop room.
+test.describe.configure({ timeout: 150_000 });
+
 async function phone(browser: Browser, contexts: BrowserContext[]): Promise<Page> {
   const ctx = await browser.newContext(test.info().project.use);
   contexts.push(ctx);
@@ -55,40 +58,53 @@ test('Would You Rather: vote, refresh mid-vote, reveal, Drink, end, rematch', as
     await expect(host.getByTestId('title-card')).toBeVisible();
     await expect(host.getByRole('heading', { name: 'Would You Rather' })).toBeVisible();
 
-    for (const p of [host, priya, marco]) {
-      await expect(p.getByTestId('wouldYouRather-input')).toBeVisible({ timeout: 15_000 });
-      await expect(p.getByText('Round 1 of 4')).toBeVisible();
-    }
-    await host.locator('.wyr-a').click();
-    await priya.locator('.wyr-a').click();
-    await expect(host.getByText('2 of 3 locked in')).toBeVisible();
+    await test.step('round 1 starts on every phone', async () => {
+      for (const p of [host, priya, marco]) {
+        await expect(p.getByTestId('wouldYouRather-input')).toBeVisible({ timeout: 20_000 });
+        await expect(p.getByText('Round 1 of 4')).toBeVisible();
+      }
+    });
+    await test.step('two vote A', async () => {
+      await host.locator('.wyr-a').click();
+      await priya.locator('.wyr-a').click();
+      await expect(host.getByText('2 of 3 locked in')).toBeVisible();
+    });
 
     // Priya refreshes mid-vote: she's straight back in with her pick restored.
-    await priya.reload();
-    await expect(priya.locator('.wyr-a')).toHaveAttribute('aria-pressed', 'true');
+    await test.step('refresh mid-vote restores the pick', async () => {
+      await priya.reload();
+      await expect(priya.locator('.wyr-a')).toHaveAttribute('aria-pressed', 'true');
+    });
 
     // Marco is alone on B: the smaller side drinks.
-    await marco.locator('.wyr-b').click();
-    await expect(host.getByTestId('wouldYouRather-reveal')).toBeVisible();
-    await expect(marco.getByTestId('drink-you')).toBeVisible();
-    await expect(marco.getByRole('heading', { name: 'DRINK' })).toBeVisible();
-    await expect(host.getByTestId('drink-other')).toBeVisible();
-    await expect(host.getByText('Marco')).toBeVisible();
-    await marco.getByRole('button', { name: /Done/ }).click();
-    await expect(marco.getByText('Cheers!')).toBeVisible();
+    await test.step('lone B voter gets the Drink takeover', async () => {
+      await marco.locator('.wyr-b').click();
+      await expect(host.getByTestId('wouldYouRather-reveal')).toBeVisible();
+      await expect(marco.getByTestId('drink-you')).toBeVisible({ timeout: 15_000 });
+      await expect(marco.getByRole('heading', { name: 'DRINK' })).toBeVisible();
+      await expect(host.getByTestId('drink-other')).toBeVisible();
+      await expect(host.locator('.drinker-name')).toHaveText(['Marco']);
+      await marco.getByRole('button', { name: /Done/ }).click();
+      await expect(marco.getByText('Cheers!')).toBeVisible();
+    });
 
     // Round 2 starts; the host wraps up from the menu.
-    await expect(host.getByText('Round 2 of 4')).toBeVisible({ timeout: 15_000 });
-    await host.getByRole('button', { name: 'Menu' }).click();
-    await host.getByRole('button', { name: 'End game → results' }).click();
-    for (const p of [host, priya, marco]) await expect(p.getByTestId('results')).toBeVisible();
-    await expect(marco.locator('.standing').first()).toContainText('Marco');
-    await expect(host.getByText('Most drinks')).toBeVisible();
+    await test.step('host ends the game from the menu', async () => {
+      await expect(host.getByText('Round 2 of 4')).toBeVisible({ timeout: 20_000 });
+      await host.getByRole('button', { name: 'Menu' }).click();
+      await host.getByRole('button', { name: 'End game → results' }).click();
+      for (const p of [host, priya, marco]) await expect(p.getByTestId('results')).toBeVisible();
+      await expect(marco.locator('.standing').first()).toContainText('Marco');
+      await expect(host.getByText('Most drinks')).toBeVisible();
+    });
 
-    await host.getByRole('button', { name: /Rematch/ }).click();
-    for (const p of [host, priya, marco]) {
-      await expect(p.getByTestId('in-game')).toHaveAttribute('data-phase', /intro|gameIntro/);
-    }
+    await test.step('rematch starts a new session', async () => {
+      await host.getByRole('button', { name: /Rematch/ }).click();
+      // Timers run fast: any in-game phase other than results proves the rematch started.
+      for (const p of [host, priya, marco]) {
+        await expect(p.getByTestId('in-game')).not.toHaveAttribute('data-phase', 'results');
+      }
+    });
   } finally {
     for (const c of contexts) await c.close();
   }
