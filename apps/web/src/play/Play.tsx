@@ -15,6 +15,7 @@ export default function Play({ conn, view }: { conn: RoomConnection; view: RoomV
   const isHost = view.hostId === view.you.id;
   return (
     <div className="play-root" data-testid="in-game" data-phase={view.phase}>
+      <SoundChips />
       {isHost &&
         view.claims.map((c) => (
           <ClaimPrompt key={c.claimId} conn={conn} claimId={c.claimId} name={c.name} />
@@ -22,7 +23,6 @@ export default function Play({ conn, view }: { conn: RoomConnection; view: RoomV
       <PhaseBody conn={conn} view={view} />
       <OverlayCard conn={conn} view={view} />
       <CornerMenu conn={conn} view={view} />
-      <SoundChips />
     </div>
   );
 }

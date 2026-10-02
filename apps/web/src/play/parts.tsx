@@ -1,5 +1,5 @@
 /** Building blocks for play screens (DESIGN.md §4): header strip, timer dial, lock-in row, chips. */
-import { useState, useSyncExternalStore, type ReactNode } from 'react';
+import { useEffect, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { GAME_META, GAME_NAMES, type GameId, type PlayerView, type RoomView } from '@tap-in/shared';
 import { audio } from '../audio/audio.js';
 import type { RoomConnection } from '../net/connection.js';
@@ -234,14 +234,26 @@ export function CornerMenu({ conn, view }: { conn: RoomConnection; view: RoomVie
   );
 }
 
-/** Shown when iOS suspended audio (lock, refresh) or on first unlock (silent switch notice). */
+/**
+ * Shown when iOS suspended audio (lock, refresh) or on first unlock (silent switch notice).
+ * It sits in the page flow above the screen, so it can never cover a button (DESIGN.md §0).
+ */
 export function SoundChips() {
   const a = useAudio();
+  useEffect(() => {
+    if (!a.silentNotice) return;
+    const t = setTimeout(() => {
+      audio.dismissSilentNotice();
+    }, 8000);
+    return () => {
+      clearTimeout(t);
+    };
+  }, [a.silentNotice]);
   if (a.silentNotice) {
     return (
       <button
         type="button"
-        className="banner sound-chip"
+        className="sound-chip"
         onClick={() => {
           audio.dismissSilentNotice();
         }}
@@ -252,7 +264,7 @@ export function SoundChips() {
   }
   if (a.status !== 'running' && !a.muted) {
     return (
-      <button type="button" className="banner sound-chip" onClick={audio.unlock}>
+      <button type="button" className="sound-chip" onClick={audio.unlock}>
         🔈 Tap for sound
       </button>
     );
