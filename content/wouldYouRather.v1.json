@@ -1,0 +1,558 @@
+{
+  "bank": "wouldYouRather",
+  "version": 1,
+  "entries": [
+    {
+      "id": "wyr-c-001",
+      "spice": "chill",
+      "a": "Have a rewind button for your life",
+      "b": "Have a pause button for your life"
+    },
+    {
+      "id": "wyr-c-002",
+      "spice": "chill",
+      "a": "Always know when someone is lying",
+      "b": "Always get away with lying"
+    },
+    {
+      "id": "wyr-c-003",
+      "spice": "chill",
+      "a": "Only eat pizza forever",
+      "b": "Never eat pizza again"
+    },
+    {
+      "id": "wyr-c-004",
+      "spice": "chill",
+      "a": "Be able to talk to animals",
+      "b": "Speak every human language"
+    },
+    {
+      "id": "wyr-c-005",
+      "spice": "chill",
+      "a": "Have unlimited free flights",
+      "b": "Have unlimited free food"
+    },
+    {
+      "id": "wyr-c-006",
+      "spice": "chill",
+      "a": "Be the funniest person in the room",
+      "b": "Be the smartest person in the room"
+    },
+    {
+      "id": "wyr-c-007",
+      "spice": "chill",
+      "a": "Live in a treehouse",
+      "b": "Live on a houseboat"
+    },
+    {
+      "id": "wyr-c-008",
+      "spice": "chill",
+      "a": "Have a personal theme song that plays when you walk in",
+      "b": "Have a personal laugh track"
+    },
+    {
+      "id": "wyr-c-009",
+      "spice": "chill",
+      "a": "Be famous for something embarrassing",
+      "b": "Be unknown for something amazing"
+    },
+    {
+      "id": "wyr-c-010",
+      "spice": "chill",
+      "a": "Never have to sleep",
+      "b": "Never have to eat"
+    },
+    {
+      "id": "wyr-c-011",
+      "spice": "chill",
+      "a": "Only whisper for a year",
+      "b": "Only shout for a year"
+    },
+    {
+      "id": "wyr-c-012",
+      "spice": "chill",
+      "a": "Time travel to the past",
+      "b": "Time travel to the future"
+    },
+    {
+      "id": "wyr-c-013",
+      "spice": "chill",
+      "a": "Have a dragon",
+      "b": "Be a dragon"
+    },
+    {
+      "id": "wyr-c-014",
+      "spice": "chill",
+      "a": "Be stuck in a lift with a mime",
+      "b": "Be stuck in a lift with a magician"
+    },
+    {
+      "id": "wyr-c-015",
+      "spice": "chill",
+      "a": "Have fingers as long as your legs",
+      "b": "Have legs as long as your fingers"
+    },
+    {
+      "id": "wyr-c-016",
+      "spice": "chill",
+      "a": "Win the lottery",
+      "b": "Live twice as long"
+    },
+    {
+      "id": "wyr-c-017",
+      "spice": "chill",
+      "a": "Have a pet dinosaur the size of a cat",
+      "b": "Have a cat the size of a dinosaur"
+    },
+    {
+      "id": "wyr-c-018",
+      "spice": "chill",
+      "a": "Know every song lyric ever",
+      "b": "Know every movie line ever"
+    },
+    {
+      "id": "wyr-c-019",
+      "spice": "chill",
+      "a": "Sneeze glitter",
+      "b": "Hiccup bubbles"
+    },
+    {
+      "id": "wyr-c-020",
+      "spice": "chill",
+      "a": "Always be 10 minutes late",
+      "b": "Always be 20 minutes early"
+    },
+    {
+      "id": "wyr-c-021",
+      "spice": "chill",
+      "a": "Explore space",
+      "b": "Explore the deep ocean"
+    },
+    {
+      "id": "wyr-c-022",
+      "spice": "chill",
+      "a": "Have a rewind on your last text",
+      "b": "Have a preview of every reply"
+    },
+    {
+      "id": "wyr-c-023",
+      "spice": "chill",
+      "a": "Live without music",
+      "b": "Live without movies"
+    },
+    {
+      "id": "wyr-c-024",
+      "spice": "chill",
+      "a": "Be a famous chef",
+      "b": "Be a famous DJ"
+    },
+    {
+      "id": "wyr-c-025",
+      "spice": "chill",
+      "a": "Fight one horse-sized duck",
+      "b": "Fight a hundred duck-sized horses"
+    },
+    {
+      "id": "wyr-c-026",
+      "spice": "chill",
+      "a": "Have teleportation but only to places you've been",
+      "b": "Have flight but only 10 km/h"
+    },
+    {
+      "id": "wyr-c-027",
+      "spice": "chill",
+      "a": "Eat only sweet food forever",
+      "b": "Eat only salty food forever"
+    },
+    {
+      "id": "wyr-c-028",
+      "spice": "chill",
+      "a": "Have a personal robot butler",
+      "b": "Have a personal stylist"
+    },
+    {
+      "id": "wyr-c-029",
+      "spice": "chill",
+      "a": "Never feel cold again",
+      "b": "Never feel tired again"
+    },
+    {
+      "id": "wyr-c-030",
+      "spice": "chill",
+      "a": "Be the best singer in the world",
+      "b": "Be the best dancer in the world"
+    },
+    {
+      "id": "wyr-c-031",
+      "spice": "chill",
+      "a": "Only wear socks with sandals",
+      "b": "Only wear crocs to fancy events"
+    },
+    {
+      "id": "wyr-c-032",
+      "spice": "chill",
+      "a": "Have your thoughts appear as subtitles",
+      "b": "Have your mood shown as a hat colour"
+    },
+    {
+      "id": "wyr-s-001",
+      "spice": "spicy",
+      "a": "Have your search history read out loud",
+      "b": "Have your camera roll shown on a big screen"
+    },
+    {
+      "id": "wyr-s-002",
+      "spice": "spicy",
+      "a": "Accidentally like an ex's photo from 2015",
+      "b": "Accidentally send a voice note to the wrong group chat"
+    },
+    {
+      "id": "wyr-s-003",
+      "spice": "spicy",
+      "a": "Go on a blind date picked by your mom",
+      "b": "Go on a blind date picked by your best friend"
+    },
+    {
+      "id": "wyr-s-004",
+      "spice": "spicy",
+      "a": "Only flirt using pickup lines",
+      "b": "Only flirt using dad jokes"
+    },
+    {
+      "id": "wyr-s-005",
+      "spice": "spicy",
+      "a": "Kiss a frog for luck",
+      "b": "Get kissed by a stranger on New Year's"
+    },
+    {
+      "id": "wyr-s-006",
+      "spice": "spicy",
+      "a": "Be terrible at kissing and know it",
+      "b": "Be terrible at kissing and not know it"
+    },
+    {
+      "id": "wyr-s-007",
+      "spice": "spicy",
+      "a": "Have your crush read your diary",
+      "b": "Have your parents read your texts"
+    },
+    {
+      "id": "wyr-s-008",
+      "spice": "spicy",
+      "a": "Date someone who talks too much",
+      "b": "Date someone who never texts back"
+    },
+    {
+      "id": "wyr-s-009",
+      "spice": "spicy",
+      "a": "Dance on the bar",
+      "b": "Sing karaoke on the bar"
+    },
+    {
+      "id": "wyr-s-010",
+      "spice": "spicy",
+      "a": "Wake up next to a stranger in Vegas",
+      "b": "Wake up married in Vegas"
+    },
+    {
+      "id": "wyr-s-011",
+      "spice": "spicy",
+      "a": "Send a risky text you can't unsend",
+      "b": "Get a risky text you can't unread"
+    },
+    {
+      "id": "wyr-s-012",
+      "spice": "spicy",
+      "a": "Go skinny dipping at night",
+      "b": "Crash a stranger's wedding"
+    },
+    {
+      "id": "wyr-s-013",
+      "spice": "spicy",
+      "a": "Lose your phone on a night out",
+      "b": "Lose your shoes on a night out"
+    },
+    {
+      "id": "wyr-s-014",
+      "spice": "spicy",
+      "a": "Only date people with terrible taste in music",
+      "b": "Only date people with terrible taste in movies"
+    },
+    {
+      "id": "wyr-s-015",
+      "spice": "spicy",
+      "a": "Have a crush who's a great cook",
+      "b": "Have a crush who's a great dancer"
+    },
+    {
+      "id": "wyr-s-016",
+      "spice": "spicy",
+      "a": "Get caught singing in the shower",
+      "b": "Get caught talking to yourself in the mirror"
+    },
+    {
+      "id": "wyr-s-017",
+      "spice": "spicy",
+      "a": "Be the friend who always gets hit on",
+      "b": "Be the friend who does all the hitting on"
+    },
+    {
+      "id": "wyr-s-018",
+      "spice": "spicy",
+      "a": "Swipe right on everyone for a week",
+      "b": "Swipe left on everyone for a year"
+    },
+    {
+      "id": "wyr-s-019",
+      "spice": "spicy",
+      "a": "Have a first date at a karaoke bar",
+      "b": "Have a first date at a bowling alley"
+    },
+    {
+      "id": "wyr-s-020",
+      "spice": "spicy",
+      "a": "Have a dramatic, movie-style breakup",
+      "b": "Have a ghosting nobody talks about"
+    },
+    {
+      "id": "wyr-s-021",
+      "spice": "spicy",
+      "a": "Wear your date's outfit choice for a night",
+      "b": "Let your date order all your food"
+    },
+    {
+      "id": "wyr-s-022",
+      "spice": "spicy",
+      "a": "Be the worst dancer at a wedding",
+      "b": "Give the worst speech at a wedding"
+    },
+    {
+      "id": "wyr-s-023",
+      "spice": "spicy",
+      "a": "Get a love letter from a secret admirer",
+      "b": "Get a public serenade from a stranger"
+    },
+    {
+      "id": "wyr-s-024",
+      "spice": "spicy",
+      "a": "Forget your date's name mid-date",
+      "b": "Call your date by your ex's name"
+    },
+    {
+      "id": "wyr-s-025",
+      "spice": "spicy",
+      "a": "Have a celebrity crush notice you",
+      "b": "Have your actual crush notice you"
+    },
+    {
+      "id": "wyr-s-026",
+      "spice": "spicy",
+      "a": "Eat a whole ghost pepper on a dare",
+      "b": "Lick a lemon in slow motion while holding eye contact"
+    },
+    {
+      "id": "wyr-s-027",
+      "spice": "spicy",
+      "a": "Be known as the flirt of the group",
+      "b": "Be known as the oblivious one of the group"
+    },
+    {
+      "id": "wyr-s-028",
+      "spice": "spicy",
+      "a": "Text your last flirty message to your boss",
+      "b": "Text your boss's last message to your crush"
+    },
+    {
+      "id": "wyr-s-029",
+      "spice": "spicy",
+      "a": "Go to a party where you know no one",
+      "b": "Go to a party where you know everyone's ex"
+    },
+    {
+      "id": "wyr-s-030",
+      "spice": "spicy",
+      "a": "Have your dance moves go viral",
+      "b": "Have your karaoke go viral"
+    },
+    {
+      "id": "wyr-u-001",
+      "spice": "unhinged",
+      "a": "Fight a goose in public",
+      "b": "Get chased by a swan on camera"
+    },
+    {
+      "id": "wyr-u-002",
+      "spice": "unhinged",
+      "a": "Have to narrate your life out loud for a day",
+      "b": "Have everyone else narrate your life for a day"
+    },
+    {
+      "id": "wyr-u-003",
+      "spice": "unhinged",
+      "a": "Have spaghetti for hair",
+      "b": "Sweat maple syrup"
+    },
+    {
+      "id": "wyr-u-004",
+      "spice": "unhinged",
+      "a": "Be haunted by a ghost that only critiques your outfits",
+      "b": "Be haunted by a ghost that only laughs at your jokes"
+    },
+    {
+      "id": "wyr-u-005",
+      "spice": "unhinged",
+      "a": "Have a tail that wags when you're happy",
+      "b": "Have ears that droop when you're sad"
+    },
+    {
+      "id": "wyr-u-006",
+      "spice": "unhinged",
+      "a": "Burp every time you laugh",
+      "b": "Laugh every time you burp"
+    },
+    {
+      "id": "wyr-u-007",
+      "spice": "unhinged",
+      "a": "Have to speak like a pirate for a month",
+      "b": "Have to speak in rhymes for a month"
+    },
+    {
+      "id": "wyr-u-008",
+      "spice": "unhinged",
+      "a": "Replace all your shoes with roller skates",
+      "b": "Replace all your chairs with yoga balls"
+    },
+    {
+      "id": "wyr-u-009",
+      "spice": "unhinged",
+      "a": "Have a raccoon roommate",
+      "b": "Have a seagull as a best friend"
+    },
+    {
+      "id": "wyr-u-010",
+      "spice": "unhinged",
+      "a": "Only communicate through interpretive dance for a day",
+      "b": "Only communicate through mime for a week"
+    },
+    {
+      "id": "wyr-u-011",
+      "spice": "unhinged",
+      "a": "Have a moose as a wedding guest",
+      "b": "Have a goose as your best man"
+    },
+    {
+      "id": "wyr-u-012",
+      "spice": "unhinged",
+      "a": "Wear a full clown costume to a job interview",
+      "b": "Wear a wedding dress to a hockey game"
+    },
+    {
+      "id": "wyr-u-013",
+      "spice": "unhinged",
+      "a": "Have every door you open play an airhorn",
+      "b": "Have every step you take squeak"
+    },
+    {
+      "id": "wyr-u-014",
+      "spice": "unhinged",
+      "a": "Eat a whole raw onion like an apple",
+      "b": "Drink a cup of pickle juice"
+    },
+    {
+      "id": "wyr-u-015",
+      "spice": "unhinged",
+      "a": "Fight a kangaroo with boxing gloves",
+      "b": "Arm wrestle a gorilla"
+    },
+    {
+      "id": "wyr-u-016",
+      "spice": "unhinged",
+      "a": "Have a permanent clown nose",
+      "b": "Have permanent jazz hands"
+    },
+    {
+      "id": "wyr-u-017",
+      "spice": "unhinged",
+      "a": "Live in a world where cats rule",
+      "b": "Live in a world where geese rule"
+    },
+    {
+      "id": "wyr-u-018",
+      "spice": "unhinged",
+      "a": "Accidentally adopt 40 cats",
+      "b": "Accidentally adopt one very angry swan"
+    },
+    {
+      "id": "wyr-u-019",
+      "spice": "unhinged",
+      "a": "Be followed by a marching band everywhere",
+      "b": "Be followed by a mariachi band everywhere"
+    },
+    {
+      "id": "wyr-u-020",
+      "spice": "unhinged",
+      "a": "Have your voice replaced by a kazoo",
+      "b": "Have your laugh replaced by a dolphin squeak"
+    },
+    {
+      "id": "wyr-u-021",
+      "spice": "unhinged",
+      "a": "Win a hot-dog eating contest",
+      "b": "Win a staring contest against a cat"
+    },
+    {
+      "id": "wyr-u-022",
+      "spice": "unhinged",
+      "a": "Wake up as a Tim Hortons cup",
+      "b": "Wake up as a moose on the 401"
+    },
+    {
+      "id": "wyr-u-023",
+      "spice": "unhinged",
+      "a": "Sneeze confetti forever",
+      "b": "Cry maple syrup forever"
+    },
+    {
+      "id": "wyr-u-024",
+      "spice": "unhinged",
+      "a": "Be a professional cheese taster",
+      "b": "Be a professional pillow fluffer"
+    },
+    {
+      "id": "wyr-u-025",
+      "spice": "unhinged",
+      "a": "Have the Capn mascot as your conscience",
+      "b": "Have a seagull as your life coach"
+    },
+    {
+      "id": "wyr-u-026",
+      "spice": "unhinged",
+      "a": "Only be able to walk backwards",
+      "b": "Only be able to walk sideways like a crab"
+    },
+    {
+      "id": "wyr-u-027",
+      "spice": "unhinged",
+      "a": "Have a beard made of bees",
+      "b": "Have eyebrows made of caterpillars"
+    },
+    {
+      "id": "wyr-u-028",
+      "spice": "unhinged",
+      "a": "Get married in a ball pit",
+      "b": "Get married in a bouncy castle"
+    },
+    {
+      "id": "wyr-u-029",
+      "spice": "unhinged",
+      "a": "Rap every answer at a job interview",
+      "b": "Interpretive-dance every answer at a job interview"
+    },
+    {
+      "id": "wyr-u-030",
+      "spice": "unhinged",
+      "a": "Have toes for fingers",
+      "b": "Have fingers for toes"
+    }
+  ]
+}

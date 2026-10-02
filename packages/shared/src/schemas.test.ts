@@ -20,6 +20,12 @@ describe('client message schemas', () => {
       { type: 'ping', t0: 123.4 },
       { type: 'resync' },
       { type: 'leave' },
+      { type: 'submit', step: 'vote', data: { side: 'a' } },
+      { type: 'ready' },
+      ...['pause', 'resume', 'rematch', 'lobby', 'end'].map((kind) => ({
+        type: 'hostAction',
+        action: { kind },
+      })),
     ];
     for (const msg of valid) expect(parseClientMessage(JSON.stringify(msg)).ok).toBe(true);
   });
@@ -33,6 +39,8 @@ describe('client message schemas', () => {
       JSON.stringify({ type: 'join', name: 'Sam', avatar, admin: true }),
       JSON.stringify({ type: 'rejoin', playerId: '../etc', token: 'a'.repeat(32) }),
       JSON.stringify({ type: 'ping', t0: 'now' }),
+      JSON.stringify({ type: 'submit', step: '', data: 1 }),
+      JSON.stringify({ type: 'ready', extra: 1 }),
       JSON.stringify({
         type: 'hostAction',
         action: { kind: 'settings', settings: { spice: 'nuclear' } },

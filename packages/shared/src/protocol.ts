@@ -5,6 +5,8 @@
 import type { Avatar, CapColor } from './avatar.js';
 import type { RoomSettings } from './settings.js';
 import type { PatchOp } from './diff.js';
+import type { PlayView } from './games.js';
+import type { GameId } from './settings.js';
 
 export const PROTOCOL_VERSION = 1;
 
@@ -51,6 +53,77 @@ export interface RoomView {
   you: { id: PlayerId };
   /** Pending seat claims. Only ever non-empty for the host. */
   claims: ClaimView[];
+  /** Server time the current phase's synced moment lands (title slam, reveal hit, Drink). */
+  phaseAt: number;
+  /** Null in the lobby. */
+  session: SessionView | null;
+}
+
+export type DrinkReason =
+  | 'smallerSide'
+  | 'noVote'
+  | 'early'
+  | 'slowest'
+  | 'noTap'
+  /** Took the drink for a player saved by the 2-in-a-row rule. */
+  | 'covering';
+
+export interface DrinkerView {
+  id: PlayerId;
+  reason: DrinkReason;
+}
+
+export interface DrinkView {
+  drinkers: DrinkerView[];
+  everyone: boolean;
+  /** Why nobody drinks, when nobody does. */
+  nobody: 'balanced' | 'lucky' | 'unanimous' | null;
+  /** Fairness cap: `saved` was excused this round; `by` drinks instead (or nobody). */
+  saves: { saved: PlayerId; by: PlayerId | null }[];
+}
+
+export type OverlayKind = 'paused' | 'water' | 'waiting';
+
+export interface OverlayView {
+  kind: OverlayKind;
+  /** When it lifts on its own, or null (waiting for players). */
+  endsAt: number | null;
+}
+
+export type AwardId = 'mostDrinks' | 'fastestThumbs' | 'cleanRecord';
+
+export interface AwardView {
+  id: AwardId;
+  players: PlayerId[];
+  /** e.g. "5 drinks", "212 ms average". */
+  detail: string;
+}
+
+export interface ResultsView {
+  /** Most drinks first. */
+  standings: { id: PlayerId; drinks: number }[];
+  awards: AwardView[];
+  games: GameId[];
+}
+
+export interface SessionView {
+  /** 1-based game block number. */
+  block: number;
+  gameId: GameId | null;
+  round: number;
+  rounds: number;
+  play: PlayView | null;
+  /** Players in this round. */
+  participants: PlayerId[];
+  /** Participants who have locked in for the current step. */
+  locked: PlayerId[];
+  drink: DrinkView | null;
+  /** Drinkers who tapped Done. */
+  done: PlayerId[];
+  overlay: OverlayView | null;
+  /** Session drink tally. */
+  drinks: Record<PlayerId, number>;
+  results: ResultsView | null;
 }
 
 /** Sent before a socket has an identity, so the client can show Join / Claim / Ended. */
@@ -68,13 +141,25 @@ export type HostAction =
   | { kind: 'settings'; settings: Partial<RoomSettings> }
   | { kind: 'start' }
   | { kind: 'remove'; playerId: PlayerId }
-  | { kind: 'resolveClaim'; claimId: string; approve: boolean };
+  | { kind: 'resolveClaim'; claimId: string; approve: boolean }
+  | { kind: 'pause' }
+  | { kind: 'resume' }
+  /** Results → a fresh session with the same players. */
+  | { kind: 'rematch' }
+  /** Results → back to the lobby to change settings. */
+  | { kind: 'lobby' }
+  /** Wrap up now: finish to the results screen. */
+  | { kind: 'end' };
 
 export type ClientMessage =
   | { type: 'join'; name: string; avatar: Avatar }
   | { type: 'rejoin'; playerId: PlayerId; token: string }
   | { type: 'claim'; playerId: PlayerId }
   | { type: 'avatar'; avatar: Avatar }
+  /** A game input for the current step (validated by that game's schema). */
+  | { type: 'submit'; step: string; data: unknown }
+  /** "Done" after a Drink. */
+  | { type: 'ready' }
   | { type: 'hostAction'; action: HostAction }
   | { type: 'ping'; t0: number }
   | { type: 'resync' }
@@ -94,6 +179,8 @@ export type ErrorCode =
   | 'NOT_ALLOWED'
   | 'NOT_ENOUGH_PLAYERS'
   | 'UNKNOWN_PLAYER'
+  | 'WRONG_STEP'
+  | 'REJECTED'
   | 'ROOM_ENDED';
 
 export type EndReason = 'removed' | 'claimed' | 'expired' | 'left';

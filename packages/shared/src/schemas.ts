@@ -34,6 +34,11 @@ const hostActionSchema = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('start') }),
   z.strictObject({ kind: z.literal('remove'), playerId: id }),
   z.strictObject({ kind: z.literal('resolveClaim'), claimId: id, approve: z.boolean() }),
+  z.strictObject({ kind: z.literal('pause') }),
+  z.strictObject({ kind: z.literal('resume') }),
+  z.strictObject({ kind: z.literal('rematch') }),
+  z.strictObject({ kind: z.literal('lobby') }),
+  z.strictObject({ kind: z.literal('end') }),
 ]);
 
 export const clientMessageSchema = z.discriminatedUnion('type', [
@@ -42,6 +47,9 @@ export const clientMessageSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('claim'), playerId: id }),
   z.strictObject({ type: z.literal('avatar'), avatar: avatarSchema }),
   z.strictObject({ type: z.literal('hostAction'), action: hostActionSchema }),
+  // `data` is checked against the current game's own schema by the engine.
+  z.strictObject({ type: z.literal('submit'), step: z.string().min(1).max(32), data: z.unknown() }),
+  z.strictObject({ type: z.literal('ready') }),
   z.strictObject({ type: z.literal('ping'), t0: z.number() }),
   z.strictObject({ type: z.literal('resync') }),
   z.strictObject({ type: z.literal('leave') }),

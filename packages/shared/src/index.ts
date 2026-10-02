@@ -7,3 +7,5 @@ export * from './protocol.js';
 export * from './rng.js';
 export * from './roomCode.js';
 export * from './settings.js';
+export * from './games.js';
+export * from './rotation.js';
