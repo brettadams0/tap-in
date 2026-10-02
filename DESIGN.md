@@ -292,26 +292,29 @@ The 12 toppers also unlock fun moments for free. The crown goes on the round win
 
 Tap any other player's cap in the **cap strip** (the row of caps along the bottom edge of the content zone, which is already on most screens). A small sheet slides up from the bottom with two tabs:
 
-| Emoji (8, one tap) | Notes: Kind | Notes: Funny | Notes: Flirty |
-| --- | --- | --- | --- |
-| 😂 🔥 😘 👏 🫡 😈 🍻 💀 | "You're a legend." | "Absolute menace behaviour." | "Save me a seat next round 😉" |
-| | "Great answer, honestly." | "Who let you cook?? 🍳" | "Okay, you're kind of iconic." |
-| | "Glad you're here!" | "I'm reporting you to the fun police 🚨" | "Your vibe? Immaculate." |
-| | "Carry me, please." | "That was criminal." | "Is it hot in here or is it your answers? 🔥" |
-| | "You make this fun." | "Bold of you. Respect." | "Cheers to you, specifically 🥂" |
-| | "Big main-character energy." | "Not you being the smartest one here." | "You've got the best laugh in the room." |
+**Emoji (fixed, the 8 most-used, one tap):** 😂 ❤️ 🤣 👍 😭 🙏 😘 🔥
+
+**Notes, three tabs: Kind · Funny · Glaze 🍩** ("Glaze" = laying on the compliments, and yes, it's properly flirty)
+- Each tab shows **4 lines drawn at random** from a big pool (40+ per tab in `content/reactions.v1.json`). They're reshuffled every time the sheet opens, and a **🔀 New lines** button deals 4 more. Lines you've already sent this session are dealt last, so they stay fresh.
+- Pool entries are tagged by spice like every bank: **Chill** gets cheesy-sweet glaze, and **Spicy/Unhinged** add bolder lines. Glaze is still held to the stranger-safety rules: no bodies or appearance, nothing about touching, meeting up, numbers or socials.
+
+| Kind (samples) | Funny (samples) | Glaze (samples) |
+| --- | --- | --- |
+| "You're a legend." | "Absolute menace behaviour." | "Save me a seat next round 😉" |
+| "Glad you're here!" | "Who let you cook?? 🍳" | "Are you the imposter? Because you stole my attention." |
+| "Carry me, please." | "I'm reporting you to the fun police 🚨" | "Is it hot in here or is it just your answers? 🔥" |
+| "You make this fun." | "Not you being the smartest one here." | "Losing to you doesn't even feel bad." |
 
 **Where and when it shows (it never covers important content):**
 
 - **Sending is only allowed when there's time:** lobby, waiting after you've locked in, reveals, someone-else-drinks moments, game outro, results. The cap strip simply isn't tappable while you still owe an answer, during title cards, during speed games (Reaction Shotgun, Tap Race, Countdown) and during your own Drink takeover.
 - **On the receiving phone**, a note arrives as a **sticker in the margin zone**: it slaps onto the edge of the screen just above the cap strip, shows the sender's cap + the line, and peels off after 4 s. Tapping it dismisses it immediately. It is **never** a modal and never overlaps the status, content or action zones. Screens that allow reactions **reserve a 76px reaction lane** (two lines at the 18px body minimum) just above the cap strip (Capn's commentary uses it when it's empty), so a sticker never pushes or covers anything. At most one is shown at a time; extras queue.
 - **If the receiver is busy** (answering, flash games, a Drink moment), the reaction **waits in a queue** and plays when they're free. Anything older than 20 s is dropped, so stale jokes don't land mid-game.
-- **Everyone else's phones** see an emoji fly from the sender's cap to the receiver's cap in the cap strip (in the margin zone, about 600 ms). For notes, others just see a little 💌 fly; the words stay private between the two of you. That's a fun tease, and nobody is embarrassed in front of the room.
+- **Everyone else's phones** see an emoji fly from the sender's cap to the receiver's cap in the cap strip (in the margin zone, about 600 ms). For notes, others just see a little 💌 fly (a 🍩 for Glaze, so the room knows someone's being glazed); the words stay private between the two of you. That's a fun tease, and nobody is embarrassed in front of the room.
 
 **Safety and fairness (strangers, remember):**
 
 - **Fixed lists only:** no free text, so nothing rude can be typed. Lines live in `content/reactions.v1.json`, validated like every other bank and held to the same stranger-safety rules: no appearance, body, or anything that implies touching or meeting up.
-- **Flirty notes** are only offered at **Spicy and Unhinged**. Chill shows Kind + Funny.
 - **Rate limits** (server-enforced): 1 reaction every 3 s per sender, at most 4 per minute to the same person.
 - **Mute:** tap a player's cap and choose **Mute** to block reactions from them. There's also a global "Reactions off" in your own menu, and the host can turn reactions off for the whole room in lobby settings.
 - **Haptic and sound:** a soft "pop" with the sender's personal note, so you know who it's from without looking. No haptics during input phases.

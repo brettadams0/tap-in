@@ -45,7 +45,7 @@ One line per open choice, with the reason. Newest at the bottom of each section.
 | R19 | e2e screenshots run with reduced motion, a fixed seed and scaled timers | Stable baselines |
 | R20 | Priority order: readable > playable > fun. Screens have four zones, and decoration lives only in the margin zone during input phases. | Your direction: readability and playability come first |
 | R21 | Cap builder: 16 colours that are exclusive per room, 8 patterns, 100 faces, 12 toppers, Shuffle; edits only in lobby or results | More self-expression, and a cap never changes while people are reading it |
-| R22 | Reactions come from fixed lists only (8 emoji + kind / funny / flirty notes); flirty only at Spicy and above | Strangers: no free text means nothing nasty can be typed |
+| R22 | Reactions come from fixed lists only: 8 fixed most-used emoji + Kind / Funny / **Glaze** (flirty) notes, with 4 random lines per tab from pools of 40+ and a 🔀 reshuffle; lines are spice-tagged | Your call: fresh options every time. Glaze = flirty, renamed. No free text, so nothing nasty can be typed. |
 | R23 | Reactions can only be sent when the sender has time; delivery waits until the receiver is free and is dropped after 20 s | Reactions must never cover important content or interrupt input |
 | R24 | Emoji reactions are shown to the whole room (they fly cap to cap); the words of a note are private to the recipient (others see 💌) | Social fun without public embarrassment |
 | R25 | Reaction rate limits: 1 per 3 s per sender, at most 4 per minute to the same person; per-player mute; host can turn reactions off for the room | Stops spam and harassment |
