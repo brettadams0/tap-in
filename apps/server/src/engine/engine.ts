@@ -5,9 +5,12 @@
  */
 import {
   cleanName,
+  createRng,
   dedupeName,
   diff,
   firstFreeColor,
+  pickNextGame,
+  SESSION_MINUTES,
   MAX_PLAYERS,
   MIN_ENABLED_GAMES,
   MIN_PLAYERS,
@@ -19,19 +22,37 @@ import {
   type HostAction,
   type PlayerId,
   type PlayerView,
+  type PlayView,
+  type Rng,
+  type RoomPhase,
   type RoomView,
   type ServerMessage,
+  type SessionView,
   type WelcomeInfo,
 } from '@tap-in/shared';
+import { GAMES, isReject, playableGames, type AnyGame, type GameCtx } from '@tap-in/games';
+import { applyFairnessCap, buildResults, drinkersOf } from './drinks.js';
 import { isProfane, parseClientMessage } from '@tap-in/shared/server';
 import { TokenBucket } from './rateLimit.js';
 import {
   CLAIM_TIMEOUT_MS,
+  DRINK_MIN_MS,
+  DRINK_MS,
   GONE_AFTER_MS,
   HOST_TRANSFER_MS,
+  INTRO_MS,
+  LEAD_MS,
+  NOBODY_MS,
+  OUTRO_MS,
+  PAUSE_MS,
   ROOM_EXPIRY_MS,
+  TITLE_MS,
+  WATER_EVERY_MS,
+  WATER_MS,
+  type OverlayState,
   type PlayerRecord,
   type RoomState,
+  type SessionState,
 } from './state.js';
 
 export interface EngineDeps {
@@ -45,7 +66,19 @@ export interface EngineDeps {
   save(state: RoomState): void;
   /** The room expired: wipe persisted state (typed answers must not outlive the room). */
   destroy(): void;
+  /** Multiplies every game and phase duration (e2e and dev run faster). Default 1. */
+  timeScale?: number;
 }
+
+/** Phases where the session is running (pause, end and presence rules apply). */
+const PLAY_PHASES: ReadonlySet<RoomPhase> = new Set([
+  'intro',
+  'gameIntro',
+  'roundInput',
+  'roundReveal',
+  'drink',
+  'gameOutro',
+]);
 
 interface Conn {
   playerId: PlayerId | null;
@@ -159,6 +192,8 @@ export class RoomEngine {
       this.expire();
       return;
     }
+    this.presenceChanged();
+    this.runTimers();
     if (!this.dirty) this.deps.setAlarm(this.nextAlarm());
     this.commit();
   }
@@ -203,6 +238,12 @@ export class RoomEngine {
         return;
       case 'leave':
         this.removePlayer(me.id, 'left');
+        return;
+      case 'submit':
+        this.submit(connId, me, msg.step, msg.data);
+        return;
+      case 'ready':
+        this.drinkDone(me);
         return;
     }
   }
@@ -388,12 +429,45 @@ export class RoomEngine {
           this.error(connId, 'NOT_ENOUGH_PLAYERS', `Need ${MIN_PLAYERS}+ players to start.`);
           return;
         }
-        // Phase 2 replaces this with the synced intro and the game rotation.
-        this.state.phase = 'intro';
-        this.state.phaseEndsAt = null;
-        this.touch();
+        if (playableGames(this.state.settings.games).length === 0) {
+          this.error(connId, 'NOT_ALLOWED', 'None of the games you picked are ready yet.');
+          return;
+        }
+        this.startSession();
         return;
       }
+      case 'pause':
+        if (!PLAY_PHASES.has(this.state.phase) || this.state.session?.overlay) {
+          this.error(connId, 'NOT_ALLOWED', "Can't pause right now.");
+          return;
+        }
+        this.openOverlay('paused', this.ms(PAUSE_MS));
+        return;
+      case 'resume':
+        if (this.state.session?.overlay?.kind === 'paused') this.closeOverlay();
+        return;
+      case 'end':
+        if (!PLAY_PHASES.has(this.state.phase)) {
+          this.error(connId, 'NOT_ALLOWED', 'Nothing to end.');
+          return;
+        }
+        this.showResults();
+        return;
+      case 'rematch':
+        if (this.state.phase !== 'results') {
+          this.error(connId, 'NOT_ALLOWED', 'Finish this session first.');
+          return;
+        }
+        this.startSession();
+        return;
+      case 'lobby':
+        if (this.state.phase !== 'results') {
+          this.error(connId, 'NOT_ALLOWED', 'Finish this session first.');
+          return;
+        }
+        this.state.session = null;
+        this.setPhase('lobby', this.deps.now(), null);
+        return;
       case 'remove': {
         if (action.playerId === me.id) {
           this.error(connId, 'NOT_ALLOWED', "You can't remove yourself.");
@@ -410,6 +484,396 @@ export class RoomEngine {
         this.resolveClaim(action.claimId, action.approve);
         return;
     }
+  }
+
+  // ---------------------------------------------------------------- session flow (PLAN.md §3)
+
+  private ms(duration: number): number {
+    return Math.round(duration * (this.deps.timeScale ?? 1));
+  }
+
+  private setPhase(phase: RoomPhase, at: number, endsAt: number | null): void {
+    this.state.phase = phase;
+    this.state.phaseAt = at;
+    this.state.phaseEndsAt = endsAt;
+    this.touch();
+  }
+
+  /** Runs `fn` with the room's seeded rng and persists the advanced rng state. */
+  private withRng<T>(fn: (rng: Rng) => T): T {
+    const rng = createRng(this.state.rng);
+    const out = fn(rng);
+    this.state.rng = rng.state();
+    return out;
+  }
+
+  private activeIds(): PlayerId[] {
+    return this.seated()
+      .filter((p) => p.status === 'active')
+      .map((p) => p.id);
+  }
+
+  private connectedIds(): PlayerId[] {
+    return this.seated()
+      .filter((p) => p.connected)
+      .map((p) => p.id);
+  }
+
+  private currentGame(): AnyGame | undefined {
+    const id = this.state.session?.gameId;
+    return id ? GAMES[id] : undefined;
+  }
+
+  private gameCtx(session: SessionState, rng: Rng): GameCtx {
+    const gameId = session.gameId;
+    const used = gameId ? (session.used[gameId] ??= []) : [];
+    return {
+      now: this.deps.now(),
+      rng,
+      players: session.participants,
+      connected: this.connectedIds(),
+      spice: this.state.settings.spice,
+      used,
+      ms: (d) => this.ms(d),
+      lead: LEAD_MS,
+    };
+  }
+
+  private startSession(): void {
+    const now = this.deps.now();
+    const drinks: Record<PlayerId, number> = {};
+    for (const p of this.seated()) drinks[p.id] = 0;
+    this.state.session = {
+      startedAt: now,
+      budgetMs: this.ms(SESSION_MINUTES[this.state.settings.length] * 60_000),
+      history: [],
+      gameId: null,
+      game: null,
+      round: 0,
+      rounds: 0,
+      participants: this.activeIds(),
+      used: {},
+      reveal: null,
+      drink: null,
+      done: [],
+      drinks,
+      streak: {},
+      reactionMs: {},
+      lastBreakAt: now,
+      overlay: null,
+      results: null,
+    };
+    const at = now + LEAD_MS;
+    this.setPhase('intro', at, at + this.ms(INTRO_MS));
+  }
+
+  /** Fire every phase deadline that has passed (several can be due at once). */
+  private runTimers(): void {
+    for (let i = 0; i < 20; i++) {
+      const session = this.state.session;
+      const now = this.deps.now();
+      if (session?.overlay) {
+        if (session.overlay.endsAt === null || now < session.overlay.endsAt) return;
+        this.closeOverlay();
+        continue;
+      }
+      if (this.state.phaseEndsAt === null || now < this.state.phaseEndsAt) return;
+      this.advance();
+    }
+  }
+
+  private advance(): void {
+    switch (this.state.phase) {
+      case 'intro':
+      case 'gameOutro':
+        this.nextGame();
+        return;
+      case 'gameIntro':
+        this.startRound();
+        return;
+      case 'roundInput':
+        this.gameTimer();
+        return;
+      case 'roundReveal':
+        this.enterDrink();
+        return;
+      case 'drink':
+        this.afterDrink();
+        return;
+      default:
+        this.state.phaseEndsAt = null;
+        this.touch();
+    }
+  }
+
+  private nextGame(): void {
+    const session = this.state.session;
+    if (!session) return;
+    const now = this.deps.now();
+    const enabled = playableGames(this.state.settings.games);
+    const gameId = this.withRng((rng) => pickNextGame(session.history, enabled, rng));
+    const game = GAMES[gameId];
+    const n = this.activeIds().length;
+    const elapsed = now - session.startedAt;
+    // Never start a block that would overshoot the budget by more than half its length.
+    if (
+      !game ||
+      (session.history.length > 0 && elapsed + this.ms(game.estimateMs(n)) / 2 > session.budgetMs)
+    ) {
+      this.showResults();
+      return;
+    }
+    session.history.push(gameId);
+    session.gameId = gameId;
+    session.round = 0;
+    session.rounds = game.rounds(n);
+    session.participants = this.activeIds();
+    session.reveal = null;
+    session.drink = null;
+    session.game = this.withRng((rng) => game.init(this.gameCtx(session, rng)));
+    const at = now + LEAD_MS;
+    this.setPhase('gameIntro', at, at + this.ms(TITLE_MS));
+  }
+
+  private startRound(): void {
+    const session = this.state.session;
+    const game = this.currentGame();
+    if (!session || !game) return;
+    session.round++;
+    session.participants = this.activeIds();
+    session.reveal = null;
+    session.drink = null;
+    session.done = [];
+    session.game = this.withRng((rng) => game.startRound(session.game, this.gameCtx(session, rng)));
+    this.setPhase('roundInput', this.deps.now(), game.deadline(session.game));
+    this.checkRound();
+  }
+
+  private gameTimer(): void {
+    const session = this.state.session;
+    const game = this.currentGame();
+    if (!session || !game) return;
+    session.game = this.withRng((rng) => game.onTimer(session.game, this.gameCtx(session, rng)));
+    this.state.phaseEndsAt = game.deadline(session.game);
+    this.touch();
+    this.checkRound();
+  }
+
+  /** End the step early when nobody connected is still awaited; reveal once the round is over. */
+  private checkRound(): void {
+    const session = this.state.session;
+    const game = this.currentGame();
+    if (!session || !game || this.state.phase !== 'roundInput' || session.overlay) return;
+    for (let i = 0; i < 10; i++) {
+      if (game.roundOver(session.game)) {
+        this.enterReveal();
+        return;
+      }
+      const connected = new Set(this.connectedIds());
+      const waitingOn = game.awaiting(session.game).filter((p) => connected.has(p));
+      if (waitingOn.length > 0 || !game.endsEarly(session.game)) return;
+      session.game = this.withRng((rng) => game.onTimer(session.game, this.gameCtx(session, rng)));
+      this.state.phaseEndsAt = game.deadline(session.game);
+      this.touch();
+    }
+  }
+
+  private enterReveal(): void {
+    const session = this.state.session;
+    const game = this.currentGame();
+    if (!session || !game) return;
+    const result = this.withRng((rng) => game.result(session.game, this.gameCtx(session, rng)));
+    const { drink, streak } = applyFairnessCap(result, session.participants, session.streak);
+    session.reveal = result.reveal;
+    session.drink = drink;
+    session.streak = streak;
+    for (const [id, stat] of Object.entries(result.stats ?? {})) {
+      if (stat.reactionMs !== undefined) (session.reactionMs[id] ??= []).push(stat.reactionMs);
+    }
+    const at = this.deps.now() + LEAD_MS;
+    this.setPhase('roundReveal', at, at + this.ms(game.revealMs(session.participants.length)));
+  }
+
+  private enterDrink(): void {
+    const session = this.state.session;
+    if (!session?.drink) return;
+    for (const id of drinkersOf(session.drink, session.participants)) {
+      session.drinks[id] = (session.drinks[id] ?? 0) + 1;
+    }
+    session.done = [];
+    const at = this.deps.now() + LEAD_MS;
+    const hold = session.drink.nobody ? NOBODY_MS : DRINK_MS;
+    this.setPhase('drink', at, at + this.ms(hold));
+  }
+
+  /** A drinker tapped Done: once every connected drinker has, move on (after a short hold). */
+  private drinkDone(me: PlayerRecord): void {
+    const session = this.state.session;
+    if (this.state.phase !== 'drink' || !session?.drink || session.overlay) return;
+    const drinkers = drinkersOf(session.drink, session.participants);
+    if (!drinkers.includes(me.id) || session.done.includes(me.id)) return;
+    session.done.push(me.id);
+    this.touch();
+    const connected = new Set(this.connectedIds());
+    if (drinkers.every((id) => session.done.includes(id) || !connected.has(id))) {
+      const earliest = Math.max(this.deps.now() + 400, this.state.phaseAt + this.ms(DRINK_MIN_MS));
+      this.state.phaseEndsAt = Math.min(this.state.phaseEndsAt ?? earliest, earliest);
+    }
+  }
+
+  private afterDrink(): void {
+    const session = this.state.session;
+    if (!session) return;
+    const now = this.deps.now();
+    if (now - session.lastBreakAt >= this.ms(WATER_EVERY_MS)) {
+      session.lastBreakAt = now;
+      this.state.phaseEndsAt = null;
+      this.openOverlay('water', this.ms(WATER_MS));
+      return;
+    }
+    this.nextRoundOrOutro();
+  }
+
+  private nextRoundOrOutro(): void {
+    const session = this.state.session;
+    if (!session) return;
+    if (session.round < session.rounds) {
+      this.startRound();
+      return;
+    }
+    const now = this.deps.now();
+    this.setPhase('gameOutro', now, now + this.ms(OUTRO_MS));
+  }
+
+  private showResults(): void {
+    const session = this.state.session;
+    if (!session) return;
+    session.overlay = null;
+    session.results = buildResults(
+      this.seated().map((p) => p.id),
+      session.drinks,
+      session.reactionMs,
+      session.history,
+    );
+    this.setPhase('results', this.deps.now() + LEAD_MS, null);
+  }
+
+  /** Freeze the current phase (pause, water break, waiting for players). */
+  private openOverlay(kind: OverlayState['kind'], duration: number | null): void {
+    const session = this.state.session;
+    if (!session) return;
+    const now = this.deps.now();
+    session.overlay = {
+      kind,
+      startedAt: now,
+      endsAt: duration === null ? null : now + duration,
+      remaining: this.state.phaseEndsAt === null ? null : Math.max(0, this.state.phaseEndsAt - now),
+    };
+    this.state.phaseEndsAt = null;
+    this.touch();
+  }
+
+  /** Resume with every deadline shifted by the time spent frozen. */
+  private closeOverlay(): void {
+    const session = this.state.session;
+    const overlay = session?.overlay;
+    if (!session || !overlay) return;
+    const now = this.deps.now();
+    session.overlay = null;
+    this.touch();
+    if (overlay.remaining === null) {
+      // Frozen between phases (water break after a Drink): carry on to the next round.
+      if (this.state.phase === 'drink') this.nextRoundOrOutro();
+      return;
+    }
+    const delta = now - overlay.startedAt;
+    const game = this.currentGame();
+    if (this.state.phase === 'roundInput' && game) session.game = game.shift(session.game, delta);
+    this.state.phaseAt += delta;
+    this.state.phaseEndsAt = now + overlay.remaining;
+    this.checkRound();
+  }
+
+  /** Presence moved: wait for players below the minimum, resume above it, end steps early. */
+  private presenceChanged(): void {
+    const session = this.state.session;
+    if (!session || !PLAY_PHASES.has(this.state.phase)) return;
+    // Below the minimum, or nobody connected at all (the room's Wi-Fi dropped): freeze.
+    const enough = this.activeIds().length >= MIN_PLAYERS && this.connectedIds().length > 0;
+    if (!enough && !session.overlay) this.openOverlay('waiting', null);
+    else if (!enough && session.overlay && session.overlay.kind !== 'waiting') {
+      // Swap a pause or water break for "waiting", keeping the frozen timer.
+      session.overlay = { ...session.overlay, kind: 'waiting', endsAt: null };
+      this.touch();
+    } else if (enough && session.overlay?.kind === 'waiting') this.closeOverlay();
+    this.checkRound();
+  }
+
+  private submit(connId: string, me: PlayerRecord, step: string, data: unknown): void {
+    const session = this.state.session;
+    const game = this.currentGame();
+    if (this.state.phase !== 'roundInput' || !session || !game || session.overlay) {
+      this.error(connId, 'WRONG_STEP', 'Not now.');
+      return;
+    }
+    if (game.step(session.game) !== step || !session.participants.includes(me.id)) {
+      this.error(connId, 'WRONG_STEP', 'Not now.');
+      return;
+    }
+    const parsed = game.inputSchema.safeParse(data);
+    if (!parsed.success) {
+      this.error(connId, 'BAD_MESSAGE', 'Invalid input.');
+      return;
+    }
+    const next = this.withRng((rng) =>
+      game.onInput(session.game, me.id, parsed.data, this.gameCtx(session, rng)),
+    );
+    if (isReject(next)) {
+      this.error(connId, 'REJECTED', next.reject);
+      return;
+    }
+    session.game = next;
+    this.touch();
+    this.checkRound();
+  }
+
+  private sessionView(session: SessionState, playerId: PlayerId): SessionView {
+    const phase = this.state.phase;
+    const game = this.currentGame();
+    const inGame =
+      game !== undefined &&
+      (phase === 'gameIntro' ||
+        phase === 'roundInput' ||
+        phase === 'roundReveal' ||
+        phase === 'drink' ||
+        phase === 'gameOutro');
+    const showReveal = phase === 'roundReveal' || phase === 'drink';
+    const play = inGame
+      ? ({
+          gameId: game.id,
+          step: game.step(session.game),
+          pub: game.publicView(session.game),
+          me: game.privateView(session.game, playerId),
+          reveal: showReveal ? session.reveal : null,
+        } as PlayView)
+      : null;
+    const awaiting = phase === 'roundInput' && game ? game.awaiting(session.game) : null;
+    return {
+      block: session.history.length,
+      gameId: inGame ? game.id : null,
+      round: session.round,
+      rounds: session.rounds,
+      play,
+      participants: [...session.participants],
+      locked: awaiting ? session.participants.filter((p) => !awaiting.includes(p)) : [],
+      drink: phase === 'drink' ? session.drink : null,
+      done: [...session.done],
+      overlay: session.overlay
+        ? { kind: session.overlay.kind, endsAt: session.overlay.endsAt }
+        : null,
+      drinks: { ...session.drinks },
+      results: phase === 'results' ? session.results : null,
+    };
   }
 
   // ---------------------------------------------------------------- state helpers
@@ -433,6 +897,7 @@ export class RoomEngine {
     this.state.claims = this.state.claims.filter((c) => c.playerId !== playerId);
     if (this.state.hostId === playerId) this.transferHost();
     this.updateEmpty();
+    this.presenceChanged();
     this.touch();
   }
 
@@ -454,6 +919,7 @@ export class RoomEngine {
     ) {
       this.transferHost();
     }
+    this.presenceChanged();
     this.touch();
   }
 
@@ -465,6 +931,7 @@ export class RoomEngine {
     player.connectedSince = null;
     player.disconnectedAt = this.deps.now();
     this.updateEmpty();
+    this.presenceChanged();
     this.touch();
   }
 
@@ -517,6 +984,7 @@ export class RoomEngine {
     for (const c of s.claims) times.push(c.at + CLAIM_TIMEOUT_MS);
     if (s.emptySince !== null) times.push(s.emptySince + ROOM_EXPIRY_MS);
     if (s.phaseEndsAt !== null) times.push(s.phaseEndsAt);
+    if (s.session?.overlay?.endsAt != null) times.push(s.session.overlay.endsAt);
     // Only future deadlines: a passed one with nothing to do must not re-fire forever.
     const now = this.deps.now();
     const future = times.filter((t) => t > now);
@@ -591,6 +1059,8 @@ export class RoomEngine {
               name: this.player(c.playerId)?.name ?? '?',
             }))
           : [],
+      phaseAt: s.phaseAt,
+      session: s.session ? this.sessionView(s.session, playerId) : null,
     };
   }
 

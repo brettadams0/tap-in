@@ -41,6 +41,9 @@ importers:
 
   apps/server:
     dependencies:
+      '@tap-in/games':
+        specifier: workspace:*
+        version: link:../../packages/games
       '@tap-in/shared':
         specifier: workspace:*
         version: link:../../packages/shared

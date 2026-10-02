@@ -75,9 +75,10 @@ export class Harness {
   private seq = 0;
   private idSeq = 0;
 
-  constructor() {
-    const state = createRoomState('KZRP', this.time, 'seed');
+  constructor(opts: { seed?: string; timeScale?: number } = {}) {
+    const state = createRoomState('KZRP', this.time, opts.seed ?? 'seed');
     this.engine = new RoomEngine(state, {
+      timeScale: opts.timeScale ?? 1,
       now: () => this.time,
       randomId: (bytes) => `id${++this.idSeq}`.padEnd(Math.max(bytes, 16), 'x'),
       send: (connId, msg) => this.clients.get(connId)?.receive(structuredClone(msg)),
@@ -119,5 +120,15 @@ export class Harness {
       this.engine.alarm();
     }
     this.time = target;
+  }
+
+  /** Step the clock in small slices until `done()` holds (fails after `maxMs`). */
+  until(done: () => boolean, maxMs = 120_000, step = 50): void {
+    let spent = 0;
+    while (!done()) {
+      if (spent > maxMs) throw new Error('until(): condition never held');
+      this.advance(step);
+      spent += step;
+    }
   }
 }

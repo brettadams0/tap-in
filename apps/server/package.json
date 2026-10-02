@@ -13,6 +13,7 @@
     "test": "vitest run --coverage && vitest run --config vitest.workers.config.ts"
   },
   "dependencies": {
+    "@tap-in/games": "workspace:*",
     "@tap-in/shared": "workspace:*"
   },
   "devDependencies": {

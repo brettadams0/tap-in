@@ -17,6 +17,8 @@ export interface NodeServerOptions {
   now?: () => number;
   /** When false, alarms only fire via runDueAlarms() (fake-time tests). */
   realTimers?: boolean;
+  /** Speeds up every game timer (e2e). Default 1. */
+  timeScale?: number;
 }
 
 interface NodeRoom {
@@ -110,6 +112,7 @@ export class NodeRoomServer {
     };
     room.engine = new RoomEngine(state, {
       now: this.now,
+      timeScale: this.opts.timeScale ?? 1,
       randomId,
       send: (connId, msg) => {
         const ws = room.sockets.get(connId);
