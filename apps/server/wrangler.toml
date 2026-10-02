@@ -5,7 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 workers_dev = true
 
 [vars]
-ALLOWED_ORIGINS = "https://tap-in.vercel.app,http://localhost:5173,http://localhost:4173"
+ALLOWED_ORIGINS = "https://tap-in-omega.vercel.app,https://tap-in.vercel.app,http://localhost:5173,http://localhost:4173"
 
 [[durable_objects.bindings]]
 name = "ROOMS"
