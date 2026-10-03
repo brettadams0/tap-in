@@ -9,6 +9,8 @@ export type CueSound =
   | 'intro'
   | 'sting'
   | 'tick'
+  /** An answer lands in Liar's Prompt's synced show. */
+  | 'land'
   | 'reveal'
   | 'drinkYou'
   | 'drinkOther'
@@ -62,6 +64,15 @@ export function cuesFor(view: RoomView): Cue[] {
             sound: 'flash',
             vibrate: [70],
           });
+      } else if (play?.gameId === 'liarsPrompt' && play.step === 'show') {
+        // Each answer lands in sync, in the answerer's own voice; no countdown ticks here.
+        const { showAt, showEach, answers } = play.pub;
+        if (showAt !== null && s.overlay === null) {
+          (answers ?? []).forEach((a, i) => {
+            const t = showAt + i * showEach;
+            cues.push({ key: `land:${t}`, at: t, sound: 'land', seat: seatOf(a.id) });
+          });
+        }
       } else if (view.phaseEndsAt !== null && s.overlay === null) {
         for (const before of TICKS) {
           const t = view.phaseEndsAt - before;
@@ -76,7 +87,10 @@ export function cuesFor(view: RoomView): Cue[] {
     case 'drink': {
       const d = s.drink;
       if (!d) break;
-      if (d.everyone) {
+      if (d.everyone && d.spared?.ids.includes(me)) {
+        // Got away with it: the room drinks, this phone cheers quietly.
+        cues.push({ key: `spared:${at}`, at, sound: 'cheer', private: true });
+      } else if (d.everyone) {
         cues.push({ key: `everyone:${at}`, at, sound: 'everyone', vibrate: [60, 40, 60, 40, 120] });
       } else if (d.drinkers.some((x) => x.id === me)) {
         cues.push({

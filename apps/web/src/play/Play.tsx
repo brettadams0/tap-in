@@ -4,7 +4,11 @@ import { useCues } from '../audio/useCues.js';
 import type { RoomConnection } from '../net/connection.js';
 import { ClaimPrompt } from '../screens/Lobby.js';
 import '../styles/play.css';
+import { FakeInput, FakeReveal } from './games/FakeAnswer.js';
+import { LiarInput, LiarReveal } from './games/LiarsPrompt.js';
 import { ShotgunInput, ShotgunReveal } from './games/ReactionShotgun.js';
+import { SecretInput, SecretReveal } from './games/SecretWord.js';
+import { TruthsInput, TruthsReveal } from './games/TwoTruths.js';
 import { WyrInput, WyrReveal } from './games/WouldYouRather.js';
 import { DrinkMoment, Intro, OverlayCard, Outro, TitleCard } from './moments.js';
 import { CornerMenu, HeaderStrip, inkOf, SoundChips } from './parts.js';
@@ -44,6 +48,7 @@ function PhaseBody({ conn, view }: { conn: RoomConnection; view: RoomView }) {
           className={`screen play play-${play.gameId}${reveal ? ' is-reveal' : ''}`}
           style={{ ['--accent' as string]: inkOf(play.gameId) }}
           data-testid={`${play.gameId}-${reveal ? 'reveal' : 'input'}`}
+          data-step={play.step}
         >
           <HeaderStrip conn={conn} view={view} timer={play.gameId !== 'reactionShotgun'} />
           {play.gameId === 'wouldYouRather' &&
@@ -57,6 +62,30 @@ function PhaseBody({ conn, view }: { conn: RoomConnection; view: RoomView }) {
               <ShotgunReveal conn={conn} view={view} play={play} />
             ) : (
               <ShotgunInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'liarsPrompt' &&
+            (reveal ? (
+              <LiarReveal conn={conn} view={view} play={play} />
+            ) : (
+              <LiarInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'secretWord' &&
+            (reveal ? (
+              <SecretReveal conn={conn} view={view} play={play} />
+            ) : (
+              <SecretInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'twoTruths' &&
+            (reveal ? (
+              <TruthsReveal conn={conn} view={view} play={play} />
+            ) : (
+              <TruthsInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'fakeAnswer' &&
+            (reveal ? (
+              <FakeReveal conn={conn} view={view} play={play} />
+            ) : (
+              <FakeInput conn={conn} view={view} play={play} />
             ))}
         </main>
       );

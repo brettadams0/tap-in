@@ -11,8 +11,11 @@ import { Lobby } from './Lobby.js';
 // The game screens, audio and their CSS load only once a session starts.
 const Play = lazy(() => import('../play/Play.js'));
 
-/** Errors the screens already explain in place; everything else becomes a toast. */
-const SILENT = new Set(['BAD_TOKEN', 'ROOM_ENDED', 'RATE_LIMITED']);
+/**
+ * Errors the screens already explain in place; everything else becomes a toast. A game's
+ * rejection ("Too close, try again.") shows right under the input that caused it.
+ */
+const SILENT = new Set(['BAD_TOKEN', 'ROOM_ENDED', 'RATE_LIMITED', 'REJECTED']);
 
 export function Room({ code }: { code: string }) {
   const { conn, room } = useRoom(code);
