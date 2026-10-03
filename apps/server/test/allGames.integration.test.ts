@@ -82,11 +82,11 @@ describe('every game over real WebSockets', () => {
       expect(dropped).toBe(true);
       host.send({ type: 'hostAction', action: { kind: 'end' } });
       for (const p of phones) await p.until((x) => x.view?.phase === 'results', 5000);
-      const results = host.view?.session?.results;
+      const results = host.view.session?.results;
       expect(results?.standings).toHaveLength(5);
       expect(results?.games).toEqual([gameId]);
       // Every phone agrees on the final tally.
-      for (const p of phones) expect(p.view?.session?.drinks).toEqual(host.view?.session?.drinks);
+      for (const p of phones) expect(p.view?.session?.drinks).toEqual(host.view.session?.drinks);
       for (const p of phones) await p.close();
     }, 90_000);
   }

@@ -10,7 +10,7 @@ const COLORS = ['red', 'sky', 'green', 'pink', 'lemon'] as const;
 
 describe('reconnect mid-input, mid-reveal and mid-Drink, in every game', () => {
   for (const gameId of GAME_IDS) {
-    it(`${gameId}`, () => {
+    it(gameId, () => {
       const h = new Harness({ seed: `reconnect-${gameId}` });
       const players = COLORS.map((c, i) => h.join(`P${i + 1}`, c));
       const host = players[0] as FakeClient;
