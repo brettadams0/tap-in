@@ -1,5 +1,29 @@
 # Progress
 
+## Phase 7: Hardening (v1 code complete; the real-device sign-off is yours)
+
+**Works**
+
+- **A bug fixed that could freeze a live game:** a message that landed just after a phase deadline, before its alarm fired, replaced the alarm, and the room sat on that screen until something else woke it. The engine now catches up on every due timer before each message and disconnect (M1). The new real-socket test found it, and a regression test now covers it.
+- **Chaos:** every game, two seeds each, with random drops and rejoins in every phase, the host vanishing for 30 s+, and a mid-round restart from saved state (a deploy). Every step checks each phone's view against the server, and every run reaches the results.
+- **Reconnects:** in every game, a phone refreshed mid-input, mid-reveal or mid-Drink comes back to the identical screen with its private info.
+- **Every game over real sockets:** 5 WebSocket phones auto-play a whole block of each game to the results, with a drop and a rejoin.
+- **E2E:** the full 5-phone happy path (create, join by code and by link, one round of all 11 games, results, rematch). It uses test-only server hooks (`TAPIN_TEST_MODE`, never in production). Visual baselines cover the home screen and every title card (Chromium). The suite runs on WebKit + Chromium in CI and against production after each deploy.
+- **Budgets in CI:** initial JS 83 KB gzipped (gate: 200 KB). Lighthouse mobile on simulated 4G: Performance 99–100, Accessibility 100, Best Practices 100, TTI 1.5–1.9 s (gates: 90 / 95 / 95 / 2.5 s). Broadcast < 150 ms.
+- **Tests:** 38 shared, 103 games, 121 server (in-memory, real sockets, chaos) + 5 workerd, 17 web unit, and 28 Playwright tests per engine.
+- **Docs:** README (setup, env vars incl. the test hook, deploy, budgets), CREDITS, DECISIONS (M1–M8), TESTING, PLAN, HANDOFF; SPEC's definition of done ticked except the two items only real phones can prove.
+
+**Needs you**
+
+- **The real-device sign-off** (TESTING.md, "final real-device checklist"): one iPhone and one Android in one room, a whole session. It's the only way to prove audio unlock, synced sound, haptics, wake lock and dim-room readability. Those are the two unticked definition-of-done items.
+
+**Known issues / notes**
+
+- WebKit has no visual baselines (the sandbox can't render WebKit); WebKit still runs every functional e2e in CI and production.
+- Countdown's ding plays when the patch arrives, so it can trail the tap on other phones by a network hop.
+
+**Next:** your real-phone party test, then fixes for whatever it finds.
+
 ## Phase 6: Polish (code complete; real-phone test pending)
 
 **Works**
@@ -24,7 +48,7 @@
 
 - The 60 fps numbers come from headless Chromium in the sandbox; a DevTools trace on a real mid-range Android is part of the real-device checklist.
 
-**Next: Phase 7, hardening** (chaos tests, full 5-phone e2e, visual baselines, Lighthouse and bundle gates, final docs).
+**Next: Phase 7, hardening** (done, see above).
 
 ## Phase 5: Content (code complete; real-phone test pending)
 

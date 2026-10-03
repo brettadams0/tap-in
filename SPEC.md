@@ -401,12 +401,14 @@ At the end of each phase, update `PROGRESS.md` with what works, what's next and 
 
 **Definition of done (v1)**
 
-- [ ] All 11 games are playable end to end by 5 phones from a single production URL.
+- [x] All 11 games are playable end to end by 5 phones from a single production URL.
 - [ ] Works in iOS Safari and Android Chrome with no install and no login.
-- [ ] Refreshing or locking a phone at any moment rejoins into the correct phase.
-- [ ] No shared screen is needed at any point.
-- [ ] Every Drink moment shows only the word **Drink** and respects the fairness cap.
+- [x] Refreshing or locking a phone at any moment rejoins into the correct phase.
+- [x] No shared screen is needed at any point.
+- [x] Every Drink moment shows only the word **Drink** and respects the fairness cap.
 - [ ] Every state change is animated, every key moment has a matching sound, and synced sounds land together.
-- [ ] Private information never reaches another player's device.
-- [ ] Unit, integration and e2e suites pass in CI, and performance budgets are met.
-- [ ] Production deploy is live, with `README.md` (setup, env vars, deploy), `DECISIONS.md`, `TESTING.md`, `CREDITS.md` and `PROGRESS.md` complete.
+- [x] Private information never reaches another player's device.
+- [x] Unit, integration and e2e suites pass in CI, and performance budgets are met.
+- [x] Production deploy is live, with `README.md` (setup, env vars, deploy), `DECISIONS.md`, `TESTING.md`, `CREDITS.md` and `PROGRESS.md` complete.
+
+_Status 2026-10-03:_ the two open items are built and pass on emulated WebKit (iPhone 14) and Chromium (Pixel 7) in CI and against production; they're ticked after the real-device checklist in `TESTING.md` (an iPhone and an Android in one room).

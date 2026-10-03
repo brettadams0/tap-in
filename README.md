@@ -43,7 +43,14 @@ pnpm format:check    # Prettier
 pnpm typecheck
 pnpm test            # unit + real-socket integration + workerd Durable Object tests, with coverage gates
 pnpm e2e             # Playwright: 5 phones on WebKit (iPhone 14) + Chromium (Pixel 7)
+pnpm --filter @tap-in/web build && pnpm --filter @tap-in/web size   # bundle gate: initial JS < 200 KB gzipped
+npx -y @lhci/cli@0.14.0 autorun   # Lighthouse budgets on the built client (needs a Chrome; CHROME_PATH=…)
 ```
+
+- In the Claude cloud sandbox: `PW_CHROMIUM_PATH=/opt/pw-browsers/chromium PW_SKIP_WEBKIT=1 pnpm e2e` (WebKit runs in CI).
+- `E2E_TIME_SCALE=1` runs the e2e with real timers, like the production run (`e2e-prod.yml`).
+- Visual baselines (`apps/web/e2e/visual.spec.ts-snapshots/`, Chromium) are updated after an intended visual change with `pnpm --filter @tap-in/web exec playwright test e2e/visual.spec.ts --update-snapshots`.
+- CI (`ci.yml`) runs all of the above on every push and PR; after a deploy, `e2e-prod.yml` plays the suite against the live site.
 
 ## Environment variables
 
@@ -56,6 +63,7 @@ pnpm e2e             # Playwright: 5 phones on WebKit (iPhone 14) + Chromium (Pi
 | GitHub Actions variable       | `SERVER_URL`              | Same as `VITE_SERVER_URL`; used for the post-deploy health check                                                            |
 | Local dev (Node adapter)      | `PORT`, `ALLOWED_ORIGINS` | Defaults: `8787`, `*`                                                                                                       |
 | Local dev / e2e (Node only)   | `TIME_SCALE`              | Speeds up game timers, e.g. `0.4` (e2e default). Never set in production.                                                   |
+| e2e (Node only)               | `TAPIN_TEST_MODE`         | `1` enables test hooks: `POST /rooms?roundsPerGame=1&timeScale=1`. The Node server refuses to start with it in production.  |
 
 No secrets ever go into the client bundle.
 
