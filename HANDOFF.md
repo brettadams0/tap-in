@@ -2,14 +2,15 @@
 
 For the next Claude session. Read this first, then `SPEC.md` (the source of truth), `PLAN.md` (phase task lists) and `DECISIONS.md`.
 
-_Last updated 2026-10-03, end of phase 3._
+_Last updated 2026-10-03, end of phase 4._
 
 ## Where things stand
 
-- **Phases 1–3 are code-complete and merged to `main`.**
+- **Phases 1–4 are code-complete and merged to `main`. All 11 games are playable.**
   - Phase 1: lobby, rejoin, seat claims, clock sync.
   - Phase 2: the session loop, the Drink system, audio, and two games: **Would You Rather** and **Reaction Shotgun**.
   - Phase 3: the deception games **Liar's Prompt**, **Secret Word**, **Two Truths, One App** and **Fake Answer**, the text kit (`packages/games/src/kit/`), profanity tiers, the "everyone except…" Drink moment and a first Best liar award.
+  - Phase 4: **Rank It**, **Tap Race**, **Spin the Bottle**, **Fill in the Blank**, **Countdown**, and **Reactions** (`@tap-in/shared/reactions`, `apps/web/src/play/reactions.tsx`).
 - **Live site:** <https://tap-in-omega.vercel.app>. Vercel project `tap-in`, Root Directory `apps/web`. Every push to `main` deploys; branches get previews.
 - **Live room server:** <https://tap-in-server.brettdev.workers.dev>. A Cloudflare Worker with Durable Objects, free plan. `GET /healthz` returns `{"ok":true}`.
 - **Deploy pipeline (GitHub Actions):**
@@ -18,23 +19,17 @@ _Last updated 2026-10-03, end of phase 3._
   - `e2e-prod.yml` runs the full Playwright suite against the live site after each server deploy, or by hand via **Run workflow**. It reads `vars.SITE_URL` (default `https://tap-in-omega.vercel.app`).
 - **Secrets and variables are already set** by the user. GitHub: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `SERVER_URL`. Vercel: `VITE_SERVER_URL`. Never ask the user to paste tokens into chat.
 - **Not done yet:**
-  - The first **real-phone party test**: `TESTING.md` has the phase 1–3 checklists. Only the user can do it.
+  - The first **real-phone party test**: `TESTING.md` has the phase 1–4 checklists. Only the user can do it.
 - `e2e-prod.yml` went green on its first run (2026-10-02, after deploy #2).
 
-## Next work: phase 4 (PLAN.md §9)
+## Next work: phase 5, content (PLAN.md §9)
 
-1. **Games:**
-   - Rank It: drag via Motion `Reorder`, plus tap-in-order (R8).
-   - Tap Race: count on the phone, the server caps at 20 taps/s.
-   - Spin the Bottle: server-decided result, physics-feel easing, the dare flow (R13); never lands on a capped player.
-   - Fill in the Blank: reuse the phase 3 kit (`TextEntry`, `cleanText`, anonymous options like Fake Answer).
-   - Countdown: 600 ms server-side collision window; you can't tap twice in a row (R3).
-2. **Reactions** (DESIGN.md §12): Kind / Funny / **Glaze** notes from pools, plus 8 fixed emoji; note words private to the recipient.
-3. **Tests:** integration + e2e: one round of all 11 games.
-4. **Content:** starter banks for Rank It, Spin the Bottle and Fill in the Blank.
-5. **Tidy-up:** add each finished game to `READY_GAMES`. The e2e `room()` helper (`apps/web/e2e/helpers.ts`) switches off every other ready game, so new games don't break the older specs.
+1. **Banks to their minimums, per spice level** (R2): Would You Rather 60, Rank It 30, Liar's Prompt 40, Two Truths 80, Secret Word 80, Fake Answer 50, Spin the Bottle 40, Fill in the Blank 60. Reaction pools: 40+ per tab. Then run the validator with `--strict` in the build (`packages/games/package.json`).
+2. **Stranger-safety review** of every line (SPEC "Content"). The validator already blocks drink amounts, unsafe dares and appearance/contact lines in reactions; the rest is a read-through. Fake Answer trivia must be true: only add facts you're sure of.
+3. **Skip-prompt flag:** a small flag on prompt screens; 2 flags in a session auto-skip that prompt and log `{bankId, promptId}` (R17).
+4. Capn commentary lines (DESIGN §8) can share the reaction lane when it's empty.
 
-Phases 5–7 are in `PLAN.md`.
+Phases 6–7 (polish, hardening) are in `PLAN.md`.
 
 ## How to add a game (the established pattern)
 
@@ -76,6 +71,8 @@ pnpm --filter @tap-in/web dev        # client on :5173
 - **Nothing may cover the action zone** (DESIGN.md §0). A fixed banner over the bottom once blocked the Drink "Done" button on iPhone. Notices now sit in the page flow (`SoundChips`).
 - **WebKit e2e:** headless WebKit throttles background pages, so the `tap()` helper in `e2e/game.spec.ts` calls `bringToFront()` before clicking. `actionTimeout` is 20 s.
 - **Multi-step rounds:** an input can move the step on (Secret Word's next hint turn); the engine re-reads `deadline()` after every input. A fixed-length synced step (Liar's Prompt `show`) returns `endsEarly: false`.
+- **Reactions are outside the view.** They arrive as `reaction` messages, live in `ClientRoomState.reactions`, and are never stored or versioned. `canReact` (shared) is the one rule for when a phone may send or show one.
+- **Layout with the reaction lane:** `.screen` gives up `--react-lane` when the lane follows it (`styles/reactions.css`). Anything new at the bottom of a screen must stay in the page flow.
 - **Leak tests read raw frames.** `apps/server/test/deception.test.ts` checks every message a phone received, not just its final view. When a test refreshes a phone, keep reading from a phone that wasn't refreshed (the old socket's view goes stale).
 - **`AGENTS.md`** is regenerated by Turborepo; leave it committed. The workerd test config aliases `obscenity` to its CJS entry (I9).
 - **ESLint is strict type-checked, and `react-hooks` v6 rules apply.** No setState directly in effects, no ref writes during render.

@@ -1,6 +1,33 @@
 # Progress
 
-## Phase 3: Deception games (code complete; real-phone test pending)
+## Phase 4: Remaining games + Reactions (code complete; real-phone test pending)
+
+**Works**
+
+- **All 11 games are playable.**
+- **Rank It:** drag rows to reorder, or tap them best to worst. The group's order lands, then everyone's distance bar grows; the furthest drinks.
+- **Tap Race:** a synced 3-2-1 and GO, then 5 seconds of hammering a full-screen pad (burst, count and a pop that climbs in pitch). Counts are checked against 20 taps a second; the bars race; the fewest taps drinks.
+- **Spin the Bottle:** the server picks before the spin (never a capped player); the bottle lands on the same cap on every phone with a whoosh and a clunk. Dare or Drink, 20 s to do it, then the room votes Done or Nope. Dares are checked for stranger safety at build time.
+- **Fill in the Blank:** fill the blank, vote for your favourite (anonymous, never your own); authors are revealed with their votes, the top answer gets a crown and a cheer, the fewest votes drinks.
+- **Countdown:** count to players + 3 together. Taps inside the same 600 ms (server time) collide: COLLISION!, a buzzer, and the count resets. You can't tap twice in a row. Reach the target and nobody drinks; run out of time and everyone does.
+- **Reactions:** tap a cap in the lane at the bottom to send one of 8 emoji or a Kind / Funny / Glaze 🍩 note (4 lines dealt at random, 🔀 for more). The recipient gets a sticker that peels off after 4 s; everyone else sees the emoji, or just 💌/🍩 for a note. Only when you have time (never while you owe an answer, in a speed game or during your own Drink); reactions to a busy phone wait, and anything older than 20 s is dropped. Rate limits, per-player mute, a personal on/off and the host's room switch.
+- **Sound:** a title sting for each new game, the synced 3-2-1, the bottle's whoosh and clunk, the Countdown ding (in the tapper's voice) and buzzer.
+- **Content:** starter banks: Rank It 45 sets, Spin the Bottle 45 dares, Fill in the Blank 56 prompts, reactions 54 lines.
+- **Tests:** 93 game unit tests (98.6% lines in `packages/games`), engine tests for every new game (including a refresh mid-step) and for reactions (note privacy, rate limits, timing), and Playwright rounds of all five games plus reactions.
+- **Budgets:** initial JS 84.9 KB gzipped; game screens 13.8 KB; reactions 5.6 KB (both lazy).
+
+**Needs you**
+
+- One real-phone party test (TESTING.md, phase 4 list), ideally together with phase 3's.
+
+**Known issues / notes**
+
+- Prompt banks and reaction pools are starter-sized; phase 5 fills them (the validator warns until then).
+- Countdown's ding plays when the patch arrives, so it can trail the tap on other phones by a network hop.
+
+**Next: Phase 5, content** (every bank to its minimum for all three spice levels, the skip-prompt flag).
+
+## Phase 3: Deception games (deployed; real-phone test pending)
 
 **Works**
 

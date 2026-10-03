@@ -297,9 +297,10 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 
 ### Phase 4: Remaining games
 
-- [ ] **Rank It** (drag via Motion `Reorder` + tap-to-place, P5), **Tap Race** (local count, server cap of 20/s), **Spin the Bottle** (server-decided, physics-feel easing, dare flow), **Fill in the Blank**, **Countdown** (600 ms server-side collision window, P1)
-- [ ] **Reactions** (DESIGN §12): cap-strip sheet, `react` message, server rate limits + mute lists, recipient queue gated by phase, margin-zone sticker, note privacy leak test
-- [ ] Integration + e2e: one round of all 11 games
+- [x] **Rank It** (pointer drag + tap-to-place, P5, J1), **Tap Race** (local count, server cap of 20/s), **Spin the Bottle** (server-decided, physics-feel easing, dare flow), **Fill in the Blank**, **Countdown** (600 ms server-side collision window, P1)
+- [x] **Reactions** (DESIGN §12): cap-strip sheet, `react` message, server rate limits + mute lists, recipient queue gated by phase, margin-zone sticker, note privacy leak test
+- [x] Integration + e2e: one round of all 11 games
+- [ ] Real-phone test (TESTING.md, phase 4 list)
 
 ### Phase 5: Content
 
