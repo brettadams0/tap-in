@@ -93,6 +93,108 @@
       "items": ["Leafs", "Raptors", "Blue Jays", "TFC"]
     },
     {
+      "id": "ri-c-016",
+      "spice": "chill",
+      "prompt": "Best Tim Hortons order",
+      "items": ["Double-double", "Iced Capp", "Timbits", "Breakfast sandwich"]
+    },
+    {
+      "id": "ri-c-017",
+      "spice": "chill",
+      "prompt": "Best cereal",
+      "items": ["Cheerios", "Froot Loops", "Frosted Flakes", "Shreddies"]
+    },
+    {
+      "id": "ri-c-018",
+      "spice": "chill",
+      "prompt": "Best cartoon",
+      "items": ["The Simpsons", "SpongeBob", "Scooby-Doo", "Looney Tunes"]
+    },
+    {
+      "id": "ri-c-019",
+      "spice": "chill",
+      "prompt": "Best ice cream flavour",
+      "items": ["Chocolate", "Vanilla", "Mint chip", "Cookie dough"]
+    },
+    {
+      "id": "ri-c-020",
+      "spice": "chill",
+      "prompt": "Best movie snack",
+      "items": ["Popcorn", "Nachos", "Candy", "Hot dog"]
+    },
+    {
+      "id": "ri-c-021",
+      "spice": "chill",
+      "prompt": "Best Canadian city",
+      "items": ["Toronto", "Vancouver", "Montreal", "Halifax"]
+    },
+    {
+      "id": "ri-c-022",
+      "spice": "chill",
+      "prompt": "Best way to cook an egg",
+      "items": ["Scrambled", "Fried", "Poached", "Boiled"]
+    },
+    {
+      "id": "ri-c-023",
+      "spice": "chill",
+      "prompt": "Best rainy-day activity",
+      "items": ["Movie marathon", "Board games", "Baking", "Napping"]
+    },
+    {
+      "id": "ri-c-024",
+      "spice": "chill",
+      "prompt": "Best summer job",
+      "items": ["Camp counsellor", "Lifeguard", "Ice cream scoop", "Tree planter"]
+    },
+    {
+      "id": "ri-c-025",
+      "spice": "chill",
+      "prompt": "Best kind of pasta",
+      "items": ["Spaghetti", "Mac and cheese", "Lasagna", "Ravioli"]
+    },
+    {
+      "id": "ri-c-026",
+      "spice": "chill",
+      "prompt": "Best farm animal",
+      "items": ["Cow", "Pig", "Goat", "Chicken"]
+    },
+    {
+      "id": "ri-c-027",
+      "spice": "chill",
+      "prompt": "Best soup",
+      "items": ["Chicken noodle", "Tomato", "French onion", "Pea soup"]
+    },
+    {
+      "id": "ri-c-028",
+      "spice": "chill",
+      "prompt": "Best school subject",
+      "items": ["Gym", "Art", "Math", "Lunch"]
+    },
+    {
+      "id": "ri-c-029",
+      "spice": "chill",
+      "prompt": "Best camping activity",
+      "items": ["Campfire", "Canoeing", "Hiking", "Stargazing"]
+    },
+    {
+      "id": "ri-c-030",
+      "spice": "chill",
+      "prompt": "Best pie",
+      "items": ["Apple", "Pumpkin", "Lemon meringue", "Blueberry"]
+    },
+    {
+      "id": "ri-c-031",
+      "spice": "chill",
+      "prompt": "Best donut",
+      "items": ["Boston cream", "Honey dip", "Old-fashioned", "Sprinkle"]
+    },
+    {
+      "id": "ri-c-032",
+      "spice": "chill",
+      "prompt": "Best winter activity",
+      "items": ["Skating", "Skiing", "Tobogganing", "Staying inside"]
+    },
+    {
       "id": "ri-s-001",
       "spice": "spicy",
       "prompt": "Best first-date spot",
@@ -183,6 +285,108 @@
       "items": ["Love Island", "Survivor", "The Bachelor", "Big Brother"]
     },
     {
+      "id": "ri-s-016",
+      "spice": "spicy",
+      "prompt": "Best place to meet someone",
+      "items": ["Through friends", "Dating app", "At a bar", "At the gym"]
+    },
+    {
+      "id": "ri-s-017",
+      "spice": "spicy",
+      "prompt": "Best way to end a night out",
+      "items": ["Pizza slice", "Dance party", "Deep chat", "Straight to bed"]
+    },
+    {
+      "id": "ri-s-018",
+      "spice": "spicy",
+      "prompt": "Best beer style",
+      "items": ["Lager", "IPA", "Stout", "Sour"]
+    },
+    {
+      "id": "ri-s-019",
+      "spice": "spicy",
+      "prompt": "Best party game",
+      "items": ["Charades", "Never Have I Ever", "Cards Against Humanity", "Beer pong"]
+    },
+    {
+      "id": "ri-s-020",
+      "spice": "spicy",
+      "prompt": "Best breakup song",
+      "items": ["Since U Been Gone", "Irreplaceable", "Someone Like You", "thank u, next"]
+    },
+    {
+      "id": "ri-s-021",
+      "spice": "spicy",
+      "prompt": "Best date night movie genre",
+      "items": ["Romcom", "Horror", "Action", "Comedy"]
+    },
+    {
+      "id": "ri-s-022",
+      "spice": "spicy",
+      "prompt": "Biggest first-date ick",
+      "items": ["Rude to the server", "On their phone", "Talks about their ex", "Bad tipper"]
+    },
+    {
+      "id": "ri-s-023",
+      "spice": "spicy",
+      "prompt": "Best vacation",
+      "items": ["Beach resort", "City trip", "Cottage weekend", "Road trip"]
+    },
+    {
+      "id": "ri-s-024",
+      "spice": "spicy",
+      "prompt": "Best wine",
+      "items": ["Red", "White", "Rosé", "Bubbly"]
+    },
+    {
+      "id": "ri-s-025",
+      "spice": "spicy",
+      "prompt": "Best time to say 'I love you'",
+      "items": ["First month", "Three months", "Six months", "A year"]
+    },
+    {
+      "id": "ri-s-026",
+      "spice": "spicy",
+      "prompt": "Best wedding food",
+      "items": ["Late-night poutine", "Cake", "Open bar snacks", "Sit-down dinner"]
+    },
+    {
+      "id": "ri-s-027",
+      "spice": "spicy",
+      "prompt": "Best pickup line style",
+      "items": ["Cheesy", "Honest", "Funny", "Just say hi"]
+    },
+    {
+      "id": "ri-s-028",
+      "spice": "spicy",
+      "prompt": "Worst text to get from a date",
+      "items": ["'k'", "'We need to talk'", "'lol'", "'Who is this?'"]
+    },
+    {
+      "id": "ri-s-029",
+      "spice": "spicy",
+      "prompt": "Best bar",
+      "items": ["Sports bar", "Dive bar", "Rooftop patio", "Karaoke bar"]
+    },
+    {
+      "id": "ri-s-030",
+      "spice": "spicy",
+      "prompt": "Best wingman skill",
+      "items": ["Hype you up", "Distract the friend", "Know when to leave", "Pay for drinks"]
+    },
+    {
+      "id": "ri-s-031",
+      "spice": "spicy",
+      "prompt": "Best festival",
+      "items": ["Osheaga", "Coachella", "Glastonbury", "Tomorrowland"]
+    },
+    {
+      "id": "ri-s-032",
+      "spice": "spicy",
+      "prompt": "Best romantic gesture",
+      "items": ["Love letter", "Surprise trip", "Breakfast in bed", "Playlist"]
+    },
+    {
       "id": "ri-u-001",
       "spice": "unhinged",
       "prompt": "Animal you could beat in a fight",
@@ -271,6 +475,128 @@
       "spice": "unhinged",
       "prompt": "Worst thing to say at a funeral",
       "items": ["Called it", "Can I have his stuff?", "Party at mine after", "He owed me $20"]
+    },
+    {
+      "id": "ri-u-016",
+      "spice": "unhinged",
+      "prompt": "Most terrifying animal",
+      "items": ["Goose", "Swan", "Raccoon", "Seagull"]
+    },
+    {
+      "id": "ri-u-017",
+      "spice": "unhinged",
+      "prompt": "Worst job at a wedding",
+      "items": [
+        "Cleaning bathrooms",
+        "Catching the bouquet",
+        "Speech after the best man",
+        "DJ taking requests"
+      ]
+    },
+    {
+      "id": "ri-u-018",
+      "spice": "unhinged",
+      "prompt": "Worst ice cream flavour",
+      "items": ["Garlic", "Ketchup", "Pickle", "Fish"]
+    },
+    {
+      "id": "ri-u-019",
+      "spice": "unhinged",
+      "prompt": "Best way to annoy a roommate",
+      "items": [
+        "Loud chewing",
+        "Singing at 3 am",
+        "Moving their stuff 2 cm",
+        "Eating their leftovers"
+      ]
+    },
+    {
+      "id": "ri-u-020",
+      "spice": "unhinged",
+      "prompt": "Worst thing to say on a plane",
+      "items": ["I've never flown before", "Is that smoke?", "Oops", "Hold my drink"]
+    },
+    {
+      "id": "ri-u-021",
+      "spice": "unhinged",
+      "prompt": "Best fake excuse for being late",
+      "items": [
+        "Kidnapped by geese",
+        "Abducted by aliens",
+        "Time zone confusion",
+        "Traffic, but on foot"
+      ]
+    },
+    {
+      "id": "ri-u-022",
+      "spice": "unhinged",
+      "prompt": "Worst haunted object",
+      "items": ["Creepy doll", "Music box", "Old mirror", "Talking toy"]
+    },
+    {
+      "id": "ri-u-023",
+      "spice": "unhinged",
+      "prompt": "Best animal to ride to work",
+      "items": ["Horse", "Moose", "Ostrich", "Giant tortoise"]
+    },
+    {
+      "id": "ri-u-024",
+      "spice": "unhinged",
+      "prompt": "Worst sound",
+      "items": ["Nails on chalkboard", "Fork on a plate", "Loud chewing", "Squeaky shoes"]
+    },
+    {
+      "id": "ri-u-025",
+      "spice": "unhinged",
+      "prompt": "Worst thing to step in",
+      "items": ["Gum", "Dog poop", "Wet sock puddle", "Lego"]
+    },
+    {
+      "id": "ri-u-026",
+      "spice": "unhinged",
+      "prompt": "Best villain",
+      "items": ["Darth Vader", "The Joker", "Voldemort", "Hans from Frozen"]
+    },
+    {
+      "id": "ri-u-027",
+      "spice": "unhinged",
+      "prompt": "Worst thing to find in your car",
+      "items": ["A raccoon", "A parking ticket", "A spider", "A stranger's sandwich"]
+    },
+    {
+      "id": "ri-u-028",
+      "spice": "unhinged",
+      "prompt": "Best thing to bring to a deserted island",
+      "items": ["Knife", "Lighter", "Hammock", "Volleyball named Wilson"]
+    },
+    {
+      "id": "ri-u-029",
+      "spice": "unhinged",
+      "prompt": "Worst smell in a car",
+      "items": ["Old fries", "Wet dog", "Gym clothes", "Air freshener overload"]
+    },
+    {
+      "id": "ri-u-030",
+      "spice": "unhinged",
+      "prompt": "Worst bedtime noise",
+      "items": ["Mosquito", "Dripping tap", "Snoring", "Creaky floor"]
+    },
+    {
+      "id": "ri-u-031",
+      "spice": "unhinged",
+      "prompt": "Most chaotic Canadian animal",
+      "items": ["Moose", "Canada goose", "Raccoon", "Beaver"]
+    },
+    {
+      "id": "ri-u-032",
+      "spice": "unhinged",
+      "prompt": "Worst superpower side effect",
+      "items": [
+        "Always sneezing",
+        "Glowing at night",
+        "Can't stop dancing",
+        "Everything smells like soup"
+      ]
     }
   ]
 }
