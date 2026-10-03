@@ -147,6 +147,130 @@ export interface ShotgunReveal {
 /** `ms` is measured on the phone from the flash frame to the tap; null means "tapped before any real flash". */
 export type ShotgunInput = { ms: number | null };
 
+// ------------------------------------------------------------------ Liar's Prompt
+
+/** `answer`: type an answer. `show`: answers land one by one. `vote`: find the imposter. */
+export type LiarStep = 'answer' | 'show' | 'vote';
+
+export interface NamedText {
+  id: PlayerId;
+  /** Null when they never typed one. */
+  text: string | null;
+}
+
+export interface LiarPublic {
+  /** Answers in reveal order, with names. Null until the show step. */
+  answers: NamedText[] | null;
+  /** Server time the first answer lands; each next one lands `showEach` ms later. */
+  showAt: number | null;
+  showEach: number;
+  /** The real question: everyone sees it once voting starts. */
+  question: string | null;
+}
+export interface LiarPrivate {
+  /** The question this phone got (the imposter's differs). */
+  question: string | null;
+  answer: string | null;
+  vote: PlayerId | null;
+}
+export interface LiarReveal {
+  imposter: PlayerId;
+  question: string;
+  imposterQuestion: string;
+  /** voter → suspect */
+  votes: Record<PlayerId, PlayerId>;
+  caught: boolean;
+}
+export type LiarInput = { answer: string } | { vote: PlayerId };
+
+// ------------------------------------------------------------------ Secret Word
+
+/** `hint`: one player at a time types a one-word hint. `vote`: find the outsider. `guess`: the caught outsider guesses the word. */
+export type SecretStep = 'hint' | 'vote' | 'guess';
+
+export interface SecretPublic {
+  category: string;
+  /** Hint turn order (the outsider is never first). */
+  order: PlayerId[];
+  /** Index into `order` of whose turn it is; `order.length` once hints are done. */
+  turn: number;
+  /** Hints so far, in turn order. */
+  hints: NamedText[];
+  /** The caught outsider, during the guess step only. */
+  caught: PlayerId | null;
+}
+export interface SecretPrivate {
+  /** Null for the outsider. */
+  word: string | null;
+  outsider: boolean;
+  vote: PlayerId | null;
+  guess: string | null;
+}
+export interface SecretReveal {
+  outsider: PlayerId;
+  word: string;
+  votes: Record<PlayerId, PlayerId>;
+  caught: boolean;
+  guess: string | null;
+  guessedRight: boolean;
+}
+export type SecretInput = { hint: string } | { vote: PlayerId } | { guess: string };
+
+// ------------------------------------------------------------------ Two Truths, One App
+
+/** `setup`: type two true facts (round 1 only). `guess`: spot the fake in the spotlight's three. */
+export type TruthsStep = 'setup' | 'guess';
+
+export interface TruthsPublic {
+  spotlight: PlayerId | null;
+  /** The spotlight's three facts, shuffled. Null during setup. */
+  cards: string[] | null;
+}
+export interface TruthsPrivate {
+  /** This phone's own setup: the fake the app will add for you, and your truths once locked. */
+  setup: { fake: string; rerollsLeft: number; truths: string[] | null } | null;
+  guess: number | null;
+}
+export interface TruthsReveal {
+  /** Null when nobody typed their facts, so there was nobody to spotlight. */
+  spotlight: PlayerId | null;
+  cards: string[];
+  fakeIndex: number;
+  /** guesser → card index */
+  guesses: Record<PlayerId, number>;
+  fooled: PlayerId[];
+}
+export type TruthsInput = { truths: string[] } | { reroll: true } | { guess: number };
+
+// ------------------------------------------------------------------ Fake Answer
+
+/** `write`: write a believable fake. `vote`: pick what you think is real. */
+export type FakeStep = 'write' | 'vote';
+
+export interface FakePublic {
+  question: string;
+  /** Every fake plus the real answer, shuffled. Null while writing. */
+  options: string[] | null;
+}
+export interface FakePrivate {
+  fake: string | null;
+  vote: number | null;
+  /** Options this player wrote (can't vote for them). */
+  mine: number[];
+}
+export interface FakeReveal {
+  answer: string;
+  realIndex: number;
+  options: string[];
+  /** Authors of each option (empty for the real one). */
+  authors: PlayerId[][];
+  /** voter → option index */
+  votes: Record<PlayerId, number>;
+  /** Author(s) whose fake fooled the most people this round. */
+  masterLiars: PlayerId[];
+}
+export type FakeInput = { fake: string } | { vote: number };
+
 // ------------------------------------------------------------------ unions
 
 export interface GameViews {
@@ -157,6 +281,10 @@ export interface GameViews {
     reveal: ShotgunReveal;
     input: ShotgunInput;
   };
+  liarsPrompt: { pub: LiarPublic; me: LiarPrivate; reveal: LiarReveal; input: LiarInput };
+  secretWord: { pub: SecretPublic; me: SecretPrivate; reveal: SecretReveal; input: SecretInput };
+  twoTruths: { pub: TruthsPublic; me: TruthsPrivate; reveal: TruthsReveal; input: TruthsInput };
+  fakeAnswer: { pub: FakePublic; me: FakePrivate; reveal: FakeReveal; input: FakeInput };
 }
 
 export type PlayableGameId = keyof GameViews;
