@@ -89,6 +89,8 @@ export interface SessionState {
   liarPoints?: Record<PlayerId, number>;
   /** Chaos points per player (Most chaotic). Optional: older saved rooms lack it. */
   chaos?: Record<PlayerId, number>;
+  /** Rounds in a row each player stayed dry while someone drank (combo 🔥). Optional in old saves. */
+  dry?: Record<PlayerId, number>;
   /** Tap Race counts per player (Fastest thumbs). Optional: older saved rooms lack it. */
   taps?: Record<PlayerId, number[]>;
   lastBreakAt: number;

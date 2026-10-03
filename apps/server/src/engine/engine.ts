@@ -581,6 +581,7 @@ export class RoomEngine {
       liarPoints: {},
       chaos: {},
       taps: {},
+      dry: {},
       lastBreakAt: now,
       overlay: null,
       results: null,
@@ -785,8 +786,14 @@ export class RoomEngine {
   private enterDrink(): void {
     const session = this.state.session;
     if (!session?.drink) return;
-    for (const id of drinkersOf(session.drink, session.participants)) {
+    const drank = drinkersOf(session.drink, session.participants);
+    for (const id of drank) {
       session.drinks[id] = (session.drinks[id] ?? 0) + 1;
+    }
+    // Combo: a round only counts toward a dry streak when somebody else drank.
+    if (drank.length > 0) {
+      const dry = (session.dry ??= {});
+      for (const id of session.participants) dry[id] = drank.includes(id) ? 0 : (dry[id] ?? 0) + 1;
     }
     session.done = [];
     const at = this.deps.now() + LEAD_MS;
@@ -972,6 +979,7 @@ export class RoomEngine {
         ? { mine: session.flags?.by.includes(playerId) ?? false }
         : null,
       skippedAt: session.skippedAt ?? null,
+      dry: { ...session.dry },
       results: phase === 'results' ? session.results : null,
     };
   }

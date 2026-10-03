@@ -47,6 +47,7 @@ function view(
       drinks: {},
       flag: null,
       skippedAt: null,
+      dry: {},
       results: null,
       ...session,
     },

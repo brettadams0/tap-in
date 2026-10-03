@@ -68,7 +68,7 @@ export function Lobby({ conn, view }: { conn: RoomConnection; view: RoomView }) 
             <span className="hint small">Tap your cap to change it</span>
           </div>
           <ul className="cap-grid">
-            {view.players.map((p) => (
+            {view.players.map((p, i) => (
               <PlayerTile
                 key={p.id}
                 player={p}
@@ -76,6 +76,8 @@ export function Lobby({ conn, view }: { conn: RoomConnection; view: RoomView }) 
                 onTap={
                   p.id === view.you.id || isHost
                     ? () => {
+                        // Cap bump: your own cap plays your note (DESIGN §13).
+                        if (p.id === view.you.id) audio.playNow(pop, voiceFor(i));
                         setSheet({ kind: 'player', id: p.id });
                       }
                     : undefined

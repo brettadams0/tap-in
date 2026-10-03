@@ -154,6 +154,8 @@ export interface SessionView {
   flag: { mine: boolean } | null;
   /** Server time a prompt was last skipped after two flags (the phone shows "Skipped"). */
   skippedAt: number | null;
+  /** Rounds in a row each player stayed dry while someone else drank (the 🔥 combo). */
+  dry: Record<PlayerId, number>;
   results: ResultsView | null;
 }
 

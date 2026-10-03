@@ -194,6 +194,52 @@
 .lockrow-cap {
   position: relative;
 }
+/* Combo topper: sits above the cap, never over the IN! stamp */
+.combo {
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  transform: translateX(-50%) rotate(-6deg);
+  font-size: 16px;
+  line-height: 1;
+  white-space: nowrap;
+  animation: pop-in 0.3s var(--spring) both;
+}
+.combo-on-fire {
+  padding: 1px 5px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background: var(--sun);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 11px;
+}
+/* Living caps sweat while their time runs out (only in the last 5 s) */
+.sweat {
+  display: none;
+  position: absolute;
+  right: -2px;
+  top: 6px;
+  width: 8px;
+  height: 11px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: var(--sky);
+  border: 2px solid var(--ink);
+}
+.play-root:has(.urgent-vignette) .sweat {
+  display: block;
+  animation: drip 0.9s ease-in infinite;
+}
+@keyframes drip {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
 .stamp {
   position: absolute;
   right: -6px;
@@ -1188,6 +1234,9 @@ li:nth-child(3n) .cap-eyes-live {
     animation: none;
     opacity: 0.5;
   }
+  .play-root:has(.urgent-vignette) .sweat {
+    animation: none;
+  }
   .flood,
   .stripes span,
   .fly-in,
@@ -1758,4 +1807,23 @@ li:nth-child(3n) .cap-eyes-live {
 }
 .count-btn {
   min-height: 96px;
+}
+
+/* Results group photo: earned award icons slap onto each cap */
+.standing-cap {
+  position: relative;
+  flex: none;
+}
+.earned {
+  position: absolute;
+  right: -12px;
+  bottom: -4px;
+  padding: 1px 3px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--foam);
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 1;
+  animation: stamp 0.3s var(--spring) both;
 }
