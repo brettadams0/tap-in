@@ -54,14 +54,24 @@ export interface RoundResult<R> {
   ranking: PlayerId[];
   /** Why nobody drinks, when that's a designed outcome. */
   nobody: 'balanced' | 'unanimous' | 'sharp' | 'counted' | 'dared' | null;
-  /** Per-player stats for the results screen (reaction ms, people fooled). */
-  stats?: Record<PlayerId, { reactionMs?: number; liarPoints?: number }>;
+  /** Per-player stats for the results screen (reaction ms, people fooled, chaos, taps). */
+  stats?: Record<PlayerId, RoundStat>;
 }
 
 /** The bank entry a round is showing, for the skip-prompt flag (R17). */
 export interface PromptRef {
   bankId: string;
   promptId: string;
+}
+
+export interface RoundStat {
+  reactionMs?: number;
+  /** People fooled, or an escape as imposter or outsider (Best liar). */
+  liarPoints?: number;
+  /** Early taps, collisions, dares dodged and Nope votes received (Most chaotic). */
+  chaos?: number;
+  /** Tap Race taps this round (Fastest thumbs, as taps per second). */
+  taps?: number;
 }
 
 export interface Reject {

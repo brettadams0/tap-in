@@ -144,7 +144,10 @@ export const spinTheBottle: GameModule<'spinTheBottle', SpinState> = {
       nope,
       passed,
     };
-    const base = { reveal, assigned: [], selfInflicted: [], everyone: false, ranking: [] };
+    // Most chaotic: dodging the dare, or the Nope votes the dare earned.
+    const chaos = s.choice === 'drink' ? 1 : s.choice === 'dare' ? nope : 0;
+    const stats = chaos > 0 ? { [s.chosen]: { chaos } } : {};
+    const base = { reveal, assigned: [], selfInflicted: [], everyone: false, ranking: [], stats };
     if (s.choice === 'drink')
       return { ...base, selfInflicted: [{ id: s.chosen, reason: 'choseDrink' }], nobody: null };
     if (s.choice === 'dare' && !passed) {

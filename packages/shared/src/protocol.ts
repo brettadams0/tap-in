@@ -114,7 +114,7 @@ export interface OverlayView {
   endsAt: number | null;
 }
 
-export type AwardId = 'mostDrinks' | 'fastestThumbs' | 'bestLiar' | 'cleanRecord';
+export type AwardId = 'mostDrinks' | 'fastestThumbs' | 'bestLiar' | 'mostChaotic' | 'cleanRecord';
 
 export interface AwardView {
   id: AwardId;

@@ -81,6 +81,7 @@ describe('Reaction Shotgun', () => {
     s = g.onTimer(s, after);
     const r = g.result(s, after);
     expect(r.selfInflicted).toEqual([{ id: 'p1', reason: 'early' }]);
+    expect(r.stats?.p1).toEqual({ chaos: 1 });
     expect(r.assigned).toEqual([]);
     expect(r.reveal.board.map((e) => e.id)).toEqual(['p2', 'p4', 'p3', 'p5', 'p1']);
     expect(r.stats?.p2).toEqual({ reactionMs: 250 });

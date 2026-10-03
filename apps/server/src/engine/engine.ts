@@ -579,6 +579,8 @@ export class RoomEngine {
       streak: {},
       reactionMs: {},
       liarPoints: {},
+      chaos: {},
+      taps: {},
       lastBreakAt: now,
       overlay: null,
       results: null,
@@ -770,6 +772,11 @@ export class RoomEngine {
         const points = (session.liarPoints ??= {});
         points[id] = (points[id] ?? 0) + stat.liarPoints;
       }
+      if (stat.chaos) {
+        const chaos = (session.chaos ??= {});
+        chaos[id] = (chaos[id] ?? 0) + stat.chaos;
+      }
+      if (stat.taps !== undefined) ((session.taps ??= {})[id] ??= []).push(stat.taps);
     }
     const at = this.deps.now() + LEAD_MS;
     this.setPhase('roundReveal', at, at + this.ms(game.revealMs(session.participants.length)));
@@ -833,9 +840,13 @@ export class RoomEngine {
     session.results = buildResults(
       this.seated().map((p) => p.id),
       session.drinks,
-      session.reactionMs,
       session.history,
-      session.liarPoints ?? {},
+      {
+        reactionMs: session.reactionMs,
+        liarPoints: session.liarPoints ?? {},
+        chaos: session.chaos ?? {},
+        taps: session.taps ?? {},
+      },
     );
     this.setPhase('results', this.deps.now() + LEAD_MS, null);
   }

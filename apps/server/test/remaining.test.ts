@@ -76,6 +76,18 @@ describe('Tap Race', () => {
     expect(view(host).phase).toBe('roundReveal');
     h.until(() => view(host).phase === 'drink');
     expect(drinkers(host)).toEqual([{ id: players[0]?.playerId, reason: 'fewestTaps' }]);
+    // The counts carry through to the results: Fastest thumbs in taps a second.
+    expect(h.engine.snapshot.session?.taps).toEqual({
+      [players[0]?.playerId ?? '']: [30],
+      [players[1]?.playerId ?? '']: [35],
+      [players[2]?.playerId ?? '']: [40],
+    });
+    host.send({ type: 'hostAction', action: { kind: 'end' } });
+    expect(view(host).session?.results?.awards).toContainEqual({
+      id: 'fastestThumbs',
+      players: [players[2]?.playerId],
+      detail: '8 taps a second',
+    });
   });
 });
 

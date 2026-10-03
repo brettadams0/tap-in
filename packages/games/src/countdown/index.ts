@@ -9,7 +9,7 @@
  */
 import type { PlayerId } from '@tap-in/shared';
 import { z } from 'zod';
-import type { GameModule } from '../types.js';
+import type { GameModule, RoundStat } from '../types.js';
 
 const ROUNDS = 3;
 export const COUNT_MS = 30_000;
@@ -121,6 +121,10 @@ export const countdown: GameModule<'countdown', CountState> = {
 
   result(s) {
     const colliders = [...new Set(s.collisions.flatMap((c) => c.ids))];
+    const stats: Record<PlayerId, RoundStat> = {};
+    for (const id of colliders) {
+      stats[id] = { chaos: s.collisions.filter((c) => c.ids.includes(id)).length };
+    }
     return {
       reveal: {
         reached: s.reached,
@@ -133,6 +137,7 @@ export const countdown: GameModule<'countdown', CountState> = {
       everyone: !s.reached,
       ranking: [],
       nobody: s.reached ? 'counted' : null,
+      stats,
     };
   },
 

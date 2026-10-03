@@ -10,6 +10,7 @@ const AWARD: Record<AwardId, { title: string; icon: string }> = {
   mostDrinks: { title: 'Most drinks', icon: '🍺' },
   fastestThumbs: { title: 'Fastest thumbs', icon: '⚡' },
   bestLiar: { title: 'Best liar', icon: '🤥' },
+  mostChaotic: { title: 'Most chaotic', icon: '🌪️' },
   cleanRecord: { title: 'Cleanest record', icon: '😇' },
 };
 
