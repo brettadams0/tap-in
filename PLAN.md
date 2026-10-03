@@ -310,10 +310,10 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 
 ### Phase 6: Polish
 
-- [ ] Every signature animation in SPEC; per-game title slams and stings; card dealing, flying avatars, bar races, bottle spin, reaction flash
-- [ ] Per-device sound signatures (pitch and timbre slot per player); private vs shared sound treatment
-- [ ] End-screen awards: most drinks, best liar (imposter/outsider escapes + Master Liar + Two Truths fools), fastest thumbs (avg reaction + taps/s), most chaotic (early taps + collisions + dares dodged + Nope votes received)
-- [ ] Reduced-motion mode, haptics (Android), 50 ms tap feedback audit, 60 fps traces at 4x throttle
+- [x] Every signature animation in SPEC; per-game title slams and stings; card dealing, flying avatars, bar races, bottle spin, reaction flash
+- [x] Per-device sound signatures (pitch and timbre slot per player); private vs shared sound treatment
+- [x] End-screen awards: most drinks, best liar (imposter/outsider escapes + Master Liar + Two Truths fools), fastest thumbs (avg reaction + taps/s), most chaotic (early taps + collisions + dares dodged + Nope votes received)
+- [x] Reduced-motion mode, haptics (Android), 50 ms tap feedback audit, 60 fps traces at 4x throttle
 
 ### Phase 7: Hardening
 
