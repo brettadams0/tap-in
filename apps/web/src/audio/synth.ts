@@ -255,6 +255,48 @@ export function sting(game: GameId): Recipe {
         crack(ctx, out, t, v);
         tone(ctx, out, t + 0.1, { type: 'square', freq: 220, to: 880, peak: 0.08, decay: 0.3 });
         return;
+      case 'liarsPrompt':
+        // a sly two-step slide down: "suuure"
+        tone(ctx, out, t, {
+          type: 'triangle',
+          freq: 523,
+          to: 392,
+          glide: 0.25,
+          peak: 0.2,
+          decay: 0.3,
+        });
+        tone(ctx, out, t + 0.32, {
+          type: 'triangle',
+          freq: 440,
+          to: 294,
+          glide: 0.4,
+          peak: 0.2,
+          decay: 0.5,
+        });
+        return;
+      case 'secretWord':
+        // "shhh", then a soft bell
+        burst(ctx, out, t, { type: 'highpass', freq: 3500, peak: 0.22, attack: 0.08, decay: 0.45 });
+        clink(ctx, out, t + 0.5, { freq: 1046.5, timbre: 'glass' });
+        return;
+      case 'twoTruths':
+        // three cards flicked onto the bar, the last one a little off
+        [0, 0.13, 0.26].forEach((d, i) => {
+          burst(ctx, out, t + d, {
+            type: 'bandpass',
+            freq: 2000 + i * 400,
+            q: 1.2,
+            peak: 0.25,
+            decay: 0.05,
+          });
+        });
+        tone(ctx, out, t + 0.3, { type: 'square', freq: 330, to: 311, peak: 0.08, decay: 0.25 });
+        return;
+      case 'fakeAnswer':
+        // a con-artist whistle: up, then down
+        tone(ctx, out, t, { freq: 988, to: 1568, glide: 0.18, peak: 0.12, decay: 0.2 });
+        tone(ctx, out, t + 0.24, { freq: 1568, to: 784, glide: 0.3, peak: 0.12, decay: 0.35 });
+        return;
       default:
         thump(ctx, out, t, v);
         clink(ctx, out, t + 0.1, v);

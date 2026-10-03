@@ -65,6 +65,14 @@ export type DrinkReason =
   | 'early'
   | 'slowest'
   | 'noTap'
+  /** The imposter or outsider was voted out. */
+  | 'caught'
+  /** The caught outsider guessed the secret word wrong. */
+  | 'wrongGuess'
+  /** Picked a fake (Two Truths, Fake Answer). */
+  | 'fooled'
+  /** Two Truths: nobody fell for the spotlight player's fake. */
+  | 'nobodyFooled'
   /** Took the drink for a player saved by the 2-in-a-row rule. */
   | 'covering';
 
@@ -73,11 +81,16 @@ export interface DrinkerView {
   reason: DrinkReason;
 }
 
+/** Why everyone but one player drinks. */
+export type SpareReason = 'imposterEscaped' | 'outsiderEscaped' | 'outsiderGuessed';
+
 export interface DrinkView {
   drinkers: DrinkerView[];
   everyone: boolean;
+  /** "Everyone except…": with `everyone`, these players don't drink. */
+  spared: { ids: PlayerId[]; why: SpareReason } | null;
   /** Why nobody drinks, when nobody does. */
-  nobody: 'balanced' | 'lucky' | 'unanimous' | null;
+  nobody: 'balanced' | 'lucky' | 'unanimous' | 'sharp' | null;
   /** Fairness cap: `saved` was excused this round; `by` drinks instead (or nobody). */
   saves: { saved: PlayerId; by: PlayerId | null }[];
 }
@@ -90,7 +103,7 @@ export interface OverlayView {
   endsAt: number | null;
 }
 
-export type AwardId = 'mostDrinks' | 'fastestThumbs' | 'cleanRecord';
+export type AwardId = 'mostDrinks' | 'fastestThumbs' | 'bestLiar' | 'cleanRecord';
 
 export interface AwardView {
   id: AwardId;

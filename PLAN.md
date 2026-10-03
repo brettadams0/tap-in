@@ -290,9 +290,10 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 
 ### Phase 3: Deception games
 
-- [ ] **Liar's Prompt**, **Secret Word** (per-turn steps, P2), **Two Truths, One App** (setup + reroll, P6), **Fake Answer** (similarity check, merged duplicates)
-- [ ] Text kit: similarity, word-containment, profanity tiers (P7)
-- [ ] Private-view leak tests for every secret listed in §7; reconnect-mid-step tests for each game
+- [x] **Liar's Prompt**, **Secret Word** (per-turn steps, P2), **Two Truths, One App** (setup + reroll, P6), **Fake Answer** (similarity check, merged duplicates)
+- [x] Text kit: similarity, word-containment, profanity tiers (P7)
+- [x] Private-view leak tests for every secret listed in §7; reconnect-mid-step tests for each game
+- [ ] Real-phone test (TESTING.md, phase 3 list)
 
 ### Phase 4: Remaining games
 

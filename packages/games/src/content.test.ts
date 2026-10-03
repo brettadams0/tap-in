@@ -27,7 +27,14 @@ describe('content', () => {
   });
 
   it('registers the playable games', () => {
-    expect(Object.keys(GAMES).sort()).toEqual(['reactionShotgun', 'wouldYouRather']);
+    expect(Object.keys(GAMES).sort()).toEqual([
+      'fakeAnswer',
+      'liarsPrompt',
+      'reactionShotgun',
+      'secretWord',
+      'twoTruths',
+      'wouldYouRather',
+    ]);
     expect(playableGames(['tapRace', 'wouldYouRather'])).toEqual(['wouldYouRather']);
   });
 });

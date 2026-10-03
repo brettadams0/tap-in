@@ -149,8 +149,8 @@ describe('Reaction Shotgun', () => {
     expect(g.deadline(shifted)).toBe((g.deadline(s) ?? 0) + 10_000);
     expect(g.shift({ ...s, endsAt: null, fakeAt: null }, 5).endsAt).toBeNull();
     expect(g.endsEarly(s)).toBe(true);
-    expect(g.estimateMs(5)).toBeGreaterThan(30_000);
+    expect(g.estimateMs(5, 'standard')).toBeGreaterThan(30_000);
     expect(g.revealMs(5)).toBeGreaterThan(2000);
-    expect(g.rounds(5)).toBe(4);
+    expect(g.rounds(5, 'standard')).toBe(4);
   });
 });

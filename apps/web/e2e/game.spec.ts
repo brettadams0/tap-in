@@ -3,63 +3,18 @@
  * mid-vote) → reveal → the Drink takeover on the right phone → end → results → rematch.
  * And a Reaction Shotgun round with a synced flash. Game timers run 2.5x faster (TIME_SCALE).
  */
-import { expect, test, type Browser, type BrowserContext, type Page } from '@playwright/test';
+import { expect, test, type BrowserContext, type Page } from '@playwright/test';
+import { room, tap } from './helpers.js';
 
 // Three phones in one software-rendered WebKit on a CI runner are slow: give the full loop room.
 test.describe.configure({ timeout: 150_000 });
-
-async function phone(browser: Browser, contexts: BrowserContext[]): Promise<Page> {
-  const ctx = await browser.newContext(test.info().project.use);
-  contexts.push(ctx);
-  return ctx.newPage();
-}
-
-/**
- * Click as that phone. Headless WebKit throttles animation frames on pages that aren't in front,
- * and Playwright's "element is stable" check waits on those frames, so bring the phone forward first.
- */
-async function tap(page: Page, selector: string | ReturnType<Page['getByRole']>): Promise<void> {
-  await page.bringToFront();
-  await (typeof selector === 'string' ? page.locator(selector) : selector).click();
-}
-
-async function joinAs(page: Page, name: string): Promise<void> {
-  await page.getByLabel('Your name').fill(name);
-  await page.getByRole('button', { name: 'Next' }).click();
-  await page.getByRole('button', { name: 'Tap In' }).click();
-  await expect(page.getByTestId('room-code')).toBeVisible();
-}
-
-/** Host + 2 guests in a lobby with only `keep` of the two ready games switched on. */
-async function room(browser: Browser, contexts: BrowserContext[], drop: string): Promise<Page[]> {
-  const host = await phone(browser, contexts);
-  await host.goto('/');
-  await host.getByRole('button', { name: 'Create Room' }).click();
-  await expect(host).toHaveURL(/\/[A-HJ-NP-Z]{4}$/);
-  const code = new URL(host.url()).pathname.slice(1);
-  await joinAs(host, 'Brett');
-  const phones = [host];
-  for (const name of ['Priya', 'Marco']) {
-    const p = await phone(browser, contexts);
-    await p.goto(`/${code}`);
-    await joinAs(p, name);
-    phones.push(p);
-  }
-  await host.getByRole('button', { name: 'Edit settings' }).click();
-  await host.getByRole('switch', { name: drop }).click();
-  await expect(host.getByRole('switch', { name: drop })).toHaveAttribute('aria-checked', 'false');
-  await host.getByRole('button', { name: 'Close' }).click();
-  await host.getByRole('button', { name: 'Start!' }).click();
-  for (const p of phones) await expect(p.getByTestId('in-game')).toBeVisible();
-  return phones;
-}
 
 test('Would You Rather: vote, refresh mid-vote, reveal, Drink, end, rematch', async ({
   browser,
 }) => {
   const contexts: BrowserContext[] = [];
   try {
-    const [host, priya, marco] = (await room(browser, contexts, 'Reaction Shotgun')) as [
+    const [host, priya, marco] = (await room(browser, contexts, 'Would You Rather')) as [
       Page,
       Page,
       Page,
@@ -122,7 +77,7 @@ test('Would You Rather: vote, refresh mid-vote, reveal, Drink, end, rematch', as
 test('Reaction Shotgun: synced flash, taps, leaderboard', async ({ browser }) => {
   const contexts: BrowserContext[] = [];
   try {
-    const phones = await room(browser, contexts, 'Would You Rather');
+    const phones = await room(browser, contexts, 'Reaction Shotgun');
     const [host] = phones as [Page];
     for (const p of phones)
       await expect(p.getByTestId('shotgun-pad')).toBeVisible({ timeout: 15_000 });

@@ -3,7 +3,16 @@
  * Games are pure: no I/O, no Date, no Math.random. Time and randomness come in through GameCtx,
  * and state must stay JSON-serialisable so a Durable Object can persist and restore it.
  */
-import type { DrinkReason, GameViews, PlayableGameId, PlayerId, Rng, Spice } from '@tap-in/shared';
+import type {
+  DrinkReason,
+  GameViews,
+  PlayableGameId,
+  PlayerId,
+  Rng,
+  SessionLength,
+  SpareReason,
+  Spice,
+} from '@tap-in/shared';
 import type { ZodType } from 'zod';
 
 export interface GameCtx {
@@ -35,12 +44,14 @@ export interface RoundResult<R> {
   /** Drinks players brought on themselves (early taps…). Never capped or redirected. */
   selfInflicted: Drinker[];
   everyone: boolean;
+  /** With `everyone`: these players are let off ("everyone except the imposter"). Never capped. */
+  spared?: { ids: PlayerId[]; why: SpareReason };
   /** Worst → best, for redirecting a capped drink. Empty when the game has no ranking. */
   ranking: PlayerId[];
   /** Why nobody drinks, when that's a designed outcome. */
-  nobody: 'balanced' | 'unanimous' | null;
-  /** Per-player stats for the results screen (e.g. reaction ms). */
-  stats?: Record<PlayerId, { reactionMs?: number }>;
+  nobody: 'balanced' | 'unanimous' | 'sharp' | null;
+  /** Per-player stats for the results screen (reaction ms, people fooled). */
+  stats?: Record<PlayerId, { reactionMs?: number; liarPoints?: number }>;
 }
 
 export interface Reject {
@@ -50,9 +61,14 @@ export interface Reject {
 export interface GameModule<K extends PlayableGameId, S> {
   id: K;
   inputSchema: ZodType<GameViews[K]['input']>;
-  rounds(playerCount: number): number;
+  rounds(playerCount: number, length: SessionLength): number;
   /** Rough length of a whole block, for the session-length budget. */
-  estimateMs(playerCount: number): number;
+  estimateMs(playerCount: number, length: SessionLength): number;
+  /**
+   * Once a block is under way, it may turn out shorter than `rounds` promised (Two Truths: only
+   * players who typed their facts get a spotlight). Null = as planned.
+   */
+  plannedRounds?(s: S): number | null;
   /** How long the reveal phase holds before the Drink moment. */
   revealMs(playerCount: number): number;
 

@@ -1,0 +1,318 @@
+{
+  "bank": "fakeAnswer",
+  "version": 1,
+  "entries": [
+    {
+      "id": "fa-c-001",
+      "spice": "chill",
+      "question": "Before plastic bricks, what did LEGO mainly make?",
+      "answer": "Wooden toys"
+    },
+    {
+      "id": "fa-c-002",
+      "spice": "chill",
+      "question": "What is a group of flamingos called?",
+      "answer": "A flamboyance"
+    },
+    {
+      "id": "fa-c-003",
+      "spice": "chill",
+      "question": "What was Google's original name?",
+      "answer": "BackRub"
+    },
+    {
+      "id": "fa-c-004",
+      "spice": "chill",
+      "question": "What is Scotland's national animal?",
+      "answer": "The unicorn"
+    },
+    {
+      "id": "fa-c-005",
+      "spice": "chill",
+      "question": "What is the dot over a lowercase i called?",
+      "answer": "A tittle"
+    },
+    {
+      "id": "fa-c-006",
+      "spice": "chill",
+      "question": "How many hearts does an octopus have?",
+      "answer": "Three"
+    },
+    {
+      "id": "fa-c-007",
+      "spice": "chill",
+      "question": "Which city was the first capital of the Province of Canada in 1841?",
+      "answer": "Kingston"
+    },
+    {
+      "id": "fa-c-008",
+      "spice": "chill",
+      "question": "What is the plastic tip on the end of a shoelace called?",
+      "answer": "An aglet"
+    },
+    {
+      "id": "fa-c-009",
+      "spice": "chill",
+      "question": "In what year did the first Tim Hortons open in Hamilton, Ontario?",
+      "answer": "1964"
+    },
+    {
+      "id": "fa-c-010",
+      "spice": "chill",
+      "question": "What is a baby puffin called?",
+      "answer": "A puffling"
+    },
+    {
+      "id": "fa-c-011",
+      "spice": "chill",
+      "question": "What is the groove between your nose and upper lip called?",
+      "answer": "The philtrum"
+    },
+    {
+      "id": "fa-c-012",
+      "spice": "chill",
+      "question": "What was Play-Doh first sold as?",
+      "answer": "Wallpaper cleaner"
+    },
+    {
+      "id": "fa-c-013",
+      "spice": "chill",
+      "question": "What was Bubble Wrap originally invented to be?",
+      "answer": "Textured wallpaper"
+    },
+    {
+      "id": "fa-c-014",
+      "spice": "chill",
+      "question": "Which animal has fingerprints almost identical to a human's?",
+      "answer": "The koala"
+    },
+    {
+      "id": "fa-c-015",
+      "spice": "chill",
+      "question": "What is the official name of the # symbol?",
+      "answer": "Octothorpe"
+    },
+    {
+      "id": "fa-c-016",
+      "spice": "chill",
+      "question": "What colour is a polar bear's skin?",
+      "answer": "Black"
+    },
+    {
+      "id": "fa-c-017",
+      "spice": "chill",
+      "question": "What is the fear of long words called?",
+      "answer": "Hippopotomonstrosesquippedaliophobia"
+    },
+    {
+      "id": "fa-c-018",
+      "spice": "chill",
+      "question": "What is a group of owls called?",
+      "answer": "A parliament"
+    },
+    {
+      "id": "fa-c-019",
+      "spice": "chill",
+      "question": "How many times does a hummingbird's heart beat per minute, roughly?",
+      "answer": "1,200"
+    },
+    {
+      "id": "fa-c-020",
+      "spice": "chill",
+      "question": "What is the name for a baby kangaroo?",
+      "answer": "A joey"
+    },
+    {
+      "id": "fa-s-001",
+      "spice": "spicy",
+      "question": "What is the dent in the bottom of a wine bottle called?",
+      "answer": "A punt"
+    },
+    {
+      "id": "fa-s-002",
+      "spice": "spicy",
+      "question": "Which country drinks the most beer per person?",
+      "answer": "Czech Republic"
+    },
+    {
+      "id": "fa-s-003",
+      "spice": "spicy",
+      "question": "What is the fear of being without your phone called?",
+      "answer": "Nomophobia"
+    },
+    {
+      "id": "fa-s-004",
+      "spice": "spicy",
+      "question": "In which city was the Caesar cocktail invented in 1969?",
+      "answer": "Calgary"
+    },
+    {
+      "id": "fa-s-005",
+      "spice": "spicy",
+      "question": "What is a group of ferrets called?",
+      "answer": "A business"
+    },
+    {
+      "id": "fa-s-006",
+      "spice": "spicy",
+      "question": "Tequila must be made from which plant?",
+      "answer": "Blue agave"
+    },
+    {
+      "id": "fa-s-007",
+      "spice": "spicy",
+      "question": "What is the word for the smell of rain on dry ground?",
+      "answer": "Petrichor"
+    },
+    {
+      "id": "fa-s-008",
+      "spice": "spicy",
+      "question": "What was the first item ever sold on eBay?",
+      "answer": "A broken laser pointer"
+    },
+    {
+      "id": "fa-s-009",
+      "spice": "spicy",
+      "question": "What is a holder for a handle-less coffee cup called?",
+      "answer": "A zarf"
+    },
+    {
+      "id": "fa-s-010",
+      "spice": "spicy",
+      "question": "Which berry gives gin its main flavour?",
+      "answer": "Juniper"
+    },
+    {
+      "id": "fa-s-011",
+      "spice": "spicy",
+      "question": "The Bloody Mary was supposedly born at Harry's New York Bar. In which city?",
+      "answer": "Paris"
+    },
+    {
+      "id": "fa-s-012",
+      "spice": "spicy",
+      "question": "What is the medical name for brain freeze?",
+      "answer": "Sphenopalatine ganglioneuralgia"
+    },
+    {
+      "id": "fa-s-013",
+      "spice": "spicy",
+      "question": "What does 'karaoke' mean in Japanese?",
+      "answer": "Empty orchestra"
+    },
+    {
+      "id": "fa-s-014",
+      "spice": "spicy",
+      "question": "What is the loop of fabric on the back of a shirt called?",
+      "answer": "A locker loop"
+    },
+    {
+      "id": "fa-s-015",
+      "spice": "spicy",
+      "question": "Which Canadian province was the last to end prohibition, in 1948?",
+      "answer": "Prince Edward Island"
+    },
+    {
+      "id": "fa-s-016",
+      "spice": "spicy",
+      "question": "What was 7 Up's original name?",
+      "answer": "Bib-Label Lithiated Lemon-Lime Soda"
+    },
+    {
+      "id": "fa-s-017",
+      "spice": "spicy",
+      "question": "What is the hollow at the base of your neck between the collarbones called?",
+      "answer": "Suprasternal notch"
+    },
+    {
+      "id": "fa-u-001",
+      "spice": "unhinged",
+      "question": "What did some ancient Romans rinse their teeth with?",
+      "answer": "Urine"
+    },
+    {
+      "id": "fa-u-002",
+      "spice": "unhinged",
+      "question": "Which animal poops in cubes?",
+      "answer": "The wombat"
+    },
+    {
+      "id": "fa-u-003",
+      "spice": "unhinged",
+      "question": "What is the fear of peanut butter sticking to the roof of your mouth called?",
+      "answer": "Arachibutyrophobia"
+    },
+    {
+      "id": "fa-u-004",
+      "spice": "unhinged",
+      "question": "Which country makes it illegal to own just one guinea pig?",
+      "answer": "Switzerland"
+    },
+    {
+      "id": "fa-u-005",
+      "spice": "unhinged",
+      "question": "Which sea creature breathes through its butt?",
+      "answer": "The sea cucumber"
+    },
+    {
+      "id": "fa-u-006",
+      "spice": "unhinged",
+      "question": "In 1932, the Australian army fought a 'war' against which animal, and lost?",
+      "answer": "Emus"
+    },
+    {
+      "id": "fa-u-007",
+      "spice": "unhinged",
+      "question": "What was ketchup sold as in the 1830s?",
+      "answer": "Medicine"
+    },
+    {
+      "id": "fa-u-008",
+      "spice": "unhinged",
+      "question": "What is the world's largest single flower, which smells like rotting meat?",
+      "answer": "Rafflesia"
+    },
+    {
+      "id": "fa-u-009",
+      "spice": "unhinged",
+      "question": "What did some Europeans grind into powder and eat as medicine in the 1600s?",
+      "answer": "Egyptian mummies"
+    },
+    {
+      "id": "fa-u-010",
+      "spice": "unhinged",
+      "question": "What is the fear of beards called?",
+      "answer": "Pogonophobia"
+    },
+    {
+      "id": "fa-u-011",
+      "spice": "unhinged",
+      "question": "What were the first toothbrush bristles in China made from?",
+      "answer": "Hog hair"
+    },
+    {
+      "id": "fa-u-012",
+      "spice": "unhinged",
+      "question": "Which animal was most often put on trial in medieval Europe?",
+      "answer": "Pigs"
+    },
+    {
+      "id": "fa-u-013",
+      "spice": "unhinged",
+      "question": "What is the name of the world's oldest known living tortoise, on St Helena?",
+      "answer": "Jonathan"
+    },
+    {
+      "id": "fa-u-014",
+      "spice": "unhinged",
+      "question": "What did Coca-Cola's original recipe contain that it no longer does?",
+      "answer": "Cocaine"
+    },
+    {
+      "id": "fa-u-015",
+      "spice": "unhinged",
+      "question": "What is the scientific name for the gorilla?",
+      "answer": "Gorilla gorilla"
+    }
+  ]
+}

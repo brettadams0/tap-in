@@ -4,6 +4,10 @@
  */
 import { SPICE_LEVELS, type Rng, type Spice } from '@tap-in/shared';
 import { z } from 'zod';
+import fakeAnswerJson from '../../../content/fakeAnswer.v1.json';
+import liarsPromptJson from '../../../content/liarsPrompt.v1.json';
+import secretWordJson from '../../../content/secretWord.v1.json';
+import twoTruthsJson from '../../../content/twoTruths.v1.json';
 import wouldYouRatherJson from '../../../content/wouldYouRather.v1.json';
 
 const spice = z.enum(SPICE_LEVELS);
@@ -17,6 +21,37 @@ export const wyrEntrySchema = z.strictObject({
 });
 export type WyrEntry = z.infer<typeof wyrEntrySchema>;
 
+/** Liar's Prompt: everyone answers `main`, the imposter answers `imposter`. */
+export const liarEntrySchema = z.strictObject({
+  id: promptId,
+  spice,
+  main: z.string().min(5).max(80),
+  imposter: z.string().min(5).max(80),
+});
+
+/** Secret Word: the word everyone but the outsider sees, and the category everyone sees. */
+export const secretEntrySchema = z.strictObject({
+  id: promptId,
+  spice,
+  word: z.string().min(2).max(24),
+  category: z.string().min(2).max(32),
+});
+
+/** Two Truths: a first-person fake fact that could plausibly be true of anyone. */
+export const fakeFactEntrySchema = z.strictObject({
+  id: promptId,
+  spice,
+  fact: z.string().min(8).max(70),
+});
+
+/** Fake Answer: an obscure trivia question and its real answer. */
+export const triviaEntrySchema = z.strictObject({
+  id: promptId,
+  spice,
+  question: z.string().min(10).max(160),
+  answer: z.string().min(1).max(40),
+});
+
 export function bankSchema<T extends z.ZodType>(entry: T) {
   return z.strictObject({
     bank: z.string(),
@@ -26,6 +61,10 @@ export function bankSchema<T extends z.ZodType>(entry: T) {
 }
 
 export const wyrBank = bankSchema(wyrEntrySchema).parse(wouldYouRatherJson).entries;
+export const liarBank = bankSchema(liarEntrySchema).parse(liarsPromptJson).entries;
+export const secretBank = bankSchema(secretEntrySchema).parse(secretWordJson).entries;
+export const fakeFactBank = bankSchema(fakeFactEntrySchema).parse(twoTruthsJson).entries;
+export const triviaBank = bankSchema(triviaEntrySchema).parse(fakeAnswerJson).entries;
 
 /** Higher spice levels include the lower ones (SPEC "Spice levels"). */
 export function allowedAt(entrySpice: Spice, roomSpice: Spice): boolean {

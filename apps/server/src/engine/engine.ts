@@ -559,6 +559,7 @@ export class RoomEngine {
       drinks,
       streak: {},
       reactionMs: {},
+      liarPoints: {},
       lastBreakAt: now,
       overlay: null,
       results: null,
@@ -614,11 +615,13 @@ export class RoomEngine {
     const gameId = this.withRng((rng) => pickNextGame(session.history, enabled, rng));
     const game = GAMES[gameId];
     const n = this.activeIds().length;
+    const length = this.state.settings.length;
     const elapsed = now - session.startedAt;
     // Never start a block that would overshoot the budget by more than half its length.
     if (
       !game ||
-      (session.history.length > 0 && elapsed + this.ms(game.estimateMs(n)) / 2 > session.budgetMs)
+      (session.history.length > 0 &&
+        elapsed + this.ms(game.estimateMs(n, length)) / 2 > session.budgetMs)
     ) {
       this.showResults();
       return;
@@ -626,7 +629,7 @@ export class RoomEngine {
     session.history.push(gameId);
     session.gameId = gameId;
     session.round = 0;
-    session.rounds = game.rounds(n);
+    session.rounds = game.rounds(n, length);
     session.participants = this.activeIds();
     session.reveal = null;
     session.drink = null;
@@ -645,6 +648,7 @@ export class RoomEngine {
     session.drink = null;
     session.done = [];
     session.game = this.withRng((rng) => game.startRound(session.game, this.gameCtx(session, rng)));
+    this.syncRounds(session, game);
     this.setPhase('roundInput', this.deps.now(), game.deadline(session.game));
     this.checkRound();
   }
@@ -654,9 +658,18 @@ export class RoomEngine {
     const game = this.currentGame();
     if (!session || !game) return;
     session.game = this.withRng((rng) => game.onTimer(session.game, this.gameCtx(session, rng)));
+    this.syncRounds(session, game);
     this.state.phaseEndsAt = game.deadline(session.game);
     this.touch();
     this.checkRound();
+  }
+
+  /** A block can come up shorter than planned (Two Truths: no facts, no spotlight). */
+  private syncRounds(session: SessionState, game: AnyGame): void {
+    const planned = game.plannedRounds?.(session.game) ?? null;
+    if (planned !== null) {
+      session.rounds = Math.max(session.round, Math.min(session.rounds, planned));
+    }
   }
 
   /** End the step early when nobody connected is still awaited; reveal once the round is over. */
@@ -673,6 +686,7 @@ export class RoomEngine {
       const waitingOn = game.awaiting(session.game).filter((p) => connected.has(p));
       if (waitingOn.length > 0 || !game.endsEarly(session.game)) return;
       session.game = this.withRng((rng) => game.onTimer(session.game, this.gameCtx(session, rng)));
+      this.syncRounds(session, game);
       this.state.phaseEndsAt = game.deadline(session.game);
       this.touch();
     }
@@ -689,6 +703,10 @@ export class RoomEngine {
     session.streak = streak;
     for (const [id, stat] of Object.entries(result.stats ?? {})) {
       if (stat.reactionMs !== undefined) (session.reactionMs[id] ??= []).push(stat.reactionMs);
+      if (stat.liarPoints) {
+        const points = (session.liarPoints ??= {});
+        points[id] = (points[id] ?? 0) + stat.liarPoints;
+      }
     }
     const at = this.deps.now() + LEAD_MS;
     this.setPhase('roundReveal', at, at + this.ms(game.revealMs(session.participants.length)));
@@ -754,6 +772,7 @@ export class RoomEngine {
       session.drinks,
       session.reactionMs,
       session.history,
+      session.liarPoints ?? {},
     );
     this.setPhase('results', this.deps.now() + LEAD_MS, null);
   }
@@ -833,6 +852,9 @@ export class RoomEngine {
       return;
     }
     session.game = next;
+    // An input can move the step on (Secret Word: the next player's hint turn).
+    this.syncRounds(session, game);
+    this.state.phaseEndsAt = game.deadline(session.game);
     this.touch();
     this.checkRound();
   }

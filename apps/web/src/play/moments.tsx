@@ -8,6 +8,7 @@ import {
   type DrinkReason,
   type DrinkView,
   type RoomView,
+  type SpareReason,
 } from '@tap-in/shared';
 import type { RoomConnection } from '../net/connection.js';
 import { Cap } from '../ui/Cap.js';
@@ -93,13 +94,24 @@ const REASON: Record<DrinkReason, string> = {
   early: 'Too early!',
   slowest: 'Slowest thumbs',
   noTap: "Didn't tap",
+  caught: 'Caught red-handed',
+  wrongGuess: 'Caught, and guessed wrong',
+  fooled: 'Fell for a fake',
+  nobodyFooled: 'Nobody fell for it',
   covering: 'Taking one for the team',
+};
+
+const SPARED: Record<SpareReason, { all: string; you: string }> = {
+  imposterEscaped: { all: 'The imposter got away with it', you: 'Nobody clocked you' },
+  outsiderEscaped: { all: 'The outsider blended right in', you: 'You blended right in' },
+  outsiderGuessed: { all: 'The outsider guessed the word', you: 'You guessed the word' },
 };
 
 const NOBODY: Record<NonNullable<DrinkView['nobody']>, string> = {
   balanced: 'Perfectly balanced',
   unanimous: 'Great minds…',
   lucky: 'Lucky escape!',
+  sharp: 'Nobody got fooled. Sharp crowd.',
 };
 
 /** The Drink moment. On the drinker's phone it's a full-screen takeover; elsewhere a coaster. */
@@ -112,7 +124,29 @@ export function DrinkMoment({ conn, view }: { conn: RoomConnection; view: RoomVi
   const mine = drink.drinkers.find((d) => d.id === me);
   const done = s.done.includes(me);
 
+  const spared = drink.everyone ? drink.spared : null;
+  if (spared?.ids.includes(me)) {
+    const p = playerOf(view, me);
+    return (
+      <main className="screen moment spared" data-testid="drink-spared">
+        <div className="zone-content center grow">
+          {go && (
+            <>
+              {p && <Cap avatar={p.avatar} size={110} label={p.name} className="cap-popoff" />}
+              <h1 className="title spared-word">GOT AWAY WITH IT</h1>
+              <p className="drink-reason">{SPARED[spared.why].you}. Everyone else drinks.</p>
+            </>
+          )}
+        </div>
+        <div className="zone-action">
+          <p className="do-this">Act natural. 😇</p>
+        </div>
+      </main>
+    );
+  }
+
   if (drink.everyone) {
+    const except = spared?.ids.map((id) => playerOf(view, id)?.name ?? '?').join(' & ');
     return (
       <main className="screen moment everyone" data-testid="drink-everyone">
         {go && (
@@ -131,6 +165,11 @@ export function DrinkMoment({ conn, view }: { conn: RoomConnection; view: RoomVi
               <span>EVERYONE</span>
               <span>DRINK</span>
             </h1>
+          )}
+          {go && spared && (
+            <p className="sticker everyone-except">
+              …except {except}. {SPARED[spared.why].all}!
+            </p>
           )}
         </div>
         <DoneButton conn={conn} done={done} />

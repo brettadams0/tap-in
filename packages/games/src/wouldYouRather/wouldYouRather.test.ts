@@ -27,7 +27,7 @@ describe('Would You Rather', () => {
     expect(g.awaiting(s)).toEqual(players);
     expect(g.publicView(s).a.length).toBeGreaterThan(2);
     expect(ctx.used).toHaveLength(1);
-    expect(g.rounds(5)).toBe(4);
+    expect(g.rounds(5, 'standard')).toBe(4);
   });
 
   it('keeps votes private until the reveal', () => {
@@ -86,7 +86,7 @@ describe('Would You Rather', () => {
     expect(g.deadline(g.shift(s, 5000))).toBe(ctx.now + 20_000);
     expect(g.deadline(g.shift(g.onTimer(s, ctx), 5000))).toBeNull();
     expect(g.endsEarly(s)).toBe(true);
-    expect(g.estimateMs(5)).toBeGreaterThan(60_000);
+    expect(g.estimateMs(5, 'standard')).toBeGreaterThan(60_000);
     expect(g.revealMs(5)).toBeGreaterThan(2000);
   });
 });

@@ -55,6 +55,7 @@ function view(
 const drink = (drinkers: string[], everyone = false) => ({
   drinkers: drinkers.map((id) => ({ id, reason: 'smallerSide' as const })),
   everyone,
+  spared: null,
   nobody: drinkers.length || everyone ? null : ('balanced' as const),
   saves: [],
 });
@@ -87,6 +88,50 @@ describe('cues', () => {
     });
     expect(cuesFor(view('drink', { drink: drink([], true) }))[0]?.sound).toBe('everyone');
     expect(cuesFor(view('drink', { drink: drink([]) }))[0]?.sound).toBe('nobody');
+  });
+
+  it('the spared player hears a private cheer while everyone else drinks', () => {
+    const spared = {
+      ...drink([], true),
+      spared: { ids: ['me'], why: 'imposterEscaped' as const },
+    };
+    expect(cuesFor(view('drink', { drink: spared }))[0]).toMatchObject({
+      sound: 'cheer',
+      private: true,
+    });
+    const other = { ...spared, spared: { ids: ['p2'], why: 'imposterEscaped' as const } };
+    expect(cuesFor(view('drink', { drink: other }))[0]?.sound).toBe('everyone');
+  });
+
+  it("lands Liar's Prompt answers one by one in each answerer's voice, without ticks", () => {
+    const cues = cuesFor(
+      view(
+        'roundInput',
+        {
+          gameId: 'liarsPrompt',
+          play: {
+            gameId: 'liarsPrompt',
+            step: 'show',
+            pub: {
+              answers: [
+                { id: 'p3', text: 'Apple' },
+                { id: 'me', text: null },
+              ],
+              showAt: 11_000,
+              showEach: 1400,
+              question: null,
+            },
+            me: { question: 'Name a fruit', answer: null, vote: null },
+            reveal: null,
+          },
+        },
+        { phaseEndsAt: 20_000 },
+      ),
+    );
+    expect(cues.map((c) => [c.sound, c.at, c.seat])).toEqual([
+      ['land', 11_000, 2],
+      ['land', 12_400, 0],
+    ]);
   });
 
   it('schedules the Shotgun fake-out and flash at their server times', () => {

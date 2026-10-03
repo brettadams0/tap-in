@@ -12,6 +12,7 @@ const WAKE_EARLY_MS = 120;
 const RECIPES: Record<Exclude<Cue['sound'], 'everyone' | 'sting'>, synth.Recipe> = {
   intro: synth.intro,
   tick: synth.tick,
+  land: synth.stamp,
   reveal: synth.reveal,
   drinkYou: synth.horn,
   drinkOther: synth.clink,
