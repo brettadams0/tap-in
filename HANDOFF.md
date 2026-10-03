@@ -2,7 +2,7 @@
 
 For the next Claude session. This is the map from where things stand to a finished v1. Read it first, then `SPEC.md` (the source of truth, including the v1 definition of done), `PLAN.md` (phase task lists), `DECISIONS.md` (every recorded choice) and `DESIGN.md` (the look, sound and fun layer).
 
-_Last updated 2026-10-03, end of phase 4._
+_Last updated 2026-10-03, end of phase 5._
 
 ## 1. Where things stand
 
@@ -11,14 +11,15 @@ _Last updated 2026-10-03, end of phase 4._
   - Phase 2: the session loop, the Drink system (fairness cap), synced audio, **Would You Rather**, **Reaction Shotgun**.
   - Phase 3: **Liar's Prompt**, **Secret Word**, **Two Truths, One App**, **Fake Answer**, the text kit and profanity tiers, "everyone except…" drinks, a first Best liar award.
   - Phase 4: **Rank It**, **Tap Race**, **Spin the Bottle**, **Fill in the Blank**, **Countdown**, and **Reactions**.
-- **Left for v1:** phase 5 (content), phase 6 (polish), phase 7 (hardening). Details in §3.
+  - Phase 5: every prompt bank at its minimum for all three spice levels (strict validator in the build), the skip-prompt flag, Capn's commentary.
+- **Left for v1:** phase 6 (polish), phase 7 (hardening). Details in §3.
 - **Live room server:** <https://tap-in-server.brettdev.workers.dev> (Cloudflare Worker + Durable Objects, free plan). `GET /healthz` returns `{"ok":true}`.
 - **Deploys:** Vercel project `tap-in` (Root Directory `apps/web`) deploys every push to `main`; branches get previews. The server deploys from GitHub Actions.
 - **Pipeline (GitHub Actions):**
   - `ci.yml`: lint, format, typecheck, unit + integration + workerd tests, builds (with the content validator), Playwright on WebKit (iPhone 14) + Chromium (Pixel 7) at `TIME_SCALE=0.4`.
   - `deploy-server.yml`: `wrangler deploy` after green CI on `main`, then a `/healthz` smoke test.
   - `e2e-prod.yml`: the whole Playwright suite against the live site with **real timers**, after each server deploy (or **Run workflow**).
-- **Production e2e status:** green after phases 2 and 3. After phase 4 one test failed on production only: the Secret Word e2e read the step before the vote had closed and missed the caught outsider's guess (hidden in CI by the 2.5× timers). The test fix ships with this handoff; check that the next `e2e-prod.yml` run is green.
+- **Production e2e status:** red after phase 4 (the Secret Word test read the step too early); fixed in #5. Check the latest `e2e-prod.yml` run on `main` before starting.
 - **Secrets and variables are set** by the user. GitHub: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `SERVER_URL`. Vercel: `VITE_SERVER_URL`. Never ask the user to paste tokens into chat.
 - **Only the user can do:** the real-phone party tests. `TESTING.md` has checklists for phases 1–4; none are ticked yet.
 
@@ -40,31 +41,11 @@ _Last updated 2026-10-03, end of phase 4._
 
 Build in phase order. Each phase is one PR (or a few) and ends deployed, `e2e-prod.yml` green, `PROGRESS.md` updated, new choices in `DECISIONS.md`, and this file updated.
 
-### Phase 5: Content
+### Phase 5: Content (done)
 
-Current sizes against the per-spice minimums (R2: every spice level gets its own full set):
-
-| Bank (`content/`)                     | Minimum per spice        | Chill | Spicy | Unhinged |
-| ------------------------------------- | ------------------------ | ----- | ----- | -------- |
-| `wouldYouRather`                      | 60                       | 32    | 30    | 30       |
-| `rankIt` (4 items each)               | 30                       | 15    | 15    | 15       |
-| `liarsPrompt` (main + imposter)       | 40                       | 20    | 17    | 15       |
-| `twoTruths` (fake facts)              | 80                       | 30    | 25    | 25       |
-| `secretWord` (word + category)        | 80                       | 30    | 25    | 26       |
-| `fakeAnswer` (question + real answer) | 50                       | 20    | 17    | 15       |
-| `spinTheBottle` (dares)               | 40                       | 15    | 15    | 15       |
-| `fillInTheBlank` (one `___`)          | 60                       | 20    | 18    | 18       |
-| `reactions` (Kind / Funny / Glaze)    | 40+ per tab (DESIGN §12) | 34    | 13    | 7        |
-
-1. **Fill every bank to its minimum for every spice level.** That's about 750 new entries. Write them in themed batches and keep each bank's id scheme (`<prefix>-<c|s|u>-NNN`).
-   - Chill is safe for a first meeting; Spicy is cheeky with mild innuendo; Unhinged is wild and absurd, never cruel (SPEC "Spice levels"). For trivia, Secret Word and fake facts, spicier means bar and nightlife _topics_, not innuendo (P9).
-   - **Fake Answer answers must be true.** Only add facts you're certain of; leave out anything contested. A wrong "real" answer ruins a round.
-   - Liar's Prompt pairs must be _close_ (answers overlap), never identical. Secret Word words should be guessable from hints.
-   - Reactions: 40+ lines per tab, spread across spice levels. No bodies, appearance, touching, meeting up or contact info (the validator's `UNSAFE_NOTE` list catches the obvious ones).
-2. **Stranger-safety read-through** of every line against SPEC "Stranger-safety rules". The validator already blocks drink amounts (`BANNED`), unsafe dares (`UNSAFE_DARE`) and unsafe notes (`UNSAFE_NOTE`) in `packages/games/src/validate.ts`. Extend those lists if the review finds a new pattern.
-3. **Make the validator strict:** change the build script in `packages/games/package.json` to `tsx scripts/validate-content.ts --strict`, so a short bank fails the build (G9). Update DECISIONS G9.
-4. **Skip-prompt flag** (SPEC "Content", R17): a small 🚩 on prompt screens (WYR, Rank It, Liar's Prompt, Fill in the Blank, Fake Answer, Spin dares). Two flags on the same prompt in a session auto-skip it (deal a fresh entry, keep the timer fair) and log `{bankId, promptId}` to server stdout only, with no player data. A new client message (`flag`), a zod schema, engine tests and an e2e.
-5. **Capn commentary** (DESIGN §8, §13): one-liners in the reaction lane's sticker slot when it's empty, between phases only, never during input.
+- Banks: see `PROGRESS.md` for the counts. To add lines, keep each bank's id scheme (`<prefix>-<c|s|u>-NNN`); the build runs `validate-content.ts --strict`, so a short bank, a duplicate, drink wording or an unsafe dare/note fails it.
+- Skip-prompt flag: `GameModule.prompt(s)` names the bank entry a round is showing (only in its first input step); the engine counts `flag` messages per prompt, and two re-deal the round from `SessionState.roundBase` (K5–K9). A new banked game should implement `prompt()`.
+- Capn's lines: `apps/web/src/play/capn.ts`.
 
 ### Phase 6: Polish
 
@@ -143,11 +124,11 @@ pnpm --filter @tap-in/web dev        # client on :5173
 - **ESLint is strict type-checked, with `react-hooks` v6:** no setState in effects, no ref writes in render, no unbound methods (`ctx.ms` must be called as `ctx.ms(…)`, not passed around).
 - **`AGENTS.md`** is regenerated by Turborepo; leave it committed. The workerd test config aliases `obscenity` to its CJS entry (I9).
 - **Vercel's `VITE_SERVER_URL`** is baked in at build time; changing it needs a redeploy. **Allowed origins** live in `apps/server/wrangler.toml` (`ALLOWED_ORIGINS`); `tap-in-*.vercel.app` previews are allowed when `https://tap-in.vercel.app` is listed.
-- **Old saved rooms:** new optional state fields (e.g. `liarPoints`) must tolerate rooms persisted before the change.
+- **Two flags skip a prompt immediately.** In an e2e, the second flagger's chip goes straight back to "🚩 Skip prompt?" (a fresh prompt); WYR's 15 s vote is only 6 s at `TIME_SCALE=0.4`, too short for two flag sheets, so the flag e2e uses Fill in the Blank.
+- **Old saved rooms:** new optional state fields (e.g. `liarPoints`, `flags`, `skipped`, `roundBase`) must tolerate rooms persisted before the change.
 
 ## 9. Known issues and small debts
 
-- Prompt banks and reaction pools are starter-sized (phase 5).
 - Countdown's ding plays when the patch arrives, so on other phones it can trail the tap by one network hop.
 - Tap Race: refreshing mid-window loses that phone's count (it scores 0 and drinks). Probably fine; revisit if real players complain.
 - Reaction rate limits live in memory per room, so a Durable Object restart resets them (J14).
@@ -171,13 +152,13 @@ pnpm --filter @tap-in/web dev        # client on :5173
 
 > You're continuing the Tap In project (repo: brettadams0/tap-in). Read HANDOFF.md first, then SPEC.md, PLAN.md, DECISIONS.md and DESIGN.md, before doing anything else.
 >
-> Phases 1–4 are done, merged and deployed (all 11 games playable):
+> Phases 1–5 are done, merged and deployed (all 11 games playable, full prompt banks):
 >
 > - Site: https://tap-in-omega.vercel.app
 > - Room server: https://tap-in-server.brettdev.workers.dev
 >
 > First, confirm the latest "E2E on production" GitHub Actions run on main is green. If it's red, fix it before anything else.
 >
-> Then work through the remaining phases in order, to the v1 definition of done in SPEC.md: phase 5 (content, then the strict validator and the skip-prompt flag), phase 6 (polish), phase 7 (hardening). HANDOFF.md §3 has the task list for each.
+> Then work through the remaining phases in order, to the v1 definition of done in SPEC.md: phase 6 (polish), phase 7 (hardening). HANDOFF.md §3 has the task list for each.
 >
 > Work on a claude/\* branch. Run lint, format check, typecheck and tests before every push. One PR per phase: open it, get CI green, merge, then confirm "E2E on production" is green. Record every open choice in DECISIONS.md, and update PROGRESS.md, TESTING.md and HANDOFF.md at the end of each phase.

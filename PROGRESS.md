@@ -1,5 +1,39 @@
 # Progress
 
+## Phase 5: Content (code complete; real-phone test pending)
+
+**Works**
+
+- **Every bank is at its minimum for all three spice levels** (R2), and the build now fails on a short bank (`--strict`):
+
+  | Bank                  | Chill | Spicy | Unhinged | Minimum  |
+  | --------------------- | ----- | ----- | -------- | -------- |
+  | Would You Rather      | 62    | 61    | 61       | 60       |
+  | Rank It               | 32    | 32    | 32       | 30       |
+  | Liar's Prompt         | 41    | 41    | 41       | 40       |
+  | Two Truths fake facts | 82    | 82    | 82       | 80       |
+  | Secret Word           | 82    | 82    | 82       | 80       |
+  | Fake Answer trivia    | 51    | 51    | 51       | 50       |
+  | Spin the Bottle dares | 42    | 42    | 42       | 40       |
+  | Fill in the Blank     | 62    | 62    | 62       | 60       |
+  | Reactions (per tab)   | 40+   | +10   | +10      | 40 a tab |
+
+- **Stranger-safety pass** over every line (old and new): a kissed-by-a-stranger option and an accent pair swapped out, no drink quantities even in questions, no dare that asks you to share your phone. Trivia answers are facts I'm certain of (K2).
+- **Skip-prompt flag:** a small 🚩 under the header strip on prompt screens (with a confirm sheet). Two flags from different players re-deal the round with a fresh prompt and a full timer, every phone shows "Skipped! Fresh one.", the prompt never comes back that session, and the server logs `{bankId, promptId}` only (R17, K5–K9).
+- **Capn's commentary:** a short line from Capn in the reaction lane's empty slot on reveals, Drink moments, outros and results (never during input).
+- **Budgets:** initial JS 84.9 KB gzipped (unchanged); the lazy reactions chunk grew to 8.8 KB gzipped with the bigger pools (was 5.6 KB).
+- **Tests:** strict validator tests (per-tab reaction counts), a `prompt()` test for every banked game, an engine test for flags (privacy, re-deal, log shape, no repeats), Capn line tests and a Playwright run of the flag flow.
+
+**Needs you**
+
+- A real-phone party test (TESTING.md, phases 3–5), and a read of a few prompts at each spice level: wording is the one thing tests can't judge.
+
+**Known issues / notes**
+
+- The flag chip is 44 px tall (a secondary control, K5); primary actions keep 56 px.
+
+**Next: Phase 6, polish** (signature animations, sound signatures, awards, the fun layer, reduced motion, haptics, 60 fps).
+
 ## Phase 4: Remaining games + Reactions (code complete; real-phone test pending)
 
 **Works**
@@ -25,7 +59,7 @@
 - Prompt banks and reaction pools are starter-sized; phase 5 fills them (the validator warns until then).
 - Countdown's ding plays when the patch arrives, so it can trail the tap on other phones by a network hop.
 
-**Next: Phase 5, content** (every bank to its minimum for all three spice levels, the skip-prompt flag).
+**Next: Phase 5, content** (done, see above).
 
 ## Phase 3: Deception games (deployed; real-phone test pending)
 
