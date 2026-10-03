@@ -420,3 +420,31 @@
   color: var(--foam-dim);
   vertical-align: middle;
 }
+
+/* Easter egg: Capn burps a bubble after 5 taps */
+.capn {
+  position: relative;
+}
+.capn-burp {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  font-size: 28px;
+  pointer-events: none;
+  animation: burp 1.2s ease-out both;
+}
+@keyframes burp {
+  0% {
+    transform: translate(-50%, 20px) scale(0.4);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -60px) scale(1.4);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .capn-burp {
+    animation-name: fade;
+  }
+}

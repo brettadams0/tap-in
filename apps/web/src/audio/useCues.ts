@@ -24,6 +24,7 @@ const RECIPES: Record<Exclude<Cue['sound'], 'everyone' | 'sting'>, synth.Recipe>
   flash: synth.crack,
   fake: synth.nope,
   cheer: synth.cheer,
+  role: synth.stamp,
 };
 
 function playCue(cue: Cue, perf: number, view: RoomView): void {

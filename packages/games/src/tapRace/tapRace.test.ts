@@ -48,6 +48,8 @@ describe('Tap Race', () => {
     ]);
     expect(r.assigned).toEqual([{ id: 'p2', reason: 'noAnswer' }]);
     expect(r.ranking).toEqual(['p2', 'p1']);
+    // Fastest thumbs: only real counts become stats.
+    expect(r.stats).toEqual({ p1: { taps: 40 } });
   });
 
   it('ties for fewest all drink', () => {

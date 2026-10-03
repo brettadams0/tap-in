@@ -72,6 +72,10 @@ describe('session flow', () => {
     expect(drink?.drinkers.map((d) => d.id)).toEqual([players[3]?.playerId, players[4]?.playerId]);
     expect(drink?.drinkers.every((d) => d.reason === 'smallerSide')).toBe(true);
     expect(sess(host).drinks[players[3]?.playerId ?? '']).toBe(1);
+    // Combo streaks: everyone who stayed dry while someone drank is on 1.
+    expect(sess(host).dry).toEqual(
+      Object.fromEntries(players.map((p, i) => [p.playerId, i < 3 ? 1 : 0])),
+    );
 
     // Both drinkers tap Done: the moment wraps up early.
     players[3]?.send({ type: 'ready' });

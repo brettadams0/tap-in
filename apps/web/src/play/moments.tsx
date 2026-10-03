@@ -7,6 +7,7 @@ import {
   MIN_PLAYERS,
   type DrinkReason,
   type DrinkView,
+  type GameId,
   type RoomView,
   type SpareReason,
 } from '@tap-in/shared';
@@ -56,6 +57,60 @@ const GAGS = [
 ];
 
 /** 3 s title card: the game's own slam-in, its rule, and a sticker gag below the rule. */
+/** Per-game title-card props (DESIGN §2): decoration only, so they're hidden from screen readers. */
+function TitleProp({ gameId }: { gameId: GameId }) {
+  switch (gameId) {
+    case 'rankIt':
+      return (
+        <div className="tc-prop tc-tickets" aria-hidden="true">
+          {[1, 2, 3, 4].map((n) => (
+            <span key={n} style={{ ['--i' as string]: n }}>
+              {n}
+            </span>
+          ))}
+        </div>
+      );
+    case 'twoTruths':
+      return (
+        <div className="tc-prop tc-stickers" aria-hidden="true">
+          {['✓', '✓', '?'].map((t, i) => (
+            <span key={i} style={{ ['--i' as string]: i }}>
+              {t}
+            </span>
+          ))}
+        </div>
+      );
+    case 'fakeAnswer':
+      return (
+        <div className="tc-prop tc-fan" aria-hidden="true">
+          {[-2, -1, 0, 1, 2].map((n) => (
+            <span key={n} style={{ ['--n' as string]: n }} />
+          ))}
+        </div>
+      );
+    case 'tapRace':
+      return (
+        <div className="tc-prop tc-stripes" aria-hidden="true">
+          {[0, 1, 2].map((n) => (
+            <span key={n} style={{ ['--i' as string]: n }} />
+          ))}
+        </div>
+      );
+    case 'countdown':
+      return (
+        <div className="tc-prop tc-punch" aria-hidden="true">
+          {[3, 2, 1].map((n, i) => (
+            <span key={n} style={{ ['--i' as string]: i }}>
+              {n}
+            </span>
+          ))}
+        </div>
+      );
+    default:
+      return null;
+  }
+}
+
 export function TitleCard({ conn, view }: { conn: RoomConnection; view: RoomView }) {
   const s = view.session;
   const go = useReached(conn, view.phaseAt);
@@ -75,10 +130,14 @@ export function TitleCard({ conn, view }: { conn: RoomConnection; view: RoomView
         <div className="label">Game {s.block}</div>
         {go && (
           <>
+            <TitleProp gameId={s.gameId} />
             <div className="tc-icon" aria-hidden="true">
               {meta.icon}
             </div>
-            <h1 className="tc-name display">{GAME_NAMES[s.gameId]}</h1>
+            <h1 className="tc-name display">
+              {GAME_NAMES[s.gameId]}
+              {s.gameId === 'secretWord' && <span className="tc-redact" aria-hidden="true" />}
+            </h1>
             <p className="tc-rule">{meta.rule}</p>
             <p className="tc-gag">{gag}</p>
           </>
@@ -124,6 +183,34 @@ const NOBODY: Record<NonNullable<DrinkView['nobody']>, string> = {
 };
 
 /** The Drink moment. On the drinker's phone it's a full-screen takeover; elsewhere a coaster. */
+/** The Drink flood has four looks, so the 15th Drink still feels fresh (DESIGN §13). */
+export const FLOOD_VARIANTS = ['foam', 'fizz', 'confetti', 'caps'] as const;
+export type FloodVariant = (typeof FLOOD_VARIANTS)[number];
+
+/** Stable per Drink moment (and per player), so a re-render or refresh shows the same look. */
+export function floodVariant(phaseAt: number, drinks: number): FloodVariant {
+  return FLOOD_VARIANTS[(Math.floor(phaseAt / 1000) + drinks) % FLOOD_VARIANTS.length] ?? 'foam';
+}
+
+/** Twelve bits of decoration over the flood; positions are fixed so nothing jumps on re-render. */
+function FloodFx({ variant }: { variant: FloodVariant }) {
+  if (variant === 'foam') return null;
+  return (
+    <div className={`flood-fx fx-${variant}`} aria-hidden="true">
+      {Array.from({ length: 12 }, (_, i) => (
+        <span
+          key={i}
+          style={{
+            left: `${String((i * 37) % 100)}%`,
+            animationDelay: `${String(250 + ((i * 53) % 400))}ms`,
+            ['--r' as string]: `${String(((i * 71) % 60) - 30)}deg`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function DrinkMoment({ conn, view }: { conn: RoomConnection; view: RoomView }) {
   const s = view.session;
   const go = useReached(conn, view.phaseAt);
@@ -200,6 +287,7 @@ export function DrinkMoment({ conn, view }: { conn: RoomConnection; view: RoomVi
             <svg className="flood-crest" viewBox="0 0 400 40" preserveAspectRatio="none">
               <path d="M0 20 Q 25 0 50 20 T 100 20 T 150 20 T 200 20 T 250 20 T 300 20 T 350 20 T 400 20 V40 H0Z" />
             </svg>
+            <FloodFx variant={floodVariant(view.phaseAt, s.drinks[me] ?? 0)} />
           </div>
         )}
         <div className="zone-content center grow drink-words">

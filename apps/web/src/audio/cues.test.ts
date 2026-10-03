@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { defaultSettings, type RoomView, type SessionView } from '@tap-in/shared';
+import { defaultSettings, type PlayView, type RoomView, type SessionView } from '@tap-in/shared';
 import { cuesFor } from './cues.js';
 
 const avatar = {
@@ -47,6 +47,7 @@ function view(
       drinks: {},
       flag: null,
       skippedAt: null,
+      dry: {},
       results: null,
       ...session,
     },
@@ -79,6 +80,35 @@ describe('cues', () => {
         view('roundInput', { overlay: { kind: 'paused', endsAt: 1 } }, { phaseEndsAt: 30_000 }),
       ),
     ).toEqual([]);
+  });
+
+  it('whispers privately when your question or role appears, once per round', () => {
+    const liar = {
+      gameId: 'liarsPrompt',
+      step: 'answer',
+      pub: {},
+      me: {},
+      reveal: null,
+    } as unknown as PlayView;
+    expect(cuesFor(view('roundInput', { play: liar }))[0]).toEqual({
+      key: 'role:10000',
+      at: 10_000,
+      sound: 'role',
+      seat: 0,
+      private: true,
+    });
+    const secret = (turn: number) =>
+      ({
+        gameId: 'secretWord',
+        step: 'hint',
+        pub: { turn },
+        me: {},
+        reveal: null,
+      }) as unknown as PlayView;
+    expect(cuesFor(view('roundInput', { play: secret(0) }))[0]?.sound).toBe('role');
+    expect(cuesFor(view('roundInput', { play: secret(1) })).map((c) => c.sound)).not.toContain(
+      'role',
+    );
   });
 
   it('plays the Drink horn only on the drinker’s phone', () => {

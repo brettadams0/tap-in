@@ -90,6 +90,7 @@ describe('Countdown', () => {
       { id: 'p2', reason: 'collision' },
     ]);
     expect(r.nobody).toBeNull();
+    expect(r.stats).toEqual({ p1: { chaos: 1 }, p2: { chaos: 1 } });
   });
 
   it('shifts every time after a pause', () => {

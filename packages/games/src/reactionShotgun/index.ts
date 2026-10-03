@@ -11,7 +11,7 @@
  */
 import type { PlayerId, ShotgunEntry, ShotgunStep } from '@tap-in/shared';
 import { z } from 'zod';
-import type { Drinker, GameModule } from '../types.js';
+import type { Drinker, GameModule, RoundStat } from '../types.js';
 
 const ROUNDS = 4;
 export const FAKE_CHANCE = 0.3;
@@ -127,8 +127,9 @@ export const reactionShotgun: GameModule<'reactionShotgun', ShotgunState> = {
           .map((e) => ({ id: e.id, reason: 'slowest' }));
       }
     }
-    const stats: Record<PlayerId, { reactionMs: number }> = {};
+    const stats: Record<PlayerId, RoundStat> = {};
     for (const e of valid) if (e.ms !== null) stats[e.id] = { reactionMs: e.ms };
+    for (const e of early) stats[e.id] = { chaos: 1 };
     return {
       reveal: { board: [...valid, ...early, ...none], hadFake: s.fakeAt !== null },
       assigned,

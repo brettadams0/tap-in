@@ -23,7 +23,9 @@ export type CueSound =
   | 'nobody'
   | 'flash'
   | 'fake'
-  | 'cheer';
+  | 'cheer'
+  /** Your private question or role just appeared (Liar's Prompt, Secret Word). */
+  | 'role';
 
 export interface Cue {
   key: string;
@@ -59,6 +61,13 @@ export function cuesFor(view: RoomView): Cue[] {
       break;
     case 'roundInput': {
       const play = s.play;
+      // A private whisper when your own question or role appears (it differs per phone).
+      if (
+        (play?.gameId === 'liarsPrompt' && play.step === 'answer') ||
+        (play?.gameId === 'secretWord' && play.step === 'hint' && play.pub.turn === 0)
+      ) {
+        cues.push({ key: `role:${at}`, at, sound: 'role', seat: seatOf(me), private: true });
+      }
       if (play?.gameId === 'reactionShotgun') {
         if (play.pub.fakeAt !== null)
           cues.push({ key: `fake:${play.pub.fakeAt}`, at: play.pub.fakeAt, sound: 'fake' });

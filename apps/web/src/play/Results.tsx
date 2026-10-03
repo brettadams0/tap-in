@@ -10,6 +10,7 @@ const AWARD: Record<AwardId, { title: string; icon: string }> = {
   mostDrinks: { title: 'Most drinks', icon: '🍺' },
   fastestThumbs: { title: 'Fastest thumbs', icon: '⚡' },
   bestLiar: { title: 'Best liar', icon: '🤥' },
+  mostChaotic: { title: 'Most chaotic', icon: '🌪️' },
   cleanRecord: { title: 'Cleanest record', icon: '😇' },
 };
 
@@ -46,9 +47,22 @@ export function Results({ conn, view }: { conn: RoomConnection; view: RoomView }
           {r.standings.map((s) => {
             const p = playerOf(view, s.id);
             if (!p) return null;
+            // The group photo: each award sticker lands on its winners' caps after the awards.
+            const earned = r.awards.filter((a) => a.players.includes(s.id));
             return (
               <li key={s.id} className="standing">
-                <Cap avatar={p.avatar} size={40} label={p.name} live />
+                <span className="standing-cap">
+                  <Cap avatar={p.avatar} size={40} label={p.name} live />
+                  {go && earned.length > 0 && (
+                    <span
+                      className="earned"
+                      style={{ animationDelay: `${r.awards.length * 450 + 300}ms` }}
+                      aria-label={earned.map((a) => AWARD[a.id].title).join(', ')}
+                    >
+                      {earned.map((a) => AWARD[a.id].icon).join('')}
+                    </span>
+                  )}
+                </span>
                 <span className="standing-name">
                   {p.name}
                   {p.id === view.you.id && <span className="tag">You</span>}

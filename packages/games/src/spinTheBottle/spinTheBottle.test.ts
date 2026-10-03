@@ -66,6 +66,8 @@ describe('Spin the Bottle', () => {
     expect(r.reveal).toMatchObject({ choice: 'dare', done: 1, nope: 1, passed: true });
     expect(r.nobody).toBe('dared');
     expect(r.assigned).toEqual([]);
+    // One Nope vote is one chaos point for the dared player, even when the dare passes.
+    expect(r.stats).toEqual({ p2: { chaos: 1 } });
   });
 
   it('Nope beats Done: the dare failed and they drink', () => {
@@ -83,6 +85,7 @@ describe('Spin the Bottle', () => {
     const chose = ok(g.onInput(landed(ctx), 'p2', { choice: 'drink' }, ctx));
     expect(g.roundOver(chose)).toBe(true);
     expect(g.result(chose, ctx).selfInflicted).toEqual([{ id: 'p2', reason: 'choseDrink' }]);
+    expect(g.result(chose, ctx).stats).toEqual({ p2: { chaos: 1 } });
     const late = g.onTimer(landed(ctx), ctx);
     expect(late.choice).toBe('drink');
     // A chosen player who dropped is never penalised for it.

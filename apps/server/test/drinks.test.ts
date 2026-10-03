@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { RoundResult } from '@tap-in/games';
-import { applyFairnessCap, buildResults, drinkersOf } from '../src/engine/drinks.js';
+import {
+  applyFairnessCap,
+  buildResults,
+  drinkersOf,
+  type SessionStats,
+} from '../src/engine/drinks.js';
 
 const base: Omit<RoundResult<unknown>, 'reveal' | 'assigned'> = {
   selfInflicted: [],
@@ -92,11 +97,22 @@ describe('everyone except…', () => {
   });
 });
 
+const stats = (over: Partial<SessionStats> = {}): SessionStats => ({
+  reactionMs: {},
+  liarPoints: {},
+  chaos: {},
+  taps: {},
+  ...over,
+});
+
 describe('results', () => {
   it('awards most drinks, fastest thumbs and a clean record', () => {
-    const r = buildResults(all, { p1: 3, p2: 1, p3: 3, p4: 0 }, { p2: [200, 300], p4: [180] }, [
-      'wouldYouRather',
-    ]);
+    const r = buildResults(
+      all,
+      { p1: 3, p2: 1, p3: 3, p4: 0 },
+      ['wouldYouRather'],
+      stats({ reactionMs: { p2: [200, 300], p4: [180] } }),
+    );
     expect(r.standings.map((s) => s.id)).toEqual(['p1', 'p3', 'p2', 'p4']);
     expect(r.awards).toEqual([
       { id: 'mostDrinks', players: ['p1', 'p3'], detail: '3 drinks' },
@@ -106,18 +122,62 @@ describe('results', () => {
   });
 
   it('awards best liar for the most people fooled', () => {
-    const r = buildResults(all, { p1: 1, p2: 1, p3: 1, p4: 1 }, {}, [], { p2: 3, p3: 1 });
+    const r = buildResults(
+      all,
+      { p1: 1, p2: 1, p3: 1, p4: 1 },
+      [],
+      stats({ liarPoints: { p2: 3, p3: 1 } }),
+    );
     expect(r.awards).toEqual([
       { id: 'mostDrinks', players: all, detail: '1 drink' },
       { id: 'bestLiar', players: ['p2'], detail: '3 lies landed' },
     ]);
-    expect(buildResults(all, {}, {}, [], { p1: 1 }).awards[0]?.detail).toBe('1 lie landed');
+    expect(buildResults(all, {}, [], stats({ liarPoints: { p1: 1 } })).awards[0]?.detail).toBe(
+      '1 lie landed',
+    );
+  });
+
+  it('awards most chaotic for early taps, collisions, dodged dares and Nope votes', () => {
+    const r = buildResults(all, {}, [], stats({ chaos: { p1: 2, p3: 4, p4: 4 } }));
+    expect(r.awards).toEqual([
+      { id: 'mostChaotic', players: ['p3', 'p4'], detail: '4 chaos points' },
+    ]);
+    expect(buildResults(all, {}, [], stats({ chaos: { p2: 1 } })).awards[0]?.detail).toBe(
+      '1 chaos point',
+    );
+  });
+
+  it('fastest thumbs counts Tap Race taps per second, alone or with reaction times', () => {
+    const tapsOnly = buildResults(
+      all,
+      {},
+      [],
+      stats({ taps: { p1: [40, 50], p2: [60], p3: [0] } }),
+    );
+    expect(tapsOnly.awards).toEqual([
+      { id: 'fastestThumbs', players: ['p2'], detail: '12 taps a second' },
+    ]);
+    // Ranks added up: p1 0 + 1, p2 2 + 0, p3 1 + 2; p4 never played (last in both).
+    const both = buildResults(
+      all,
+      {},
+      [],
+      stats({
+        reactionMs: { p1: [150], p2: [400], p3: [200] },
+        taps: { p1: [50], p2: [60], p3: [40] },
+      }),
+    );
+    expect(both.awards).toEqual([
+      { id: 'fastestThumbs', players: ['p1'], detail: '150 ms average · 10 taps a second' },
+    ]);
   });
 
   it('skips awards nobody earned', () => {
-    expect(buildResults(all, {}, {}, []).awards).toEqual([]);
-    const one = buildResults(['p1', 'p2'], { p1: 1, p2: 1 }, {}, []);
+    expect(buildResults(all, {}, [], stats()).awards).toEqual([]);
+    const one = buildResults(['p1', 'p2'], { p1: 1, p2: 1 }, [], stats());
     expect(one.awards).toEqual([{ id: 'mostDrinks', players: ['p1', 'p2'], detail: '1 drink' }]);
-    expect(buildResults(['p1', 'p2'], { p1: 2, p2: 1 }, {}, []).awards[1]?.detail).toBe('1 drink');
+    expect(buildResults(['p1', 'p2'], { p1: 2, p2: 1 }, [], stats()).awards[1]?.detail).toBe(
+      '1 drink',
+    );
   });
 });

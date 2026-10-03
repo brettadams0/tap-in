@@ -200,6 +200,10 @@ button {
   user-select: none;
   -webkit-user-select: none;
 }
+/* Every other button still answers a press instantly, before any network round trip (<50 ms). */
+button:active:not(:disabled) {
+  transform: scale(0.96);
+}
 .btn:active:not(:disabled),
 .btn.is-pressed {
   transform: translate(4px, 4px) scale(0.98, 0.95);

@@ -18,6 +18,7 @@ import { WyrInput, WyrReveal } from './games/WouldYouRather.js';
 import { DrinkMoment, Intro, OverlayCard, Outro, TitleCard } from './moments.js';
 import { CornerMenu, FlagChip, HeaderStrip, inkOf, SoundChips } from './parts.js';
 import { ReactionLane } from './reactions.js';
+import { useReached } from './sync.js';
 import { Results } from './Results.js';
 
 export default function Play({ conn, view }: { conn: RoomConnection; view: RoomView }) {
@@ -31,11 +32,23 @@ export default function Play({ conn, view }: { conn: RoomConnection; view: RoomV
           <ClaimPrompt key={c.claimId} conn={conn} claimId={c.claimId} name={c.name} />
         ))}
       <PhaseBody conn={conn} view={view} />
+      {view.phase === 'roundReveal' && <RevealHit conn={conn} view={view} />}
       <ReactionLane conn={conn} view={view} />
       <OverlayCard conn={conn} view={view} />
       <CornerMenu conn={conn} view={view} />
     </div>
   );
+}
+
+/**
+ * The reveal hit (DESIGN §5): a halftone burst and a 6 px shake of the screen, landing with the
+ * reveal sound at the phase's synced moment. It covers nothing (no pointer events) and is gone
+ * in half a second; reduced motion drops the shake and keeps a short fade.
+ */
+function RevealHit({ conn, view }: { conn: RoomConnection; view: RoomView }) {
+  const go = useReached(conn, view.phaseAt);
+  if (!go || view.session?.play?.gameId === 'reactionShotgun') return null;
+  return <div key={view.phaseAt} className="reveal-hit" aria-hidden="true" />;
 }
 
 function PhaseBody({ conn, view }: { conn: RoomConnection; view: RoomView }) {

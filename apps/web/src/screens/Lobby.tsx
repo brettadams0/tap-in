@@ -11,6 +11,8 @@ import {
   type RoomSettings,
   type RoomView,
 } from '@tap-in/shared';
+import { audio } from '../audio/audio.js';
+import { pop, voiceFor } from '../audio/synth.js';
 import type { RoomConnection } from '../net/connection.js';
 import { saveProfile, loadProfile } from '../net/storage.js';
 import { Cap } from '../ui/Cap.js';
@@ -26,7 +28,22 @@ const ReactionLane = lazy(() =>
 const SPICE_LABEL = { chill: 'Chill', spicy: 'Spicy', unhinged: 'Unhinged' } as const;
 const LENGTH_LABEL = { short: 'Short', standard: 'Standard', long: 'Long' } as const;
 
+/** A pop in the newcomer's own voice whenever someone joins (SPEC "Required sound events"). */
+function useJoinPops(players: RoomView['players']): void {
+  const seen = useRef<Set<string> | null>(null);
+  useEffect(() => {
+    const before = seen.current;
+    if (before) {
+      players.forEach((p, i) => {
+        if (!before.has(p.id)) audio.playNow(pop, voiceFor(i));
+      });
+    }
+    seen.current = new Set(players.map((p) => p.id));
+  }, [players]);
+}
+
 export function Lobby({ conn, view }: { conn: RoomConnection; view: RoomView }) {
+  useJoinPops(view.players);
   const me = view.players.find((p) => p.id === view.you.id);
   const isHost = view.hostId === view.you.id;
   const host = view.players.find((p) => p.isHost);
@@ -51,7 +68,7 @@ export function Lobby({ conn, view }: { conn: RoomConnection; view: RoomView }) 
             <span className="hint small">Tap your cap to change it</span>
           </div>
           <ul className="cap-grid">
-            {view.players.map((p) => (
+            {view.players.map((p, i) => (
               <PlayerTile
                 key={p.id}
                 player={p}
@@ -59,6 +76,8 @@ export function Lobby({ conn, view }: { conn: RoomConnection; view: RoomView }) 
                 onTap={
                   p.id === view.you.id || isHost
                     ? () => {
+                        // Cap bump: your own cap plays your note (DESIGN §13).
+                        if (p.id === view.you.id) audio.playNow(pop, voiceFor(i));
                         setSheet({ kind: 'player', id: p.id });
                       }
                     : undefined

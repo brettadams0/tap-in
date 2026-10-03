@@ -1,5 +1,31 @@
 # Progress
 
+## Phase 6: Polish (code complete; real-phone test pending)
+
+**Works**
+
+- **Title cards:** every game has its own move from DESIGN §2. Tickets drop 1-2-3-4 (Rank It), the title flips like a card (Liar's Prompt), stickers deal in and one peels (Two Truths), a redaction bar tears off (Secret Word), a deck fans out (Fake Answer), stripes zip and the title skids in (Tap Race), the bottle spins in (Spin the Bottle), the blank draws itself (Fill in the Blank), and 3-2-1 punch out (Countdown).
+- **Reveals and timers:** every reveal lands with a halftone burst and a 6 px shake on the reveal sound's beat. The last 5 s add a thin red edge vignette, and caps that still owe an answer start to sweat. Tap Race's lowest bar gets dizzy eyes.
+- **Your Drink:** the flood comes in four looks (foam, fizz, confetti, a cap shower), so the 15th Drink still feels new. It still only ever says **DRINK**.
+- **Awards:** **Most chaotic** (early taps, collisions, dodged dares, Nope votes received) and a **Fastest thumbs** that counts Tap Race taps a second alongside reaction times. The results screen stamps each award's icon onto its winners' caps.
+- **Combos:** stay dry 3 rounds in a row while others drink and your cap gets a 🔥 on the lock row; 5 and you're ON FIRE.
+- **Sound:** a join pop in each newcomer's own voice; private sounds (your Drink, your role) play an octave lower behind the whisper filter; your Liar's Prompt question and Secret Word role arrive with a private whisper.
+- **Feel:** every button squashes on press before the server answers. Easter eggs: tap your own cap in the lobby to hear your note, and tap Capn 5 times.
+- **Reduced motion:** the new moves become fades; no shake, no flood decoration, no redaction bar, no flying burp.
+- **Performance** (headless Chromium, 4× CPU throttle, rAF frame times): title card 61 fps, WYR reveal 57 fps (p95 16.8 ms), Drink takeover 59 fps, Tap Race at 10 taps a second 60 fps.
+- **Budgets:** initial JS 85.0 KB gzipped; game screens 14.4 KB, reactions 9.1 KB (both lazy).
+- **Tests:** award maths (Most chaotic, mixed Fastest thumbs), chaos and taps stats from each game, the engine's taps and combo counts, flood variants, the role whisper cue.
+
+**Needs you**
+
+- A real-phone party test (TESTING.md, phases 3–6). The fun layer and the Drink variants are judged best by tipsy humans.
+
+**Known issues / notes**
+
+- The 60 fps numbers come from headless Chromium in the sandbox; a DevTools trace on a real mid-range Android is part of the real-device checklist.
+
+**Next: Phase 7, hardening** (chaos tests, full 5-phone e2e, visual baselines, Lighthouse and bundle gates, final docs).
+
 ## Phase 5: Content (code complete; real-phone test pending)
 
 **Works**
@@ -32,7 +58,7 @@
 
 - The flag chip is 44 px tall (a secondary control, K5); primary actions keep 56 px.
 
-**Next: Phase 6, polish** (signature animations, sound signatures, awards, the fun layer, reduced motion, haptics, 60 fps).
+**Next: Phase 6, polish** (done, see above).
 
 ## Phase 4: Remaining games + Reactions (code complete; real-phone test pending)
 

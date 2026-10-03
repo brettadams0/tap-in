@@ -87,6 +87,12 @@ export interface SessionState {
   reactionMs: Record<PlayerId, number[]>;
   /** People fooled or escapes made, per player (Best liar award). Optional: older saved rooms lack it. */
   liarPoints?: Record<PlayerId, number>;
+  /** Chaos points per player (Most chaotic). Optional: older saved rooms lack it. */
+  chaos?: Record<PlayerId, number>;
+  /** Rounds in a row each player stayed dry while someone drank (combo 🔥). Optional in old saves. */
+  dry?: Record<PlayerId, number>;
+  /** Tap Race counts per player (Fastest thumbs). Optional: older saved rooms lack it. */
+  taps?: Record<PlayerId, number[]>;
   lastBreakAt: number;
   /** Skip-prompt flags on the current round's prompt (`bankId:promptId`). Optional in older saves. */
   flags?: { key: string; by: PlayerId[] } | null;

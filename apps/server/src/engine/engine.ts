@@ -579,6 +579,9 @@ export class RoomEngine {
       streak: {},
       reactionMs: {},
       liarPoints: {},
+      chaos: {},
+      taps: {},
+      dry: {},
       lastBreakAt: now,
       overlay: null,
       results: null,
@@ -770,6 +773,11 @@ export class RoomEngine {
         const points = (session.liarPoints ??= {});
         points[id] = (points[id] ?? 0) + stat.liarPoints;
       }
+      if (stat.chaos) {
+        const chaos = (session.chaos ??= {});
+        chaos[id] = (chaos[id] ?? 0) + stat.chaos;
+      }
+      if (stat.taps !== undefined) ((session.taps ??= {})[id] ??= []).push(stat.taps);
     }
     const at = this.deps.now() + LEAD_MS;
     this.setPhase('roundReveal', at, at + this.ms(game.revealMs(session.participants.length)));
@@ -778,8 +786,14 @@ export class RoomEngine {
   private enterDrink(): void {
     const session = this.state.session;
     if (!session?.drink) return;
-    for (const id of drinkersOf(session.drink, session.participants)) {
+    const drank = drinkersOf(session.drink, session.participants);
+    for (const id of drank) {
       session.drinks[id] = (session.drinks[id] ?? 0) + 1;
+    }
+    // Combo: a round only counts toward a dry streak when somebody else drank.
+    if (drank.length > 0) {
+      const dry = (session.dry ??= {});
+      for (const id of session.participants) dry[id] = drank.includes(id) ? 0 : (dry[id] ?? 0) + 1;
     }
     session.done = [];
     const at = this.deps.now() + LEAD_MS;
@@ -833,9 +847,13 @@ export class RoomEngine {
     session.results = buildResults(
       this.seated().map((p) => p.id),
       session.drinks,
-      session.reactionMs,
       session.history,
-      session.liarPoints ?? {},
+      {
+        reactionMs: session.reactionMs,
+        liarPoints: session.liarPoints ?? {},
+        chaos: session.chaos ?? {},
+        taps: session.taps ?? {},
+      },
     );
     this.setPhase('results', this.deps.now() + LEAD_MS, null);
   }
@@ -961,6 +979,7 @@ export class RoomEngine {
         ? { mine: session.flags?.by.includes(playerId) ?? false }
         : null,
       skippedAt: session.skippedAt ?? null,
+      dry: { ...session.dry },
       results: phase === 'results' ? session.results : null,
     };
   }

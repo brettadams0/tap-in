@@ -83,6 +83,9 @@ export const tapRace: GameModule<'tapRace', TapState> = {
       everyone: false,
       ranking: [...scored].reverse().map((x) => x.id),
       nobody: null,
+      stats: Object.fromEntries(
+        scored.flatMap((x) => (x.count === null ? [] : [[x.id, { taps: x.count }]])),
+      ),
     };
   },
 

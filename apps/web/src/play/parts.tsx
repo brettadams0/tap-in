@@ -101,6 +101,7 @@ export function Timer({
       <span key={urgent ? secs : 'calm'} className="timer-num">
         {secs}
       </span>
+      {urgent && left > 0 && <span className="urgent-vignette" aria-hidden="true" />}
     </div>
   );
 }
@@ -111,6 +112,24 @@ export function DoThis({ children }: { children: ReactNode }) {
     <p className="do-this" aria-live="polite">
       {children}
     </p>
+  );
+}
+
+/** Combo (DESIGN §13): 3 dry rounds in a row while others drank earn a 🔥, 5 are ON FIRE. */
+export const COMBO_FIRE = 3;
+export const COMBO_ON_FIRE = 5;
+
+export function ComboBadge({ dry }: { dry: number }) {
+  if (dry < COMBO_FIRE) return null;
+  const onFire = dry >= COMBO_ON_FIRE;
+  return (
+    <span
+      className={`combo${onFire ? ' combo-on-fire' : ''}`}
+      title={`${String(dry)} rounds dry`}
+      aria-label={onFire ? `On fire: ${String(dry)} rounds dry` : `${String(dry)} rounds dry`}
+    >
+      {onFire ? '🔥 ON FIRE' : '🔥'}
+    </span>
   );
 }
 
@@ -128,8 +147,9 @@ export function LockRow({ view }: { view: RoomView }) {
         {s.participants.map((id) => {
           const p = playerOf(view, id);
           if (!p) return null;
+          const waiting = !locked.has(id);
           return (
-            <li key={id} className="lockrow-cap">
+            <li key={id} className={`lockrow-cap${waiting ? ' is-waiting' : ''}`}>
               <Cap
                 avatar={p.avatar}
                 size={38}
@@ -138,6 +158,9 @@ export function LockRow({ view }: { view: RoomView }) {
                 live
               />
               {locked.has(id) && <span className="stamp stamp-small">IN!</span>}
+              <ComboBadge dry={s.dry[id] ?? 0} />
+              {/* Sweat drops show only in the last 5 s (CSS keys off the urgent vignette). */}
+              {waiting && <span className="sweat" aria-hidden="true" />}
             </li>
           );
         })}
