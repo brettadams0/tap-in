@@ -24,7 +24,22 @@ async function roundsIn(testHooks: boolean): Promise<number | undefined> {
       action: { kind: 'settings', settings: { games: ['wouldYouRather'] } },
     });
     host.send({ type: 'hostAction', action: { kind: 'start' } });
-    await host.until((x) => x.view?.phase === 'roundInput', 5000);
+    // Generous waits: CI runs this beside the all-games and chaos files, with coverage on.
+    const where = () =>
+      JSON.stringify({
+        phase: host.view?.phase,
+        errors: host.inbox.flatMap((m) => (m.type === 'error' ? [m.message] : [])),
+      });
+    await host
+      .until((x) => x.view?.phase !== 'lobby', 15_000)
+      .catch(() => {
+        throw new Error(`start never landed: ${where()}`);
+      });
+    await host
+      .until((x) => x.view?.phase === 'roundInput', 15_000)
+      .catch(() => {
+        throw new Error(`no round started: ${where()}`);
+      });
     const rounds = host.view?.session?.rounds;
     for (const p of phones) await p.close();
     return rounds;
@@ -37,5 +52,5 @@ describe('test hooks', () => {
   it('caps a block at one round only when the server runs with test hooks', async () => {
     expect(await roundsIn(true)).toBe(1);
     expect(await roundsIn(false)).toBe(4);
-  });
+  }, 60_000);
 });
