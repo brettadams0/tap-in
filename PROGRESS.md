@@ -1,6 +1,33 @@
 # Progress
 
-## Phase 2: First playable (code complete; real-phone test waiting on the deploy)
+## Phase 3: Deception games (code complete; real-phone test pending)
+
+**Works**
+
+- **Liar's Prompt:** one random imposter gets a slightly different question (nobody is told). Everyone types a short answer; the answers land one by one on every phone at the same moment, each with a stamp in the answerer's voice. Then everyone sees the real question and votes. More than half the votes on the imposter: they drink. Otherwise everyone except the imposter drinks, and the imposter gets a GOT AWAY WITH IT screen.
+- **Secret Word:** everyone but the outsider sees the word; the outsider gets "Blend in." and the category. One-word hints go round in turn order (15 s each, the outsider is never first) and show on every phone as they land. Hints that give the word away are refused under the box; the outsider's never are, so a refusal can't leak the word. A caught outsider gets one guess: right, and everyone else drinks.
+- **Two Truths, One App:** a private setup (two true facts, plus the app's fake for you with two rerolls if it's actually true), then one spotlight per round: three shuffled cards, everyone else picks the fake. Wrong guessers drink; if nobody is fooled, the spotlight player does. Only players who typed their facts get a spotlight, so the block shrinks to fit. Capped at 3 spotlights on Short or 7+ players.
+- **Fake Answer:** an obscure trivia question; everyone writes a believable fake ("Too close, try again." when it's basically the real answer). The fakes and the real answer deal in shuffled; pick what's real, never your own. Anyone who picks a fake drinks. Identical fakes merge and share the credit; the best fake earns **Master Liar**.
+- **Text kit:** normalisation (case, accents, punctuation, filler words), Levenshtein similarity, word containment, "gives the word away", profanity tiers (slurs always refused, swearing masked at Chill).
+- **Drink system:** a new "everyone except…" moment (uncapped, R6), new reasons (caught, wrong guess, fell for a fake, nobody fell for it) and a "Sharp crowd" nobody-drinks.
+- **Awards:** a first **Best liar** award (people fooled + escapes).
+- **Sound:** a title sting for each new game; answers land with a stamp in each player's voice; no countdown ticks during the synced answer show.
+- **Content:** starter banks: Liar's Prompt 52 pairs, Secret Word 81 words, Two Truths 80 fake facts, Fake Answer 52 trivia questions (all spice-tagged).
+- **Tests:** 66 game unit tests (100% lines in `packages/games`), engine session tests with leak checks over every frame each phone received and a refresh mid-step for every deception game, real-socket leak tests, and Playwright rounds of all four games (the inline rejection, a refresh mid-setup).
+- **Budgets:** initial JS 84.5 KB gzipped; the game screens chunk is 11.8 KB.
+
+**Needs you**
+
+- One real-phone party test (TESTING.md, phase 3 list).
+
+**Known issues / notes**
+
+- Prompt banks are starter-sized; phase 5 brings them to the minimums (the validator warns until then).
+- Liar's Prompt, Secret Word and Fake Answer count as typing games, so the rotation never plays two of them back to back.
+
+**Next: Phase 4, the remaining games** (Rank It, Tap Race, Spin the Bottle, Fill in the Blank, Countdown) and Reactions.
+
+## Phase 2: First playable (deployed; real-phone test pending)
 
 **Works**
 
