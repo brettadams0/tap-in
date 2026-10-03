@@ -121,7 +121,9 @@ class AudioEngine {
     const when = this.toContextTime(ctx, perfTime);
     const late = (ctx.currentTime - when) * 1000;
     if (late > LATE_PLAY_TOLERANCE_MS) return;
-    recipe(ctx, out, Math.max(ctx.currentTime + 0.005, when), voice);
+    // Private sounds sit an octave lower than shared ones, behind the whisper filter (DESIGN §7).
+    const v = opts.private ? { ...voice, freq: voice.freq / 2 } : voice;
+    recipe(ctx, out, Math.max(ctx.currentTime + 0.005, when), v);
   }
 
   /** Play right now (local feedback like your own lock-in stamp). */
