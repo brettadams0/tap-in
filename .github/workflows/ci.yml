@@ -27,6 +27,10 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm --filter @tap-in/web build
+      - name: Bundle budget (initial JS < 200 KB gzipped)
+        run: pnpm --filter @tap-in/web size
+      - name: Lighthouse budgets (mobile, simulated 4G)
+        run: npx -y @lhci/cli@0.14.0 autorun
       - name: Worker bundle builds
         run: pnpm --filter @tap-in/server build
 
