@@ -55,7 +55,7 @@ export const rankIt: GameModule<'rankIt', RankState> = {
   init: () => ({ round: 0, step: 'done', endsAt: null, players: [], entry: null, rankings: {} }),
 
   startRound(s, ctx) {
-    const e = pickEntry(rankBank, ctx.spice, ctx.used, ctx.rng);
+    const e = pickEntry(rankBank, ctx);
     return {
       round: s.round + 1,
       step: 'rank',
@@ -75,6 +75,7 @@ export const rankIt: GameModule<'rankIt', RankState> = {
   onTimer: (s) => ({ ...s, step: 'done', endsAt: null }),
 
   step: (s) => s.step,
+  prompt: (s) => (s.step === 'rank' && s.entry ? { bankId: 'rankIt', promptId: s.entry.id } : null),
   deadline: (s) => s.endsAt,
   roundOver: (s) => s.step === 'done',
   awaiting: (s) => (s.step === 'rank' ? s.players.filter((p) => !s.rankings[p]) : []),

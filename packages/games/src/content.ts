@@ -2,7 +2,7 @@
  * Prompt banks (content/*.json). Server-side only: banks never ship to the client,
  * only the current round's text does (PLAN.md §4).
  */
-import { SPICE_LEVELS, type Rng, type Spice } from '@tap-in/shared';
+import { SPICE_LEVELS, type Spice } from '@tap-in/shared';
 import { z } from 'zod';
 import fakeAnswerJson from '../../../content/fakeAnswer.v1.json';
 import fillInTheBlankJson from '../../../content/fillInTheBlank.v1.json';
@@ -12,6 +12,7 @@ import liarsPromptJson from '../../../content/liarsPrompt.v1.json';
 import secretWordJson from '../../../content/secretWord.v1.json';
 import twoTruthsJson from '../../../content/twoTruths.v1.json';
 import wouldYouRatherJson from '../../../content/wouldYouRather.v1.json';
+import type { GameCtx } from './types.js';
 
 const spice = z.enum(SPICE_LEVELS);
 const promptId = z.string().regex(/^[a-z0-9-]+$/);
@@ -113,15 +114,16 @@ export function allowedAt(entrySpice: Spice, roomSpice: Spice): boolean {
 
 /**
  * A random unused entry at or below the room's spice. When the bank runs dry the session's
- * used-list for it is cleared and prompts start repeating.
+ * used-list for it is cleared and prompts start repeating. Skipped prompts never come back.
  */
 export function pickEntry<T extends { id: string; spice: Spice }>(
   bank: readonly T[],
-  roomSpice: Spice,
-  used: string[],
-  rng: Rng,
+  ctx: Pick<GameCtx, 'spice' | 'used' | 'rng' | 'skipped'>,
 ): T {
-  const allowed = bank.filter((e) => allowedAt(e.spice, roomSpice));
+  const { used, rng } = ctx;
+  let allowed = bank.filter((e) => allowedAt(e.spice, ctx.spice));
+  const kept = allowed.filter((e) => !ctx.skipped.includes(e.id));
+  if (kept.length > 0) allowed = kept;
   if (allowed.length === 0) throw new Error('empty bank');
   let fresh = allowed.filter((e) => !used.includes(e.id));
   if (fresh.length === 0) {

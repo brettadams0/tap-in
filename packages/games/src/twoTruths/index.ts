@@ -108,7 +108,7 @@ export const twoTruths: GameModule<'twoTruths', TruthsState> = {
     if (s.round === 0) {
       const offers: Record<PlayerId, Offer> = {};
       for (const p of ctx.players) {
-        const e = pickEntry(fakeFactBank, ctx.spice, ctx.used, ctx.rng);
+        const e = pickEntry(fakeFactBank, ctx);
         offers[p] = { id: e.id, text: e.fact, rerolls: 0 };
       }
       return {
@@ -129,7 +129,7 @@ export const twoTruths: GameModule<'twoTruths', TruthsState> = {
       const offer = s.offers[playerId];
       if (!offer || s.truths[playerId]) return { reject: 'Already locked in.' };
       if (offer.rerolls >= TRUTHS_REROLLS) return { reject: 'No rerolls left.' };
-      const e = pickEntry(fakeFactBank, ctx.spice, ctx.used, ctx.rng);
+      const e = pickEntry(fakeFactBank, ctx);
       const next = { id: e.id, text: e.fact, rerolls: offer.rerolls + 1 };
       return { ...s, offers: { ...s.offers, [playerId]: next } };
     }

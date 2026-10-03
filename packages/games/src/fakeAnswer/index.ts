@@ -77,7 +77,7 @@ export const fakeAnswer: GameModule<'fakeAnswer', FakeState> = {
   }),
 
   startRound(s, ctx) {
-    const e = pickEntry(triviaBank, ctx.spice, ctx.used, ctx.rng);
+    const e = pickEntry(triviaBank, ctx);
     return {
       ...fakeAnswer.init(ctx),
       round: s.round + 1,
@@ -126,6 +126,8 @@ export const fakeAnswer: GameModule<'fakeAnswer', FakeState> = {
   },
 
   step: (s) => s.step,
+  prompt: (s) =>
+    s.step === 'write' && s.entry ? { bankId: 'fakeAnswer', promptId: s.entry.id } : null,
   deadline: (s) => s.endsAt,
   roundOver: (s) => s.step === 'done',
   awaiting: (s) => {

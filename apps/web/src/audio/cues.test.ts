@@ -45,6 +45,8 @@ function view(
       done: [],
       overlay: null,
       drinks: {},
+      flag: null,
+      skippedAt: null,
       results: null,
       ...session,
     },

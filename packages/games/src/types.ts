@@ -25,6 +25,8 @@ export interface GameCtx {
   spice: Spice;
   /** Prompt ids already used this session for this game's bank. The game appends to it. */
   used: string[];
+  /** Prompt ids skipped this session after two flags: never dealt again (R17). */
+  skipped: readonly string[];
   /** Scale a duration (tests and e2e run the clock faster). */
   ms(duration: number): number;
   /** Lead time a synced cue needs, in ms (never scaled). */
@@ -54,6 +56,12 @@ export interface RoundResult<R> {
   nobody: 'balanced' | 'unanimous' | 'sharp' | 'counted' | 'dared' | null;
   /** Per-player stats for the results screen (reaction ms, people fooled). */
   stats?: Record<PlayerId, { reactionMs?: number; liarPoints?: number }>;
+}
+
+/** The bank entry a round is showing, for the skip-prompt flag (R17). */
+export interface PromptRef {
+  bankId: string;
+  promptId: string;
 }
 
 export interface Reject {
@@ -91,6 +99,11 @@ export interface GameModule<K extends PlayableGameId, S> {
   result(s: S, ctx: GameCtx): RoundResult<GameViews[K]['reveal']>;
   publicView(s: S): GameViews[K]['pub'];
   privateView(s: S, playerId: PlayerId): GameViews[K]['me'];
+  /**
+   * The prompt players are looking at, while it may still be flagged and skipped (the first input
+   * step). Absent or null: nothing to flag (speed games, Two Truths' facts).
+   */
+  prompt?(s: S): PromptRef | null;
   /** Shift any absolute times in the state (after a pause). */
   shift(s: S, deltaMs: number): S;
 }

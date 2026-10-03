@@ -53,6 +53,7 @@ export const clientMessageSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('ping'), t0: z.number() }),
   z.strictObject({ type: z.literal('resync') }),
   z.strictObject({ type: z.literal('leave') }),
+  z.strictObject({ type: z.literal('flag') }),
   z
     .strictObject({
       type: z.literal('react'),

@@ -73,7 +73,7 @@ export const liarsPrompt: GameModule<'liarsPrompt', LiarState> = {
   }),
 
   startRound(s, ctx) {
-    const entry = pickEntry(liarBank, ctx.spice, ctx.used, ctx.rng);
+    const entry = pickEntry(liarBank, ctx);
     return {
       ...liarsPrompt.init(ctx),
       round: s.round + 1,
@@ -123,6 +123,8 @@ export const liarsPrompt: GameModule<'liarsPrompt', LiarState> = {
   },
 
   step: (s) => s.step,
+  prompt: (s) =>
+    s.step === 'answer' && s.prompt ? { bankId: 'liarsPrompt', promptId: s.prompt.id } : null,
   deadline: (s) => s.endsAt,
   roundOver: (s) => s.step === 'done',
   awaiting: (s) => {

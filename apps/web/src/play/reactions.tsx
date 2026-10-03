@@ -22,9 +22,11 @@ import { audio } from '../audio/audio.js';
 import { pop, voiceFor } from '../audio/synth.js';
 import type { RoomConnection } from '../net/connection.js';
 import { Cap } from '../ui/Cap.js';
+import { Capn } from '../ui/Capn.js';
 import { Sheet } from '../ui/Sheet.js';
 import { TapButton } from '../ui/TapButton.js';
 import type { ReceivedReaction } from '../net/reducer.js';
+import { capnLine } from './capn.js';
 import { playerOf } from './parts.js';
 import '../styles/reactions.css';
 
@@ -152,8 +154,10 @@ export function ReactionLane({ conn, view }: { conn: RoomConnection; view: RoomV
               setSeen((s) => Math.max(s, sticker.seq));
             }}
           />
-        ) : (
+        ) : flights.length > 0 ? (
           flights.map((f) => <Flight key={f.seq} view={view} r={f} />)
+        ) : (
+          <CapnSays view={view} />
         )}
       </div>
       <ul className="react-strip">
@@ -188,6 +192,18 @@ export function ReactionLane({ conn, view }: { conn: RoomConnection; view: RoomV
         />
       )}
     </section>
+  );
+}
+
+/** Capn fills the empty slot with a line about the moment (DESIGN §8). */
+function CapnSays({ view }: { view: RoomView }) {
+  const line = capnLine(view);
+  if (!line) return null;
+  return (
+    <span className="capn-says" key={line}>
+      <Capn mood={view.phase === 'drink' ? 'shook' : 'happy'} size={32} />
+      <span className="capn-line">{line}</span>
+    </span>
   );
 }
 

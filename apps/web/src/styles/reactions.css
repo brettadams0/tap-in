@@ -124,3 +124,27 @@
   font-size: 18px;
   text-align: left;
 }
+
+/* Capn's commentary: fills the empty slot, quieter than a sticker. */
+.capn-says {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  animation: capn-in 0.3s ease-out both;
+}
+.capn-says .capn {
+  flex: none;
+}
+.capn-line {
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.2;
+  color: var(--foam-dim);
+}
+@keyframes capn-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}

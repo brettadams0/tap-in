@@ -92,7 +92,7 @@ export const secretWord: GameModule<'secretWord', SecretState> = {
   }),
 
   startRound(s, ctx) {
-    const entry = pickEntry(secretBank, ctx.spice, ctx.used, ctx.rng);
+    const entry = pickEntry(secretBank, ctx);
     const outsider = ctx.rng.pick(ctx.players);
     const order = turnOrder(ctx.rng.shuffle(ctx.players), outsider, [ctx.rng.next()]);
     return {
@@ -154,6 +154,8 @@ export const secretWord: GameModule<'secretWord', SecretState> = {
   },
 
   step: (s) => s.step,
+  prompt: (s) =>
+    s.step === 'hint' && s.entry ? { bankId: 'secretWord', promptId: s.entry.id } : null,
   deadline: (s) => s.endsAt,
   roundOver: (s) => s.step === 'done',
   awaiting: (s) => {

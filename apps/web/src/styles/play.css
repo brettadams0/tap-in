@@ -111,6 +111,39 @@
   height: 44px;
   accent-color: var(--tap);
 }
+.flag-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 6px;
+}
+.flag-chip {
+  min-height: 44px;
+  padding: 6px 14px;
+  border: 2px solid var(--foam-dim);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--foam-dim);
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+}
+.flag-chip:active {
+  transform: scale(0.96);
+}
+.flag-chip:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.flag-skipped {
+  flex: 1;
+  align-self: center;
+  margin: 0;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--sun);
+  animation: pop-in 0.3s var(--spring) both;
+}
 .menu-actions {
   display: flex;
   flex-direction: column;

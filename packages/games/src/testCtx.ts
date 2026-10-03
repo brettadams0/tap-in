@@ -10,6 +10,7 @@ export function testCtx(
     spice?: Spice;
     connected?: PlayerId[];
     capped?: PlayerId[];
+    skipped?: string[];
   } = {},
 ): GameCtx {
   return {
@@ -19,6 +20,7 @@ export function testCtx(
     connected: opts.connected ?? players,
     spice: opts.spice ?? 'chill',
     used: [],
+    skipped: opts.skipped ?? [],
     ms: (d) => d,
     lead: 600,
     capped: opts.capped ?? [],

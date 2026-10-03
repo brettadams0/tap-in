@@ -20,6 +20,8 @@ function view(phase: RoomView['phase'], session: Partial<SessionView> = {}, reac
       done: [],
       overlay: null,
       drinks: {},
+      flag: null,
+      skippedAt: null,
       results: null,
       ...session,
     },

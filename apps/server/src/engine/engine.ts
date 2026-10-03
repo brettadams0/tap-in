@@ -46,6 +46,7 @@ import {
   CLAIM_TIMEOUT_MS,
   DRINK_MIN_MS,
   DRINK_MS,
+  FLAGS_TO_SKIP,
   GONE_AFTER_MS,
   HOST_TRANSFER_MS,
   INTRO_MS,
@@ -76,6 +77,8 @@ export interface EngineDeps {
   destroy(): void;
   /** Multiplies every game and phase duration (e2e and dev run faster). Default 1. */
   timeScale?: number;
+  /** Content-review log line (a skipped prompt). Default: JSON on stdout. Never identifies a player. */
+  log?(entry: Record<string, string>): void;
 }
 
 /** Phases where the session is running (pause, end and presence rules apply). */
@@ -257,6 +260,9 @@ export class RoomEngine {
         return;
       case 'react':
         this.react(connId, me, msg.to, msg.emoji, msg.note);
+        return;
+      case 'flag':
+        this.flag(connId, me);
         return;
     }
   }
@@ -543,6 +549,7 @@ export class RoomEngine {
       connected: this.connectedIds(),
       spice: this.state.settings.spice,
       used,
+      skipped: gameId ? (session.skipped?.[gameId] ?? []) : [],
       ms: (d) => this.ms(d),
       lead: LEAD_MS,
       capped: Object.entries(session.streak)
@@ -659,10 +666,54 @@ export class RoomEngine {
     session.reveal = null;
     session.drink = null;
     session.done = [];
+    // Only games with a flaggable prompt need the pre-round state kept for a re-deal.
+    session.roundBase = game.prompt ? session.game : null;
+    this.dealRound(session, game);
+  }
+
+  private dealRound(session: SessionState, game: AnyGame): void {
+    session.flags = null;
     session.game = this.withRng((rng) => game.startRound(session.game, this.gameCtx(session, rng)));
     this.syncRounds(session, game);
     this.setPhase('roundInput', this.deps.now(), game.deadline(session.game));
     this.checkRound();
+  }
+
+  /** The prompt this player could flag right now, or null. */
+  private flaggable(playerId: PlayerId): { bankId: string; promptId: string } | null {
+    const session = this.state.session;
+    const game = this.currentGame();
+    if (this.state.phase !== 'roundInput' || !session || !game || session.overlay) return null;
+    if (!session.participants.includes(playerId)) return null;
+    return game.prompt?.(session.game) ?? null;
+  }
+
+  /** Skip-prompt flag (R17): two flags from different players re-deal the round with a new prompt. */
+  private flag(connId: string, me: PlayerRecord): void {
+    const session = this.state.session;
+    const game = this.currentGame();
+    const ref = this.flaggable(me.id);
+    if (!session || !game || !ref) {
+      this.error(connId, 'WRONG_STEP', 'Nothing to flag right now.');
+      return;
+    }
+    const key = `${ref.bankId}:${ref.promptId}`;
+    const flags = session.flags?.key === key ? session.flags : { key, by: [] };
+    session.flags = flags;
+    if (flags.by.includes(me.id)) return;
+    flags.by.push(me.id);
+    this.touch();
+    if (flags.by.length < FLAGS_TO_SKIP) return;
+    const entry = { event: 'promptSkipped', bankId: ref.bankId, promptId: ref.promptId };
+    if (this.deps.log) this.deps.log(entry);
+    else console.log(JSON.stringify(entry));
+    if (session.gameId) {
+      const skipped = (session.skipped ??= {});
+      skipped[session.gameId] = [...(skipped[session.gameId] ?? []), ref.promptId];
+    }
+    session.skippedAt = this.deps.now();
+    session.game = session.roundBase ?? session.game;
+    this.dealRound(session, game);
   }
 
   private gameTimer(): void {
@@ -906,6 +957,10 @@ export class RoomEngine {
         ? { kind: session.overlay.kind, endsAt: session.overlay.endsAt }
         : null,
       drinks: { ...session.drinks },
+      flag: this.flaggable(playerId)
+        ? { mine: session.flags?.by.includes(playerId) ?? false }
+        : null,
+      skippedAt: session.skippedAt ?? null,
       results: phase === 'results' ? session.results : null,
     };
   }
