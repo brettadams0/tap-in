@@ -317,11 +317,11 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 
 ### Phase 7: Hardening
 
-- [ ] Full e2e suite on WebKit + Chromium, visual baselines per game
-- [ ] Chaos tests (random disconnects/rejoins in every phase), host churn, deploy-restart restore test
-- [ ] Lighthouse CI budgets, bundle-size gate, broadcast-latency check
+- [x] Full e2e suite on WebKit + Chromium, visual baselines per game
+- [x] Chaos tests (random disconnects/rejoins in every phase), host churn, deploy-restart restore test
+- [x] Lighthouse CI budgets, bundle-size gate, broadcast-latency check
 - [ ] TESTING.md manual real-device checklist completed with one iPhone + one Android
-- [ ] README (setup, env vars, deploy), CREDITS, DECISIONS, PROGRESS final; definition-of-done checklist ticked
+- [x] README (setup, env vars, deploy), CREDITS, DECISIONS, PROGRESS final; definition-of-done checklist ticked
 
 ---
 

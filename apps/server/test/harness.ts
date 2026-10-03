@@ -6,7 +6,7 @@ import {
   type RoomView,
   type ServerMessage,
 } from '@tap-in/shared';
-import { RoomEngine } from '../src/engine/engine.js';
+import { RoomEngine, type EngineDeps } from '../src/engine/engine.js';
 import { createRoomState, type RoomState } from '../src/engine/state.js';
 
 export const avatar = (color: Avatar['color'] = 'red'): Avatar => ({
@@ -72,14 +72,15 @@ export class Harness {
   destroyed = false;
   /** Content-review log lines (skipped prompts). */
   readonly logs: Record<string, string>[] = [];
-  readonly engine: RoomEngine;
+  engine: RoomEngine;
+  private readonly deps: EngineDeps;
   private readonly clients = new Map<string, FakeClient>();
   private seq = 0;
   private idSeq = 0;
 
   constructor(opts: { seed?: string; timeScale?: number } = {}) {
     const state = createRoomState('KZRP', this.time, opts.seed ?? 'seed');
-    this.engine = new RoomEngine(state, {
+    this.deps = {
       timeScale: opts.timeScale ?? 1,
       now: () => this.time,
       randomId: (bytes) => `id${++this.idSeq}`.padEnd(Math.max(bytes, 16), 'x'),
@@ -98,7 +99,28 @@ export class Harness {
         this.destroyed = true;
       },
       log: (entry) => this.logs.push(entry),
-    });
+    };
+    this.engine = new RoomEngine(state, this.deps);
+  }
+
+  /**
+   * A deploy or eviction: the engine is rebuilt from the last saved state, and every socket is
+   * gone (phones reconnect with `rejoin`). The scheduled alarm survives, as it does in a DO.
+   */
+  restart(): void {
+    if (!this.saved) throw new Error('nothing saved yet');
+    for (const c of this.clients.values()) c.closed = { code: 1012, reason: 'restart' };
+    this.clients.clear();
+    this.engine = new RoomEngine(structuredClone(this.saved), this.deps);
+  }
+
+  /** A fresh socket that rejoins as `old`'s player (a refresh or a reconnect). */
+  rejoin(old: FakeClient): FakeClient {
+    const back = this.connect();
+    back.send({ type: 'rejoin', playerId: old.playerId ?? '', token: old.token ?? '' });
+    back.playerId = old.playerId;
+    back.token = old.token;
+    return back;
   }
 
   connect(): FakeClient {

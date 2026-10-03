@@ -1,0 +1,8 @@
+/* Hidden for visual baselines (layout kept): the random title-card gag, and emoji drawn by the OS font. */
+.tc-gag,
+.tc-icon,
+.tc-prop,
+.corner,
+.strip-icon {
+  visibility: hidden !important;
+}

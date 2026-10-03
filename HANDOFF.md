@@ -2,7 +2,7 @@
 
 For the next Claude session. This is the map from where things stand to a finished v1. Read it first, then `SPEC.md` (the source of truth, including the v1 definition of done), `PLAN.md` (phase task lists), `DECISIONS.md` (every recorded choice) and `DESIGN.md` (the look, sound and fun layer).
 
-_Last updated 2026-10-03, end of phase 6._
+_Last updated 2026-10-03, end of phase 7 (v1 code complete)._
 
 ## 1. Where things stand
 
@@ -13,7 +13,8 @@ _Last updated 2026-10-03, end of phase 6._
   - Phase 4: **Rank It**, **Tap Race**, **Spin the Bottle**, **Fill in the Blank**, **Countdown**, and **Reactions**.
   - Phase 5: every prompt bank at its minimum for all three spice levels (strict validator in the build), the skip-prompt flag, Capn's commentary.
   - Phase 6: per-game title moves, the reveal hit, Drink flood variants, Most chaotic and a two-part Fastest thumbs, 🔥 combos, sweating caps, join pops, private sounds an octave lower, easter eggs.
-- **Left for v1:** phase 7 (hardening). Details in §3.
+  - Phase 7: chaos, restart and reconnect tests for every game, every game over real sockets, the full 5-phone e2e, visual baselines, bundle and Lighthouse gates in CI, and a fix for a timer race that could freeze a phase (M1).
+- **Left for v1:** only the user's real-device sign-off (TESTING.md). Everything else in SPEC's definition of done is ticked.
 - **Live room server:** <https://tap-in-server.brettdev.workers.dev> (Cloudflare Worker + Durable Objects, free plan). `GET /healthz` returns `{"ok":true}`.
 - **Deploys:** Vercel project `tap-in` (Root Directory `apps/web`) deploys every push to `main`; branches get previews. The server deploys from GitHub Actions.
 - **Pipeline (GitHub Actions):**
@@ -28,15 +29,15 @@ _Last updated 2026-10-03, end of phase 6._
 
 | Item                                                                             | Status                                                                                                                                  |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| All 11 games playable end to end by 5 phones from one production URL             | Built and e2e-tested with 3 phones per game; needs the 5-phone real-device test (user)                                                  |
-| iOS Safari + Android Chrome, no install, no login                                | Built; e2e on WebKit + Chromium; real devices pending (user)                                                                            |
-| Refresh or lock at any moment rejoins into the correct phase                     | Covered per game mid-input; **phase 7:** mid-reveal and mid-Drink for every game, plus chaos tests                                      |
+| All 11 games playable end to end by 5 phones from one production URL             | Done: the 5-phone e2e plays all 11 locally; production e2e plays every game after each deploy                                           |
+| iOS Safari + Android Chrome, no install, no login                                | Built; e2e on WebKit + Chromium in CI and production; **real devices: the user's sign-off**                                             |
+| Refresh or lock at any moment rejoins into the correct phase                     | Done: reconnect matrix (every game, mid-input/reveal/Drink), chaos tests, e2e refreshes                                                 |
 | No shared screen needed                                                          | Done                                                                                                                                    |
 | Every Drink shows only **Drink** and respects the fairness cap                   | Done (validator bans amounts; cap R6/R7; Spin never lands on a capped player)                                                           |
 | Every state change animated, key moments have sound, synced sounds land together | Done in phase 6 (title moves, reveal hit, Drink variants, fun layer, join pops, private sounds); sync needs the real-device test (user) |
 | Private information never reaches another device                                 | Leak tests for every secret (`deception.test.ts`, reactions, real-socket tests)                                                         |
-| Unit, integration and e2e pass in CI; performance budgets met                    | Suites green; **phase 7:** Lighthouse, bundle gate, latency check, visual baselines                                                     |
-| Production live with README, DECISIONS, TESTING, CREDITS, PROGRESS complete      | Live; **phase 7:** final pass on every doc                                                                                              |
+| Unit, integration and e2e pass in CI; performance budgets met                    | Done: suites green; bundle gate and Lighthouse budgets in CI                                                                            |
+| Production live with README, DECISIONS, TESTING, CREDITS, PROGRESS complete      | Done                                                                                                                                    |
 
 ## 3. Remaining work, in order
 
@@ -55,14 +56,12 @@ Build in phase order. Each phase is one PR (or a few) and ends deployed, `e2e-pr
 - Combos: `SessionState.dry` → `SessionView.dry` → `ComboBadge` on the lock row (L3).
 - Still worth doing if time allows: the Fake Answer cards could fan before straightening into a list (they deal in today), and the cap "glance toward whoever just locked in".
 
-### Phase 7: Hardening
+### Phase 7: Hardening (done)
 
-1. **Integration (SPEC "Integration tests"):** a real-socket run of all 11 games (`games.integration.test.ts` covers 5 today; `session.test.ts`, `deception.test.ts` and `remaining.test.ts` cover all 11 through the in-memory harness). Kill and reconnect a client **mid-input, mid-reveal and mid-Drink** for each game and assert the phase and private view. Host disconnect 30 s+ hands host over (covered in `engine.test.ts`).
-2. **Chaos tests:** random disconnects and rejoins in every phase (seeded), host churn, and a deploy-restart restore (rebuild the engine from the saved `RoomState` mid-round and carry on).
-3. **E2E (SPEC "End-to-end tests"):** one full happy path with 5 phones on both engines: create, join by code and by link, one round of every game, results, rematch. **Visual baselines** per game on both viewports with reduced motion, a fixed seed and scaled timers (P10/R19); Playwright `toHaveScreenshot`.
-4. **Budgets:** Lighthouse CI on the built client (Performance 90+, Accessibility 95+, Best Practices 95+), a bundle-size gate (initial JS < 200 KB gz; today it's 84.9 KB), TTI < 2.5 s on simulated 4G, and a broadcast-latency assertion (< 150 ms, already asserted for the lobby). Wire them into `ci.yml`.
-5. **Docs:** README (setup, env vars, deploy), CREDITS, DECISIONS, TESTING, PROGRESS final; tick the definition-of-done table in §2 and in `SPEC.md`.
-6. **Real devices (user):** the TESTING.md checklists with at least one iPhone and one Android. Fix whatever they find.
+- Tests added: `chaos.test.ts` (seeded auto-player from `test/autoplay.ts`, drops, host churn, `Harness.restart()`), `reconnect.test.ts`, `allGames.integration.test.ts`, `testHooks.integration.test.ts`, `e2e/full.spec.ts`, `e2e/visual.spec.ts` (+ `visual.css`, `visual.spec.ts-snapshots/`).
+- Test hooks: Node adapter only, `TAPIN_TEST_MODE=1` → `POST /rooms?roundsPerGame=1&timeScale=1` (M4). The page forwards those query params when creating a room.
+- CI: `pnpm --filter @tap-in/web size` (bundle gate) and `npx -y @lhci/cli@0.14.0 autorun` (`lighthouserc.json`) in the check job; the e2e job has 35 minutes.
+- **What's left is the user's:** the real-device checklist in TESTING.md. Then fix whatever it finds, the same way: a test that reproduces it first.
 
 ## 4. How each phase is run (the process that's worked)
 
@@ -122,6 +121,8 @@ pnpm --filter @tap-in/web dev        # client on :5173
 - **`AGENTS.md`** is regenerated by Turborepo; leave it committed. The workerd test config aliases `obscenity` to its CJS entry (I9).
 - **Vercel's `VITE_SERVER_URL`** is baked in at build time; changing it needs a redeploy. **Allowed origins** live in `apps/server/wrangler.toml` (`ALLOWED_ORIGINS`); `tap-in-*.vercel.app` previews are allowed when `https://tap-in.vercel.app` is listed.
 - **Two flags skip a prompt immediately.** In an e2e, the second flagger's chip goes straight back to "🚩 Skip prompt?" (a fresh prompt); WYR's 15 s vote is only 6 s at `TIME_SCALE=0.4`, too short for two flag sheets, so the flag e2e uses Fill in the Blank.
+- **The engine catches up on due timers before every message** (`tick()`). A commit re-arms the single alarm with future deadlines only, so never commit without ticking first, or a late alarm strands the phase (M1).
+- **Visual baselines** must be regenerated after an intended visual change: `pnpm --filter @tap-in/web exec playwright test e2e/visual.spec.ts --update-snapshots` (Chromium, in the sandbox with `PW_CHROMIUM_PATH`).
 - **Old saved rooms:** new optional state fields (e.g. `liarPoints`, `flags`, `skipped`, `roundBase`, `chaos`, `taps`, `dry`) must tolerate rooms persisted before the change.
 
 ## 9. Known issues and small debts
@@ -129,7 +130,7 @@ pnpm --filter @tap-in/web dev        # client on :5173
 - Countdown's ding plays when the patch arrives, so on other phones it can trail the tap by one network hop.
 - Tap Race: refreshing mid-window loses that phone's count (it scores 0 and drinks). Probably fine; revisit if real players complain.
 - Reaction rate limits live in memory per room, so a Durable Object restart resets them (J14).
-- No visual baselines, Lighthouse or bundle gate yet (phase 7).
+- Visual baselines are Chromium only (M6).
 - The phone deals reaction lines from a bundled copy of the pools (J15); the server re-checks every note id and spice.
 
 ## 10. The user's standing rules (from the original brief)
@@ -149,13 +150,13 @@ pnpm --filter @tap-in/web dev        # client on :5173
 
 > You're continuing the Tap In project (repo: brettadams0/tap-in). Read HANDOFF.md first, then SPEC.md, PLAN.md, DECISIONS.md and DESIGN.md, before doing anything else.
 >
-> Phases 1–6 are done, merged and deployed (all 11 games playable, full prompt banks, polish):
+> Phases 1–7 are done, merged and deployed (v1 code complete):
 >
 > - Site: https://tap-in-omega.vercel.app
 > - Room server: https://tap-in-server.brettdev.workers.dev
 >
 > First, confirm the latest "E2E on production" GitHub Actions run on main is green. If it's red, fix it before anything else.
 >
-> Then work through the remaining phases in order, to the v1 definition of done in SPEC.md: phase 7 (hardening). HANDOFF.md §3 has the task list for each.
+> Then help with the real-device sign-off (TESTING.md) and fix whatever it finds, each with a test that reproduces it first.
 >
 > Work on a claude/\* branch. Run lint, format check, typecheck and tests before every push. One PR per phase: open it, get CI green, merge, then confirm "E2E on production" is green. Record every open choice in DECISIONS.md, and update PROGRESS.md, TESTING.md and HANDOFF.md at the end of each phase.

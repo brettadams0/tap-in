@@ -77,6 +77,8 @@ export interface EngineDeps {
   destroy(): void;
   /** Multiplies every game and phase duration (e2e and dev run faster). Default 1. */
   timeScale?: number;
+  /** Test hook (Node adapter, TAPIN_TEST_MODE only): cap every game block at this many rounds. */
+  roundsPerGame?: number;
   /** Content-review log line (a skipped prompt). Default: JSON on stdout. Never identifies a player. */
   log?(entry: Record<string, string>): void;
 }
@@ -149,6 +151,7 @@ export class RoomEngine {
     const conn = this.conns.get(connId);
     if (!conn) return;
     this.conns.delete(connId);
+    if (!this.tick()) return;
     const before = this.state.claims.length;
     this.state.claims = this.state.claims.filter((c) => c.connId !== connId);
     if (this.state.claims.length !== before) this.touch();
@@ -172,11 +175,25 @@ export class RoomEngine {
       this.error(connId, 'BAD_MESSAGE', parsed.reason);
       return;
     }
+    if (!this.tick()) return;
     this.handle(connId, conn, parsed.message);
     this.commit();
   }
 
   alarm(): void {
+    if (!this.tick()) return;
+    if (!this.dirty) this.deps.setAlarm(this.nextAlarm());
+    this.commit();
+  }
+
+  /**
+   * Catch up on everything that is due: presence, host transfer, claims, expiry and phase
+   * deadlines. It runs on the alarm and also before every message and disconnect, because a
+   * commit re-arms the single alarm with future deadlines only: a message that lands after a
+   * deadline but before its alarm would otherwise replace that alarm and strand the phase.
+   * Returns false once the room has expired.
+   */
+  private tick(): boolean {
     const now = this.deps.now();
     for (const p of this.state.players) {
       if (
@@ -203,12 +220,11 @@ export class RoomEngine {
     }
     if (this.state.emptySince !== null && now - this.state.emptySince >= ROOM_EXPIRY_MS) {
       this.expire();
-      return;
+      return false;
     }
     this.presenceChanged();
     this.runTimers();
-    if (!this.dirty) this.deps.setAlarm(this.nextAlarm());
-    this.commit();
+    return true;
   }
 
   // ---------------------------------------------------------------- message handling
@@ -651,7 +667,7 @@ export class RoomEngine {
     session.history.push(gameId);
     session.gameId = gameId;
     session.round = 0;
-    session.rounds = game.rounds(n, length);
+    session.rounds = Math.min(game.rounds(n, length), this.deps.roundsPerGame ?? Infinity);
     session.participants = this.activeIds();
     session.reveal = null;
     session.drink = null;

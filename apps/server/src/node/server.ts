@@ -19,6 +19,12 @@ export interface NodeServerOptions {
   realTimers?: boolean;
   /** Speeds up every game timer (e2e). Default 1. */
   timeScale?: number;
+  /**
+   * Test hooks (never in production, which runs the Worker): `POST /rooms?roundsPerGame=1`
+   * creates a room that plays one round of each game, so one e2e can visit all eleven, and
+   * `?timeScale=1` gives one room its own timer speed (visual baselines need real-length moments).
+   */
+  testHooks?: boolean;
 }
 
 interface NodeRoom {
@@ -84,11 +90,11 @@ export class NodeRoomServer {
     );
   }
 
-  createRoom(): string {
+  createRoom(opts: { roundsPerGame?: number; timeScale?: number } = {}): string {
     let code = generateRoomCode(Math.random);
     while (this.rooms.has(code)) code = generateRoomCode(Math.random);
     const state = createRoomState(code, this.now(), randomId(16));
-    this.rooms.set(code, this.makeRoom(code, state));
+    this.rooms.set(code, this.makeRoom(code, state, opts));
     return code;
   }
 
@@ -102,7 +108,11 @@ export class NodeRoomServer {
     }
   }
 
-  private makeRoom(code: string, state: RoomState): NodeRoom {
+  private makeRoom(
+    code: string,
+    state: RoomState,
+    hooks: { roundsPerGame?: number; timeScale?: number } = {},
+  ): NodeRoom {
     const room: NodeRoom = {
       engine: undefined as unknown as RoomEngine,
       sockets: new Map(),
@@ -112,7 +122,8 @@ export class NodeRoomServer {
     };
     room.engine = new RoomEngine(state, {
       now: this.now,
-      timeScale: this.opts.timeScale ?? 1,
+      timeScale: hooks.timeScale ?? this.opts.timeScale ?? 1,
+      roundsPerGame: hooks.roundsPerGame,
       randomId,
       send: (connId, msg) => {
         const ws = room.sockets.get(connId);
@@ -189,9 +200,18 @@ export class NodeRoomServer {
       case 'health':
         json(200, { ok: true });
         return;
-      case 'create':
-        json(201, { code: this.createRoom() });
+      case 'create': {
+        const cap = Number(url.searchParams.get('roundsPerGame'));
+        const scale = Number(url.searchParams.get('timeScale'));
+        const hooks = this.opts.testHooks
+          ? {
+              roundsPerGame: cap >= 1 ? Math.floor(cap) : undefined,
+              timeScale: scale > 0 && scale <= 1 ? scale : undefined,
+            }
+          : {};
+        json(201, { code: this.createRoom(hooks) });
         return;
+      }
       case 'status': {
         const room = this.rooms.get(r.code);
         const info = room?.engine.welcomeInfo();

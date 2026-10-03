@@ -2,8 +2,12 @@
 import { expect, test, type Browser, type BrowserContext, type Page } from '@playwright/test';
 import { GAME_NAMES, READY_GAMES } from '@tap-in/shared';
 
-export async function phone(browser: Browser, contexts: BrowserContext[]): Promise<Page> {
-  const ctx = await browser.newContext(test.info().project.use);
+export async function phone(
+  browser: Browser,
+  contexts: BrowserContext[],
+  opts: { reducedMotion?: 'reduce' } = {},
+): Promise<Page> {
+  const ctx = await browser.newContext({ ...test.info().project.use, ...opts });
   contexts.push(ctx);
   return ctx.newPage();
 }
@@ -32,16 +36,18 @@ export async function room(
   browser: Browser,
   contexts: BrowserContext[],
   keep: string,
+  opts: { reducedMotion?: 'reduce'; query?: string } = {},
 ): Promise<Page[]> {
-  const host = await phone(browser, contexts);
-  await host.goto('/');
+  const { query = '', ...ctx } = opts;
+  const host = await phone(browser, contexts, ctx);
+  await host.goto(`/${query}`);
   await host.getByRole('button', { name: 'Create Room' }).click();
   await expect(host).toHaveURL(/\/[A-HJ-NP-Z]{4}$/);
   const code = new URL(host.url()).pathname.slice(1);
   await joinAs(host, 'Brett');
   const phones = [host];
   for (const name of ['Priya', 'Marco']) {
-    const p = await phone(browser, contexts);
+    const p = await phone(browser, contexts, ctx);
     await p.goto(`/${code}`);
     await joinAs(p, name);
     phones.push(p);
