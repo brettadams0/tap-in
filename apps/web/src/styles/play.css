@@ -1221,7 +1221,8 @@ li:nth-child(3n) .cap-eyes-live {
   .cap-eyes-live {
     animation: none !important;
   }
-  .flood-fx {
+  .flood-fx,
+  .tc-redact {
     display: none;
   }
   .play-root:has(> .reveal-hit) > .screen {
@@ -1246,7 +1247,6 @@ li:nth-child(3n) .cap-eyes-live {
   .tc-icon,
   .tc-name,
   .tc-prop span,
-  .tc-redact,
   .tc-fillInTheBlank .tc-name::after {
     animation-name: fade !important;
   }
