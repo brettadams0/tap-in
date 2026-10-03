@@ -4,6 +4,7 @@
  */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { PlayView, ServerMessage } from '@tap-in/shared';
+import { liarBank, secretBank, triviaBank } from '@tap-in/games';
 import { NodeRoomServer } from '../src/node/server.js';
 import { avatar } from './harness.js';
 import { Phone } from './phone.js';
@@ -127,6 +128,82 @@ describe('games over real WebSockets', () => {
       p.inbox.filter((m): m is Extract<ServerMessage, { type: 'error' }> => m.type === 'error'),
     );
     expect(errors).toEqual([]);
+    await Promise.all(phones.map((p) => p.close()));
+  });
+
+  it("Liar's Prompt: the imposter and their question stay private on the wire", async () => {
+    const { phones, host } = await setup(['liarsPrompt', 'tapRace']);
+    await Promise.all(phones.map((p) => p.until((x) => play(x)?.step === 'answer', 5000)));
+    const questions = phones.map((p) => {
+      const pv = play(p);
+      return pv?.gameId === 'liarsPrompt' ? (pv.me.question ?? '') : '';
+    });
+    const entry = liarBank.find(
+      (e) => questions.includes(e.imposter) && questions.includes(e.main),
+    );
+    if (!entry) throw new Error('no imposter question dealt');
+    const imposter = phones[questions.indexOf(entry.imposter)] as Phone;
+    expect(questions.filter((q) => q === entry.imposter)).toHaveLength(1);
+
+    phones.forEach((p, i) => {
+      p.send({ type: 'submit', step: 'answer', data: { answer: `wire ${i}` } });
+    });
+    await host.until((x) => play(x)?.step === 'vote', 8000);
+    for (const p of phones) {
+      const target = p === imposter ? host : imposter;
+      p.send({ type: 'submit', step: 'vote', data: { vote: target.playerId } });
+    }
+    await host.until((x) => x.view?.phase === 'roundReveal');
+    for (const p of phones) {
+      for (const v of p.views) {
+        if (v.phase !== 'roundInput') continue;
+        const json = JSON.stringify(v);
+        expect(json).not.toContain('"imposter"');
+        if (p !== imposter) expect(json).not.toContain(entry.imposter);
+      }
+    }
+    const r = play(host);
+    expect(r?.gameId === 'liarsPrompt' && r.reveal?.imposter).toBe(imposter.playerId);
+    await Promise.all(phones.map((p) => p.close()));
+  });
+
+  it('Secret Word: the outsider never receives the word', async () => {
+    const { phones } = await setup(['secretWord', 'tapRace']);
+    await Promise.all(phones.map((p) => p.until((x) => play(x)?.step === 'hint', 5000)));
+    const words = phones.map((p) => {
+      const pv = play(p);
+      return pv?.gameId === 'secretWord' ? pv.me.word : null;
+    });
+    const outsider = phones[words.indexOf(null)];
+    const word = words.find((w) => w !== null) ?? '?';
+    expect(secretBank.some((e) => e.word === word)).toBe(true);
+    expect(words.filter((w) => w === null)).toHaveLength(1);
+    for (const v of outsider?.views ?? []) {
+      expect(JSON.stringify(v)).not.toContain(`"${word}"`);
+    }
+    await Promise.all(phones.map((p) => p.close()));
+  });
+
+  it('Fake Answer: the real answer is never marked before the reveal', async () => {
+    const { phones, host } = await setup(['fakeAnswer', 'tapRace']);
+    await Promise.all(phones.map((p) => p.until((x) => play(x)?.step === 'write', 5000)));
+    const pv = play(host);
+    const question = pv?.gameId === 'fakeAnswer' ? pv.pub.question : '';
+    const answer = triviaBank.find((e) => e.question === question)?.answer ?? '?';
+    phones.forEach((p, i) => {
+      p.send({ type: 'submit', step: 'write', data: { fake: `Wire fake ${i}` } });
+    });
+    await host.until((x) => play(x)?.step === 'vote', 8000);
+    const vote = play(host);
+    expect(vote?.gameId === 'fakeAnswer' && vote.pub.options).toContain(answer);
+    for (const p of phones) {
+      for (const v of p.views) {
+        const json = JSON.stringify(v.session?.play ?? null);
+        if (v.phase !== 'roundInput') continue;
+        expect(json).not.toContain('realIndex');
+        if (v.session?.play?.step === 'write') expect(json).not.toContain(answer);
+      }
+    }
     await Promise.all(phones.map((p) => p.close()));
   });
 });

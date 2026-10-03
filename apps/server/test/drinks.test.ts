@@ -57,8 +57,38 @@ describe('fairness cap', () => {
     const everyone = applyFairnessCap({ ...base, assigned: [], everyone: true }, all, {});
     expect(everyone.drink.nobody).toBeNull();
     expect(drinkersOf(everyone.drink, all)).toEqual(all);
+    expect(everyone.drink.spared).toBeNull();
     const balanced = applyFairnessCap({ ...base, assigned: [], nobody: 'balanced' }, all, {});
     expect(balanced.drink.nobody).toBe('balanced');
+  });
+});
+
+describe('everyone except…', () => {
+  it('spares the escapee, never caps the group and leaves streaks alone', () => {
+    const { drink, streak } = applyFairnessCap(
+      { ...base, assigned: [], everyone: true, spared: { ids: ['p2'], why: 'imposterEscaped' } },
+      all,
+      { p1: 2, p3: 2 },
+    );
+    expect(drink.everyone).toBe(true);
+    expect(drink.spared).toEqual({ ids: ['p2'], why: 'imposterEscaped' });
+    expect(drink.saves).toEqual([]);
+    expect(drinkersOf(drink, all)).toEqual(['p1', 'p3', 'p4']);
+    expect(streak).toEqual({ p1: 0, p2: 0, p3: 0, p4: 0 });
+  });
+
+  it('ignores a spared list without everyone', () => {
+    const { drink } = applyFairnessCap(
+      {
+        ...base,
+        assigned: [{ id: 'p1', reason: 'caught' }],
+        spared: { ids: ['p2'], why: 'outsiderEscaped' },
+      },
+      all,
+      {},
+    );
+    expect(drink.spared).toBeNull();
+    expect(drinkersOf(drink, all)).toEqual(['p1']);
   });
 });
 
@@ -73,6 +103,15 @@ describe('results', () => {
       { id: 'fastestThumbs', players: ['p4'], detail: '180 ms average' },
       { id: 'cleanRecord', players: ['p4'], detail: '0 drinks' },
     ]);
+  });
+
+  it('awards best liar for the most people fooled', () => {
+    const r = buildResults(all, { p1: 1, p2: 1, p3: 1, p4: 1 }, {}, [], { p2: 3, p3: 1 });
+    expect(r.awards).toEqual([
+      { id: 'mostDrinks', players: all, detail: '1 drink' },
+      { id: 'bestLiar', players: ['p2'], detail: '3 lies landed' },
+    ]);
+    expect(buildResults(all, {}, {}, [], { p1: 1 }).awards[0]?.detail).toBe('1 lie landed');
   });
 
   it('skips awards nobody earned', () => {

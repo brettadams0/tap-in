@@ -44,6 +44,7 @@ export function applyFairnessCap(
     drink: {
       drinkers: drinkers.map((d) => ({ id: d.id, reason: d.reason })),
       everyone: result.everyone,
+      spared: result.everyone && result.spared ? result.spared : null,
       nobody: nobodyDrinks ? (result.nobody ?? 'lucky') : null,
       saves,
     },
@@ -53,7 +54,9 @@ export function applyFairnessCap(
 
 /** Who gets +1 on the tally for this Drink moment. */
 export function drinkersOf(drink: DrinkView, participants: readonly PlayerId[]): PlayerId[] {
-  return drink.everyone ? [...participants] : drink.drinkers.map((d) => d.id);
+  if (!drink.everyone) return drink.drinkers.map((d) => d.id);
+  const spared = new Set(drink.spared?.ids ?? []);
+  return participants.filter((id) => !spared.has(id));
 }
 
 export function buildResults(
@@ -61,6 +64,7 @@ export function buildResults(
   drinks: Readonly<Record<PlayerId, number>>,
   reactionMs: Readonly<Record<PlayerId, number[]>>,
   games: readonly GameId[],
+  liarPoints: Readonly<Record<PlayerId, number>> = {},
 ): ResultsView {
   const standings = players
     .map((id) => ({ id, drinks: drinks[id] ?? 0 }))
@@ -88,6 +92,15 @@ export function buildResults(
       id: 'fastestThumbs',
       players: averages.filter((a) => a.avg === best).map((a) => a.id),
       detail: `${best} ms average`,
+    });
+  }
+  const liars = players.filter((id) => (liarPoints[id] ?? 0) > 0);
+  if (liars.length > 0) {
+    const best = Math.max(...liars.map((id) => liarPoints[id] ?? 0));
+    awards.push({
+      id: 'bestLiar',
+      players: liars.filter((id) => liarPoints[id] === best),
+      detail: best === 1 ? '1 lie landed' : `${best} lies landed`,
     });
   }
   if (least < most) {

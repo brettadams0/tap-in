@@ -83,6 +83,8 @@ export interface SessionState {
   /** Consecutive rounds each player was assigned a drink (fairness cap). */
   streak: Record<PlayerId, number>;
   reactionMs: Record<PlayerId, number[]>;
+  /** People fooled or escapes made, per player (Best liar award). Optional: older saved rooms lack it. */
+  liarPoints?: Record<PlayerId, number>;
   lastBreakAt: number;
   overlay: OverlayState | null;
   results: ResultsView | null;
