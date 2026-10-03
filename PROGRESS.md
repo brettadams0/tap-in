@@ -1,5 +1,12 @@
 # Progress
 
+## After v1: verification brief and promo shots
+
+- The owner's manual test on real phones went well (room FSGZ, with a bot phone joined from the sandbox).
+- `VERIFY.md`: a step-by-step brief for a fresh session whose job is to prove v1 works end to end, with a ready-to-paste prompt.
+- `pnpm --filter @tap-in/server bot <CODE>`: an auto-playing bot phone for live rooms (production by default).
+- `promo/`: 19 promo screenshots from real five-phone rounds and a hero banner, captured by the opt-in `e2e/promo.spec.ts`.
+
 ## Phase 7: Hardening (v1 code complete; the real-device sign-off is yours)
 
 **Works**

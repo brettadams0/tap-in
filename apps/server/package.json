@@ -10,6 +10,7 @@
     "build": "wrangler deploy --dry-run --outdir dist",
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.worker.json",
+    "bot": "tsx scripts/bot.ts",
     "test": "vitest run --coverage && vitest run --config vitest.workers.config.ts"
   },
   "dependencies": {

@@ -105,12 +105,14 @@ E2E_TIME_SCALE=1 PW_CHROMIUM_PATH=/opt/pw-browsers/chromium PW_SKIP_WEBKIT=1 pnp
 E2E_SHOTS=/some/dir … npx playwright test e2e/remaining.spec.ts    # save screenshots to review by eye
 pnpm --filter @tap-in/server dev     # Node room server on :8787
 pnpm --filter @tap-in/web dev        # client on :5173
+pnpm --filter @tap-in/server bot ABCD [--name X] [--server ws://localhost:8787]   # a bot phone in room ABCD (production by default)
+PROMO_DIR=/abs/dir … playwright test e2e/promo.spec.ts   # promo screenshots (promo/README.md)
 ```
 
 ## 8. Gotchas learned the hard way
 
 - **Production e2e runs real timers; CI runs them 2.5× faster.** A test that reads state the instant after an action can pass in CI and fail in production. Wait for the state to change (`expect.poll`), and run timing-sensitive specs once with `E2E_TIME_SCALE=1`.
-- **The sandbox proxy blocks WebSockets,** so e2e can't run against the live site from the cloud sandbox; use `e2e-prod.yml`. `curl` works for HTTP checks.
+- **WebSockets to the live server now work from the sandbox** (they were blocked in earlier sessions). `pnpm --filter @tap-in/server bot <CODE>` joins a production room as an auto-playing phone (VERIFY.md step 2). Production e2e still runs from `e2e-prod.yml`.
 - **WebKit is only in CI.** The sandbox has Chromium only; don't run `playwright install`. Headless WebKit throttles background pages, so `tap()` in `e2e/helpers.ts` calls `bringToFront()` first. `actionTimeout` is 20 s.
 - **Nothing may cover the action zone** (DESIGN §0). Notices and the reaction lane sit in the page flow; `.screen` gives up `--react-lane` when the lane follows it (`styles/reactions.css`).
 - **A phone that locks counts as disconnected.** The engine ends a step early when nobody connected is still awaited. That's right for votes, wrong for steps a player needs time for (Spin the Bottle's choice and perform steps return `endsEarly: false`, J7).
@@ -148,15 +150,4 @@ pnpm --filter @tap-in/web dev        # client on :5173
 
 ## 11. Prompt to start the next session
 
-> You're continuing the Tap In project (repo: brettadams0/tap-in). Read HANDOFF.md first, then SPEC.md, PLAN.md, DECISIONS.md and DESIGN.md, before doing anything else.
->
-> Phases 1–7 are done, merged and deployed (v1 code complete):
->
-> - Site: https://tap-in-omega.vercel.app
-> - Room server: https://tap-in-server.brettdev.workers.dev
->
-> First, confirm the latest "E2E on production" GitHub Actions run on main is green. If it's red, fix it before anything else.
->
-> Then help with the real-device sign-off (TESTING.md) and fix whatever it finds, each with a test that reproduces it first.
->
-> Work on a claude/\* branch. Run lint, format check, typecheck and tests before every push. One PR per phase: open it, get CI green, merge, then confirm "E2E on production" is green. Record every open choice in DECISIONS.md, and update PROGRESS.md, TESTING.md and HANDOFF.md at the end of each phase.
+The next session is a verification pass: use the prompt at the end of [VERIFY.md](./VERIFY.md).
