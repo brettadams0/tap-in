@@ -187,7 +187,9 @@ export type ClientMessage =
   | { type: 'hostAction'; action: HostAction }
   | { type: 'ping'; t0: number }
   | { type: 'resync' }
-  | { type: 'leave' };
+  | { type: 'leave' }
+  /** A reaction to another player: one of the fixed emoji, or a note id from the pools (exactly one). */
+  | { type: 'react'; to: PlayerId; emoji?: string; note?: string };
 
 export type ErrorCode =
   | 'BAD_MESSAGE'
@@ -218,7 +220,22 @@ export type ServerMessage =
   | { type: 'error'; code: ErrorCode; message: string }
   | { type: 'claimPending'; playerId: PlayerId }
   | { type: 'claimDenied'; playerId: PlayerId }
-  | { type: 'sessionEnded'; reason: EndReason };
+  | { type: 'sessionEnded'; reason: EndReason }
+  | { type: 'reaction'; reaction: ReactionEvent };
+
+/**
+ * A reaction, as one phone sees it. The recipient gets a note's words; everyone else only learns
+ * that a note was sent and which tab (a 💌, or a 🍩 for Glaze). Never stored, never versioned.
+ */
+export type ReactionEvent =
+  | { from: PlayerId; to: PlayerId; kind: 'emoji'; emoji: string }
+  | {
+      from: PlayerId;
+      to: PlayerId;
+      kind: 'note';
+      tab: 'kind' | 'funny' | 'glaze';
+      line: string | null;
+    };
 
 /** HTTP: POST /rooms → { code }. GET /rooms/:code → RoomStatus. */
 export interface RoomStatus {

@@ -81,6 +81,14 @@ export const blankEntrySchema = z.strictObject({
     .refine((p) => p.split('___').length === 2, 'needs exactly one ___'),
 });
 
+/** Reaction notes (DESIGN §12): a fixed line in one of three tabs. */
+export const reactionEntrySchema = z.strictObject({
+  id: promptId,
+  spice,
+  tab: z.enum(['kind', 'funny', 'glaze']),
+  line: z.string().min(4).max(80),
+});
+
 export function bankSchema<T extends z.ZodType>(entry: T) {
   return z.strictObject({
     bank: z.string(),

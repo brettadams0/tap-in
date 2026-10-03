@@ -9,6 +9,7 @@ import {
   blankEntrySchema,
   dareEntrySchema,
   rankEntrySchema,
+  reactionEntrySchema,
   fakeFactEntrySchema,
   liarEntrySchema,
   secretEntrySchema,
@@ -25,6 +26,10 @@ export const BANNED = /\b(sips?|shots?|chug(s|ging)?|finish (your|the) drink|\d+
  */
 export const UNSAFE_DARE =
   /\b(touch\w*|kiss\w*|hug\w*|lick\w*|sit on|lap|undress\w*|strip\w*|naked|shirt off|number|instagram|snapchat|tiktok|socials?|text (your|an?)|call (your|an?)|dm|film\w*|record\w*|video|photo|selfie|outside|leave the|go to the)\b/i;
+
+/** Reaction notes: no bodies or appearance, nothing about touching, meeting up or contact info (DESIGN §12). */
+export const UNSAFE_NOTE =
+  /\b(cute|pretty|beautiful|gorgeous|handsome|sexy|ugly|fat|skinny|body|legs|lips|eyes|smile|outfit|touch\w*|kiss\w*|hug\w*|number|instagram|snapchat|socials?|dm|meet up|come over|my place|bed)\b/i;
 
 export interface BankRule {
   file: string;
@@ -79,6 +84,13 @@ export const BANKS: BankRule[] = [
     textFields: ['dare'],
     minimumPerSpice: 40,
     unsafe: UNSAFE_DARE,
+  },
+  {
+    file: 'reactions.v1.json',
+    schema: bankSchema(reactionEntrySchema),
+    textFields: ['line'],
+    minimumPerSpice: 40,
+    unsafe: UNSAFE_NOTE,
   },
   {
     file: 'fillInTheBlank.v1.json',
