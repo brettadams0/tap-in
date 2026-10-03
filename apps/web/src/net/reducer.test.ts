@@ -52,4 +52,18 @@ describe('client room reducer', () => {
       500, 1000, 2000, 4000, 8000, 10000, 10000,
     ]);
   });
+
+  it('remembers recent reactions in order, outside the room view', () => {
+    let state = initialState('ABCD');
+    for (let i = 0; i < 25; i++) {
+      state = reduce(
+        state,
+        { type: 'reaction', reaction: { from: 'a', to: 'b', kind: 'emoji', emoji: '😂' } },
+        i,
+      ).state;
+    }
+    expect(state.reactions).toHaveLength(20);
+    expect(state.reactions.at(-1)?.seq).toBe(25);
+    expect(state.view).toBeNull();
+  });
 });

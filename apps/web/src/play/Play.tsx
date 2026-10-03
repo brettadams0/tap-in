@@ -4,14 +4,20 @@ import { useCues } from '../audio/useCues.js';
 import type { RoomConnection } from '../net/connection.js';
 import { ClaimPrompt } from '../screens/Lobby.js';
 import '../styles/play.css';
+import { CountInput, CountReveal } from './games/Countdown.js';
 import { FakeInput, FakeReveal } from './games/FakeAnswer.js';
+import { BlankInput, BlankReveal } from './games/FillInTheBlank.js';
 import { LiarInput, LiarReveal } from './games/LiarsPrompt.js';
+import { RankInput, RankReveal } from './games/RankIt.js';
 import { ShotgunInput, ShotgunReveal } from './games/ReactionShotgun.js';
 import { SecretInput, SecretReveal } from './games/SecretWord.js';
+import { SpinInput, SpinReveal } from './games/SpinTheBottle.js';
+import { TapInput, TapReveal } from './games/TapRace.js';
 import { TruthsInput, TruthsReveal } from './games/TwoTruths.js';
 import { WyrInput, WyrReveal } from './games/WouldYouRather.js';
 import { DrinkMoment, Intro, OverlayCard, Outro, TitleCard } from './moments.js';
 import { CornerMenu, HeaderStrip, inkOf, SoundChips } from './parts.js';
+import { ReactionLane } from './reactions.js';
 import { Results } from './Results.js';
 
 export default function Play({ conn, view }: { conn: RoomConnection; view: RoomView }) {
@@ -25,6 +31,7 @@ export default function Play({ conn, view }: { conn: RoomConnection; view: RoomV
           <ClaimPrompt key={c.claimId} conn={conn} claimId={c.claimId} name={c.name} />
         ))}
       <PhaseBody conn={conn} view={view} />
+      <ReactionLane conn={conn} view={view} />
       <OverlayCard conn={conn} view={view} />
       <CornerMenu conn={conn} view={view} />
     </div>
@@ -50,7 +57,11 @@ function PhaseBody({ conn, view }: { conn: RoomConnection; view: RoomView }) {
           data-testid={`${play.gameId}-${reveal ? 'reveal' : 'input'}`}
           data-step={play.step}
         >
-          <HeaderStrip conn={conn} view={view} timer={play.gameId !== 'reactionShotgun'} />
+          <HeaderStrip
+            conn={conn}
+            view={view}
+            timer={play.gameId !== 'reactionShotgun' && play.gameId !== 'tapRace'}
+          />
           {play.gameId === 'wouldYouRather' &&
             (reveal ? (
               <WyrReveal conn={conn} view={view} play={play} />
@@ -86,6 +97,36 @@ function PhaseBody({ conn, view }: { conn: RoomConnection; view: RoomView }) {
               <FakeReveal conn={conn} view={view} play={play} />
             ) : (
               <FakeInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'rankIt' &&
+            (reveal ? (
+              <RankReveal conn={conn} view={view} play={play} />
+            ) : (
+              <RankInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'tapRace' &&
+            (reveal ? (
+              <TapReveal conn={conn} view={view} play={play} />
+            ) : (
+              <TapInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'spinTheBottle' &&
+            (reveal ? (
+              <SpinReveal conn={conn} view={view} play={play} />
+            ) : (
+              <SpinInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'fillInTheBlank' &&
+            (reveal ? (
+              <BlankReveal conn={conn} view={view} play={play} />
+            ) : (
+              <BlankInput conn={conn} view={view} play={play} />
+            ))}
+          {play.gameId === 'countdown' &&
+            (reveal ? (
+              <CountReveal conn={conn} view={view} play={play} />
+            ) : (
+              <CountInput conn={conn} view={view} play={play} />
             ))}
         </main>
       );

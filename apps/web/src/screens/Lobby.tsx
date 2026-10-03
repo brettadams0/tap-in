@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import {
   GAME_IDS,
   GAME_NAMES,
@@ -18,6 +18,11 @@ import { CapBuilder } from '../ui/CapBuilder.js';
 import { Sheet } from '../ui/Sheet.js';
 import { TapButton } from '../ui/TapButton.js';
 
+// Reactions (and their line pools) load on demand, keeping the first load small.
+const ReactionLane = lazy(() =>
+  import('../play/reactions.js').then((m) => ({ default: m.ReactionLane })),
+);
+
 const SPICE_LABEL = { chill: 'Chill', spicy: 'Spicy', unhinged: 'Unhinged' } as const;
 const LENGTH_LABEL = { short: 'Short', standard: 'Standard', long: 'Long' } as const;
 
@@ -31,90 +36,95 @@ export function Lobby({ conn, view }: { conn: RoomConnection; view: RoomView }) 
   );
 
   return (
-    <main className="screen lobby">
-      {isHost &&
-        view.claims.map((c) => (
-          <ClaimPrompt key={c.claimId} conn={conn} claimId={c.claimId} name={c.name} />
-        ))}
-
-      <RoomTicket code={view.code} />
-
-      <section className="zone-content" aria-label="Players">
-        <div className="row-between">
-          <h2 className="label">Players · {view.players.length}/8</h2>
-          <span className="hint small">Tap your cap to change it</span>
-        </div>
-        <ul className="cap-grid">
-          {view.players.map((p) => (
-            <PlayerTile
-              key={p.id}
-              player={p}
-              isMe={p.id === view.you.id}
-              onTap={
-                p.id === view.you.id || isHost
-                  ? () => {
-                      setSheet({ kind: 'player', id: p.id });
-                    }
-                  : undefined
-              }
-            />
+    <>
+      <main className="screen lobby">
+        {isHost &&
+          view.claims.map((c) => (
+            <ClaimPrompt key={c.claimId} conn={conn} claimId={c.claimId} name={c.name} />
           ))}
-        </ul>
 
-        <SettingsSummary
-          settings={view.settings}
-          canEdit={isHost}
-          onEdit={() => {
-            setSheet({ kind: 'settings' });
-          }}
-        />
-      </section>
+        <RoomTicket code={view.code} />
 
-      <div className="zone-action">
-        {isHost ? (
-          <>
-            <TapButton
-              className="btn-primary"
-              disabled={ready < MIN_PLAYERS}
-              onClick={() => {
-                conn.host({ kind: 'start' });
-              }}
-            >
-              Start!
-            </TapButton>
-            <p className="hint center">
-              {ready < MIN_PLAYERS
-                ? `Need ${MIN_PLAYERS}+ players to start (${ready} here)`
-                : `${ready} ready. Hit Start when everyone's in.`}
-            </p>
-          </>
-        ) : (
-          <p className="waiting coaster">Waiting for {host?.name ?? 'the host'} to start…</p>
+        <section className="zone-content" aria-label="Players">
+          <div className="row-between">
+            <h2 className="label">Players · {view.players.length}/8</h2>
+            <span className="hint small">Tap your cap to change it</span>
+          </div>
+          <ul className="cap-grid">
+            {view.players.map((p) => (
+              <PlayerTile
+                key={p.id}
+                player={p}
+                isMe={p.id === view.you.id}
+                onTap={
+                  p.id === view.you.id || isHost
+                    ? () => {
+                        setSheet({ kind: 'player', id: p.id });
+                      }
+                    : undefined
+                }
+              />
+            ))}
+          </ul>
+
+          <SettingsSummary
+            settings={view.settings}
+            canEdit={isHost}
+            onEdit={() => {
+              setSheet({ kind: 'settings' });
+            }}
+          />
+        </section>
+
+        <div className="zone-action">
+          {isHost ? (
+            <>
+              <TapButton
+                className="btn-primary"
+                disabled={ready < MIN_PLAYERS}
+                onClick={() => {
+                  conn.host({ kind: 'start' });
+                }}
+              >
+                Start!
+              </TapButton>
+              <p className="hint center">
+                {ready < MIN_PLAYERS
+                  ? `Need ${MIN_PLAYERS}+ players to start (${ready} here)`
+                  : `${ready} ready. Hit Start when everyone's in.`}
+              </p>
+            </>
+          ) : (
+            <p className="waiting coaster">Waiting for {host?.name ?? 'the host'} to start…</p>
+          )}
+        </div>
+
+        {sheet?.kind === 'settings' && (
+          <Sheet
+            title="Game settings"
+            onClose={() => {
+              setSheet(null);
+            }}
+          >
+            <SettingsEditor conn={conn} settings={view.settings} />
+          </Sheet>
         )}
-      </div>
-
-      {sheet?.kind === 'settings' && (
-        <Sheet
-          title="Game settings"
-          onClose={() => {
-            setSheet(null);
-          }}
-        >
-          <SettingsEditor conn={conn} settings={view.settings} />
-        </Sheet>
-      )}
-      {sheet?.kind === 'player' && (
-        <PlayerSheet
-          conn={conn}
-          view={view}
-          player={view.players.find((p) => p.id === sheet.id)}
-          me={me}
-          onClose={() => {
-            setSheet(null);
-          }}
-        />
-      )}
-    </main>
+        {sheet?.kind === 'player' && (
+          <PlayerSheet
+            conn={conn}
+            view={view}
+            player={view.players.find((p) => p.id === sheet.id)}
+            me={me}
+            onClose={() => {
+              setSheet(null);
+            }}
+          />
+        )}
+      </main>
+      <Suspense fallback={null}>
+        <ReactionLane conn={conn} view={view} />
+      </Suspense>
+    </>
   );
 }
 

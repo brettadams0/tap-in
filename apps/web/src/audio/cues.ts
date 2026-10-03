@@ -11,6 +11,11 @@ export type CueSound =
   | 'tick'
   /** An answer lands in Liar's Prompt's synced show. */
   | 'land'
+  /** Countdown: a number lands, in the tapper's voice. */
+  | 'ding'
+  | 'buzzer'
+  | 'whoosh'
+  | 'clunk'
   | 'reveal'
   | 'drinkYou'
   | 'drinkOther'
@@ -73,7 +78,27 @@ export function cuesFor(view: RoomView): Cue[] {
             cues.push({ key: `land:${t}`, at: t, sound: 'land', seat: seatOf(a.id) });
           });
         }
+      } else if (play?.gameId === 'tapRace') {
+        // A synced 3-2-1, the GO, and the whistle at the end.
+        const { goAt, tapMs } = play.pub;
+        for (const before of [3000, 2000, 1000]) {
+          cues.push({ key: `tick:${goAt - before}`, at: goAt - before, sound: 'tick' });
+        }
+        cues.push({ key: `go:${goAt}`, at: goAt, sound: 'flash', vibrate: [60] });
+        cues.push({ key: `stop:${goAt + tapMs}`, at: goAt + tapMs, sound: 'buzzer' });
+      } else if (play?.gameId === 'spinTheBottle' && play.step === 'spin') {
+        cues.push({ key: `whoosh:${play.pub.spinAt}`, at: play.pub.spinAt, sound: 'whoosh' });
+        cues.push({ key: `clunk:${play.pub.landAt}`, at: play.pub.landAt, sound: 'clunk' });
       } else if (view.phaseEndsAt !== null && s.overlay === null) {
+        if (play?.gameId === 'countdown') {
+          const { lastAt, lastBy, collisions } = play.pub;
+          if (lastAt !== null && lastBy !== null) {
+            cues.push({ key: `ding:${lastAt}`, at: lastAt, sound: 'ding', seat: seatOf(lastBy) });
+          }
+          for (const c of collisions) {
+            cues.push({ key: `buzz:${c.at}`, at: c.at, sound: 'buzzer', vibrate: [120] });
+          }
+        }
         for (const before of TICKS) {
           const t = view.phaseEndsAt - before;
           cues.push({ key: `tick:${t}`, at: t, sound: 'tick' });
@@ -83,6 +108,10 @@ export function cuesFor(view: RoomView): Cue[] {
     }
     case 'roundReveal':
       cues.push({ key: `reveal:${at}`, at, sound: 'reveal' });
+      // The top answer gets the crowd.
+      if (s.play?.gameId === 'fillInTheBlank' && (s.play.reveal?.top.length ?? 0) > 0) {
+        cues.push({ key: `cheer:${at}`, at: at + 1600, sound: 'cheer' });
+      }
       break;
     case 'drink': {
       const d = s.drink;

@@ -1,0 +1,126 @@
+/* ---------- reactions (DESIGN §12): a lane in the margin zone, in the page flow ---------- */
+:root {
+  /* sticker slot 76 + gap 6 + cap strip 56 + padding 8 */
+  --react-lane: 146px;
+}
+/* The screen gives up the lane's height, so the lane sits on screen without covering anything. */
+.screen:has(+ .react-lane) {
+  min-height: calc(100dvh - var(--react-lane) - var(--safe-bottom));
+  padding-bottom: 8px;
+}
+.react-lane {
+  height: calc(var(--react-lane) + var(--safe-bottom));
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) calc(var(--safe-bottom) + 8px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.react-slot {
+  height: 76px;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.react-sticker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background: var(--sun);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 #000;
+  font-weight: 800;
+  text-align: left;
+  transform: rotate(-2deg);
+  animation: stamp 0.3s var(--spring) both;
+}
+.react-from {
+  font-size: 15px;
+}
+.react-line {
+  font-size: 18px;
+  line-height: 1.2;
+}
+.react-emoji {
+  font-size: 28px;
+}
+.react-flight {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--foam-dim);
+  animation: pop-in 0.3s var(--spring) both;
+}
+.react-strip {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  gap: 6px;
+}
+.react-cap {
+  min-width: 56px;
+  min-height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.react-cap:disabled {
+  opacity: 0.5;
+}
+.react-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.react-tab {
+  min-height: 48px;
+  border: 3px solid var(--stout-3);
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 16px;
+}
+.react-tab.is-on {
+  border-color: var(--ink);
+  background: var(--sun);
+  color: var(--ink);
+}
+.react-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.react-emoji-btn {
+  min-height: 64px;
+  font-size: 34px;
+  border-radius: 16px;
+  background: var(--stout-2);
+}
+.react-lines {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.react-line-btn {
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 14px;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background: var(--foam);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 18px;
+  text-align: left;
+}

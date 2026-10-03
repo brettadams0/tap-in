@@ -73,6 +73,9 @@ export class RoomConnection {
   submit(step: string, data: unknown): void {
     this.send({ type: 'submit', step, data });
   }
+  react(to: string, reaction: { emoji: string } | { note: string }): void {
+    this.send({ type: 'react', to, ...reaction });
+  }
   /** "Done" after a Drink. */
   ready(): void {
     this.send({ type: 'ready' });
