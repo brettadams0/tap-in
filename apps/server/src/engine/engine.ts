@@ -225,7 +225,6 @@ export class RoomEngine {
     return true;
   }
 
-
   // ---------------------------------------------------------------- message handling
 
   private handle(connId: string, conn: Conn, msg: ClientMessage): void {
