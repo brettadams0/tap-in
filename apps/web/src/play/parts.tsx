@@ -101,6 +101,7 @@ export function Timer({
       <span key={urgent ? secs : 'calm'} className="timer-num">
         {secs}
       </span>
+      {urgent && left > 0 && <span className="urgent-vignette" aria-hidden="true" />}
     </div>
   );
 }

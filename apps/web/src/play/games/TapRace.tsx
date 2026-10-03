@@ -111,7 +111,12 @@ export function TapReveal({
           if (!p) return null;
           return (
             <li key={b.id} className={`bar-row${(b.count ?? 0) === fewest ? ' is-worst' : ''}`}>
-              <Cap avatar={p.avatar} size={32} label={p.name} />
+              <Cap
+                avatar={p.avatar}
+                size={32}
+                label={p.name}
+                mood={(b.count ?? 0) === fewest ? 'drink' : undefined}
+              />
               <span className="bar-name">{p.name}</span>
               <span className="bar-track">
                 <span
