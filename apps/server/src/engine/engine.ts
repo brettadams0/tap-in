@@ -77,6 +77,8 @@ export interface EngineDeps {
   destroy(): void;
   /** Multiplies every game and phase duration (e2e and dev run faster). Default 1. */
   timeScale?: number;
+  /** Test hook (Node adapter, TAPIN_TEST_MODE only): cap every game block at this many rounds. */
+  roundsPerGame?: number;
   /** Content-review log line (a skipped prompt). Default: JSON on stdout. Never identifies a player. */
   log?(entry: Record<string, string>): void;
 }
@@ -665,7 +667,7 @@ export class RoomEngine {
     session.history.push(gameId);
     session.gameId = gameId;
     session.round = 0;
-    session.rounds = game.rounds(n, length);
+    session.rounds = Math.min(game.rounds(n, length), this.deps.roundsPerGame ?? Infinity);
     session.participants = this.activeIds();
     session.reveal = null;
     session.drink = null;
