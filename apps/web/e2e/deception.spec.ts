@@ -106,13 +106,24 @@ test('Secret Word: hints in turn, a blocked hint, vote', async ({ browser }) => 
     await expect((phones[0] as Page).getByText('kettle')).toBeVisible();
     await shot(phones[0] as Page, 'secret-3-vote');
     for (const p of phones) await tap(p, p.locator('.pick').first());
-    // Either a reveal, or the caught outsider's guess first.
-    await expect((phones[0] as Page).getByTestId(/secretWord-(reveal|input)/)).toBeVisible();
-    if ((await step(phones[0] as Page)) === 'guess') {
-      for (const p of phones) {
-        const box = p.getByLabel('Your guess');
-        if (await box.isVisible()) await type(p, 'Your guess', 'banana');
-      }
+    // Wait for the vote to close: either the reveal, or the caught outsider's guess first.
+    // (Production runs real timers, so never read the step before it has moved on.)
+    const host = phones[0] as Page;
+    await expect
+      .poll(
+        async () =>
+          (await host.getByTestId('secretWord-reveal').isVisible()) ? 'reveal' : await step(host),
+        { timeout: 30_000 },
+      )
+      .not.toBe('vote');
+    if ((await step(host)) === 'guess') {
+      const guesser = await Promise.any(
+        phones.map(async (p) => {
+          await expect(p.getByLabel('Your guess')).toBeVisible({ timeout: 5000 });
+          return p;
+        }),
+      );
+      await type(guesser, 'Your guess', 'banana');
     }
     await expectDrink(phones);
   } finally {
