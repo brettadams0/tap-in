@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run --coverage",
     "validate-content": "tsx scripts/validate-content.ts",
-    "build": "tsx scripts/validate-content.ts"
+    "build": "tsx scripts/validate-content.ts --strict"
   },
   "dependencies": {
     "@tap-in/shared": "workspace:*",

@@ -17,8 +17,35 @@ describe('content validator', () => {
       const json: unknown = JSON.parse(
         readFileSync(new URL(`../../../content/${rule.file}`, import.meta.url), 'utf8'),
       );
-      expect(validateBank(rule, json).errors).toEqual([]);
+      const report = validateBank(rule, json);
+      expect(report.errors).toEqual([]);
+      // Phase 5: every bank is at its minimum (the build runs with --strict).
+      expect(report.short).toEqual([]);
     }
+  });
+
+  it('counts reaction lines per tab, tagged and available at each spice', () => {
+    const rule = BANKS.find((b) => b.file === 'reactions.v1.json');
+    if (!rule) throw new Error('no reactions rule');
+    const line = (id: string, tab: string, spice: string) => ({
+      id,
+      spice,
+      tab,
+      line: `Line ${id}`,
+    });
+    const entries = [
+      ...Array.from({ length: 40 }, (_, i) => line(`k-c-${i}`, 'kind', 'chill')),
+      ...Array.from({ length: 10 }, (_, i) => line(`k-s-${i}`, 'kind', 'spicy')),
+      ...Array.from({ length: 10 }, (_, i) => line(`k-u-${i}`, 'kind', 'unhinged')),
+      ...Array.from({ length: 30 }, (_, i) => line(`f-c-${i}`, 'funny', 'chill')),
+      ...Array.from({ length: 10 }, (_, i) => line(`f-s-${i}`, 'funny', 'spicy')),
+    ];
+    const report = validateBank(rule, { bank: 'reactions', version: 1, entries });
+    expect(report.errors).toEqual([]);
+    expect(report.short).toEqual([
+      'reactions.v1.json: funny at chill offers 30/40',
+      'reactions.v1.json: funny unhinged has 0/10',
+    ]);
   });
 
   it('catches schema errors, duplicates, banned wording and short banks', () => {

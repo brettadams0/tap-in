@@ -1,6 +1,6 @@
 /**
  * Validates every prompt bank. Exits non-zero on any error.
- * Short banks are warnings until phase 5 fills them; `--strict` (used from phase 5) fails on them.
+ * Short banks are warnings unless `--strict`, which the build uses (phase 5 filled every bank).
  */
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
