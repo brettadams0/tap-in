@@ -19,7 +19,7 @@ test.beforeEach(({ browserName }, info) => {
     'Chromium baselines, against the local build only',
   );
 });
-test.use({ reducedMotion: 'reduce' });
+test.use({ contextOptions: { reducedMotion: 'reduce' } });
 
 const OPTS = { maxDiffPixelRatio: 0.02, animations: 'disabled' } as const;
 /** Hides the random gag and the emoji (OS font) for the capture; the layout stays. */
