@@ -329,6 +329,21 @@ describe('session flow', () => {
     expect(phase(host)).toBe('roundReveal');
     expect(sess(p1).flag).toBeNull();
   });
+
+  it('a message that lands after a deadline, before its alarm fires, never strands the phase', () => {
+    const { h, players, host } = session(['wouldYouRather']);
+    expect(phase(host)).toBe('intro');
+    const due = h.engine.snapshot.phaseEndsAt ?? 0;
+    // The intro is over, but its alarm hasn't been delivered yet (a busy loop, a late DO alarm).
+    h.time = due + 5;
+    players[4]?.disconnect();
+    // Whatever re-armed the alarm, the overdue phase moved on and the next one is scheduled.
+    expect(phase(host)).toBe('gameIntro');
+    h.until(() => phase(host) === 'roundInput', 30_000);
+    h.time = (h.engine.snapshot.phaseEndsAt ?? 0) + 5;
+    players[3]?.send({ type: 'submit', step: 'vote', data: { side: 'a' } });
+    expect(phase(host)).not.toBe('roundInput');
+  });
 });
 
 const avatarFallback = {
