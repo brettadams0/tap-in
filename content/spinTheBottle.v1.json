@@ -1,0 +1,231 @@
+{
+  "bank": "spinTheBottle",
+  "version": 1,
+  "entries": [
+    {
+      "id": "sb-c-001",
+      "spice": "chill",
+      "dare": "Do your best robot voice until the next round."
+    },
+    {
+      "id": "sb-c-002",
+      "spice": "chill",
+      "dare": "Give a dramatic weather forecast for this room."
+    },
+    {
+      "id": "sb-c-003",
+      "spice": "chill",
+      "dare": "Do your best impression of a hockey commentator for 10 seconds."
+    },
+    {
+      "id": "sb-c-004",
+      "spice": "chill",
+      "dare": "Speak only in questions until the next round."
+    },
+    {
+      "id": "sb-c-005",
+      "spice": "chill",
+      "dare": "Do your best runway walk across the room."
+    },
+    {
+      "id": "sb-c-006",
+      "spice": "chill",
+      "dare": "Sing the chorus of any song you choose."
+    },
+    {
+      "id": "sb-c-007",
+      "spice": "chill",
+      "dare": "Do 10 jumping jacks while counting in a pirate voice."
+    },
+    {
+      "id": "sb-c-008",
+      "spice": "chill",
+      "dare": "Tell the room your most useless talent, then show it."
+    },
+    {
+      "id": "sb-c-009",
+      "spice": "chill",
+      "dare": "Do your best chicken dance for 10 seconds."
+    },
+    {
+      "id": "sb-c-010",
+      "spice": "chill",
+      "dare": "Narrate the next 20 seconds like a nature documentary."
+    },
+    {
+      "id": "sb-c-011",
+      "spice": "chill",
+      "dare": "Do an impression of someone famous until someone guesses who."
+    },
+    {
+      "id": "sb-c-012",
+      "spice": "chill",
+      "dare": "Give the person on your right a heartfelt compliment about their cap."
+    },
+    {
+      "id": "sb-c-013",
+      "spice": "chill",
+      "dare": "Make up a jingle for the snack nearest to you."
+    },
+    {
+      "id": "sb-c-014",
+      "spice": "chill",
+      "dare": "Talk like a game-show host until the next round."
+    },
+    {
+      "id": "sb-c-015",
+      "spice": "chill",
+      "dare": "Pretend to be a waiter and take everyone's order."
+    },
+    {
+      "id": "sb-s-001",
+      "spice": "spicy",
+      "dare": "Do your best slow-motion dance move for 10 seconds."
+    },
+    {
+      "id": "sb-s-002",
+      "spice": "spicy",
+      "dare": "Give the room your best pickup line, with feeling."
+    },
+    {
+      "id": "sb-s-003",
+      "spice": "spicy",
+      "dare": "Do a dramatic movie-trailer voice about your love life."
+    },
+    {
+      "id": "sb-s-004",
+      "spice": "spicy",
+      "dare": "Serenade the room with one line of a love song."
+    },
+    {
+      "id": "sb-s-005",
+      "spice": "spicy",
+      "dare": "Show the room your best wink. Then your second best."
+    },
+    {
+      "id": "sb-s-006",
+      "spice": "spicy",
+      "dare": "Describe your perfect date in exactly five words."
+    },
+    {
+      "id": "sb-s-007",
+      "spice": "spicy",
+      "dare": "Do your best impression of a reality-show confessional."
+    },
+    {
+      "id": "sb-s-008",
+      "spice": "spicy",
+      "dare": "Strike your best magazine-cover pose and hold it for 5 seconds."
+    },
+    {
+      "id": "sb-s-009",
+      "spice": "spicy",
+      "dare": "Do your sexiest impression of a goose. Yes, a goose."
+    },
+    {
+      "id": "sb-s-010",
+      "spice": "spicy",
+      "dare": "Tell the room the worst date idea you can think of, with total confidence."
+    },
+    {
+      "id": "sb-s-011",
+      "spice": "spicy",
+      "dare": "Speak with a French accent until the next round."
+    },
+    {
+      "id": "sb-s-012",
+      "spice": "spicy",
+      "dare": "Give a dramatic speech about your favourite snack as if it were your soulmate."
+    },
+    {
+      "id": "sb-s-013",
+      "spice": "spicy",
+      "dare": "Do your best catwalk to the nearest wall and back."
+    },
+    {
+      "id": "sb-s-014",
+      "spice": "spicy",
+      "dare": "Act out your reaction to being proposed to at a hockey game."
+    },
+    {
+      "id": "sb-s-015",
+      "spice": "spicy",
+      "dare": "Do your best karaoke diva ending for any song."
+    },
+    {
+      "id": "sb-u-001",
+      "spice": "unhinged",
+      "dare": "Bark like a dog every time someone says your name until the next round."
+    },
+    {
+      "id": "sb-u-002",
+      "spice": "unhinged",
+      "dare": "Do your best impression of a raccoon caught in a trash can."
+    },
+    {
+      "id": "sb-u-003",
+      "spice": "unhinged",
+      "dare": "Talk like a pirate who just lost their ship until the next round."
+    },
+    {
+      "id": "sb-u-004",
+      "spice": "unhinged",
+      "dare": "Do an interpretive dance titled 'Monday Morning'."
+    },
+    {
+      "id": "sb-u-005",
+      "spice": "unhinged",
+      "dare": "Pretend you're a microwave for 15 seconds, including the beep."
+    },
+    {
+      "id": "sb-u-006",
+      "spice": "unhinged",
+      "dare": "Give a passionate TED talk on why socks go missing."
+    },
+    {
+      "id": "sb-u-007",
+      "spice": "unhinged",
+      "dare": "Act out a soap-opera death scene, dramatically."
+    },
+    {
+      "id": "sb-u-008",
+      "spice": "unhinged",
+      "dare": "Be a goose. Honk at anyone who speaks until the next round."
+    },
+    {
+      "id": "sb-u-009",
+      "spice": "unhinged",
+      "dare": "Narrate your own life in the third person until the next round."
+    },
+    {
+      "id": "sb-u-010",
+      "spice": "unhinged",
+      "dare": "Do your best opera version of 'Happy Birthday'."
+    },
+    {
+      "id": "sb-u-011",
+      "spice": "unhinged",
+      "dare": "Pretend to be a frozen computer for 10 seconds, then reboot loudly."
+    },
+    {
+      "id": "sb-u-012",
+      "spice": "unhinged",
+      "dare": "Act like a cat who just knocked something off a table."
+    },
+    {
+      "id": "sb-u-013",
+      "spice": "unhinged",
+      "dare": "Do your best villain laugh. Then a better one."
+    },
+    {
+      "id": "sb-u-014",
+      "spice": "unhinged",
+      "dare": "Invent a new dance move and teach it to the room."
+    },
+    {
+      "id": "sb-u-015",
+      "spice": "unhinged",
+      "dare": "Do a sports-commentator play-by-play of someone else's drink."
+    }
+  ]
+}

@@ -4,7 +4,13 @@ import type { GameCtx } from './types.js';
 
 export function testCtx(
   players: PlayerId[],
-  opts: { now?: number; seed?: string; spice?: Spice; connected?: PlayerId[] } = {},
+  opts: {
+    now?: number;
+    seed?: string;
+    spice?: Spice;
+    connected?: PlayerId[];
+    capped?: PlayerId[];
+  } = {},
 ): GameCtx {
   return {
     now: opts.now ?? 1_000_000,
@@ -15,5 +21,6 @@ export function testCtx(
     used: [],
     ms: (d) => d,
     lead: 600,
+    capped: opts.capped ?? [],
   };
 }

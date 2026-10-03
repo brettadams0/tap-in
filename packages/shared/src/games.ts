@@ -271,6 +271,125 @@ export interface FakeReveal {
 }
 export type FakeInput = { fake: string } | { vote: number };
 
+// ------------------------------------------------------------------ Rank It
+
+export interface RankPublic {
+  prompt: string;
+  /** The four items, in their original order. A ranking lists item indexes, best first. */
+  items: string[];
+}
+export interface RankPrivate {
+  ranking: number[] | null;
+}
+export interface RankReveal {
+  /** Item indexes in the group's order, best first. */
+  group: number[];
+  /** Average rank (1–4) per item index. */
+  average: number[];
+  /** Each ranker's distance from the group, furthest first. Null = didn't rank. */
+  distances: { id: PlayerId; distance: number | null; ranking: number[] | null }[];
+}
+export type RankInput = { ranking: number[] };
+
+// ------------------------------------------------------------------ Tap Race
+
+export interface TapPublic {
+  /** Server time the tapping starts (after a synced 3-2-1). */
+  goAt: number;
+  /** How long the tapping lasts, in ms. */
+  tapMs: number;
+}
+export interface TapPrivate {
+  count: number | null;
+}
+export interface TapReveal {
+  /** Most taps first. Null = never sent a count. */
+  board: { id: PlayerId; count: number | null }[];
+}
+export type TapInput = { count: number };
+
+// ------------------------------------------------------------------ Spin the Bottle
+
+/** `spin`: the bottle spins and lands. `choice`: Dare or Drink. `perform`: do the dare. `confirm`: others vote Done or Nope. */
+export type SpinStep = 'spin' | 'choice' | 'perform' | 'confirm';
+
+export interface SpinPublic {
+  /** Server time the spin starts and when it lands. */
+  spinAt: number;
+  landAt: number;
+  /** Who the bottle lands on (decided by the server before the spin). */
+  chosen: PlayerId;
+  /** Seat order around the bottle. */
+  ring: PlayerId[];
+  /** The dare, once the bottle has landed. */
+  dare: string | null;
+  choice: 'dare' | 'drink' | null;
+}
+export interface SpinPrivate {
+  /** This phone's Done/Nope vote. */
+  verdict: 'done' | 'nope' | null;
+}
+export interface SpinReveal {
+  chosen: PlayerId;
+  dare: string;
+  /** Null when the chosen player dropped before choosing (nobody drinks). */
+  choice: 'dare' | 'drink' | null;
+  done: number;
+  nope: number;
+  /** True when the dare counts as done. */
+  passed: boolean;
+}
+export type SpinInput =
+  | { choice: 'dare' | 'drink' }
+  | { performed: true }
+  | { verdict: 'done' | 'nope' };
+
+// ------------------------------------------------------------------ Fill in the Blank
+
+/** `write`: fill the blank. `vote`: pick your favourite (never your own). */
+export type BlankStep = 'write' | 'vote';
+
+export interface BlankPublic {
+  prompt: string;
+  /** Answers, shuffled and anonymous. Null while writing. */
+  options: string[] | null;
+}
+export interface BlankPrivate {
+  answer: string | null;
+  vote: number | null;
+  mine: number[];
+}
+export interface BlankReveal {
+  options: string[];
+  authors: PlayerId[][];
+  votes: Record<PlayerId, number>;
+  /** Option indexes with the most votes. */
+  top: number[];
+}
+export type BlankInput = { answer: string } | { vote: number };
+
+// ------------------------------------------------------------------ Countdown
+
+export interface CountPublic {
+  count: number;
+  target: number;
+  /** Who tapped last: they can't tap again until someone else does (R3). */
+  lastBy: PlayerId | null;
+  /** Server time of the last number tap (drives the synced ding). */
+  lastAt: number | null;
+  /** Every collision so far: who collided and when (drives the buzzer). */
+  collisions: { ids: PlayerId[]; at: number }[];
+  /** Server time the round ends. */
+  endsAt: number;
+}
+export interface CountReveal {
+  reached: boolean;
+  target: number;
+  best: number;
+  collisions: { ids: PlayerId[]; at: number }[];
+}
+export type CountInput = { tap: true };
+
 // ------------------------------------------------------------------ unions
 
 export interface GameViews {
@@ -285,6 +404,16 @@ export interface GameViews {
   secretWord: { pub: SecretPublic; me: SecretPrivate; reveal: SecretReveal; input: SecretInput };
   twoTruths: { pub: TruthsPublic; me: TruthsPrivate; reveal: TruthsReveal; input: TruthsInput };
   fakeAnswer: { pub: FakePublic; me: FakePrivate; reveal: FakeReveal; input: FakeInput };
+  rankIt: { pub: RankPublic; me: RankPrivate; reveal: RankReveal; input: RankInput };
+  tapRace: { pub: TapPublic; me: TapPrivate; reveal: TapReveal; input: TapInput };
+  spinTheBottle: { pub: SpinPublic; me: SpinPrivate; reveal: SpinReveal; input: SpinInput };
+  fillInTheBlank: { pub: BlankPublic; me: BlankPrivate; reveal: BlankReveal; input: BlankInput };
+  countdown: {
+    pub: CountPublic;
+    me: Record<string, never>;
+    reveal: CountReveal;
+    input: CountInput;
+  };
 }
 
 export type PlayableGameId = keyof GameViews;

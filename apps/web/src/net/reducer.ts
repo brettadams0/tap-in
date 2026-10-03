@@ -2,6 +2,7 @@
 import {
   applyPatch,
   type EndReason,
+  type ReactionEvent,
   type RoomView,
   type ServerMessage,
   type WelcomeInfo,
@@ -19,7 +20,18 @@ export interface ClientRoomState {
   ended: EndReason | 'notFound' | null;
   claim: { playerId: string; status: 'pending' | 'denied' } | null;
   error: { code: string; message: string; at: number } | null;
+  /** Recent reactions, newest last (never part of the room view). */
+  reactions: ReceivedReaction[];
 }
+
+export interface ReceivedReaction {
+  seq: number;
+  at: number;
+  reaction: ReactionEvent;
+}
+
+/** How many recent reactions the phone remembers. */
+const REACTION_MEMORY = 20;
 
 export type Effect =
   | { kind: 'saveCredentials'; playerId: string; token: string }
@@ -36,6 +48,7 @@ export function initialState(code: string): ClientRoomState {
     ended: null,
     claim: null,
     error: null,
+    reactions: [],
   };
 }
 
@@ -95,6 +108,11 @@ export function reduce(
     }
     case 'pong':
       return { state, effects: [] };
+    case 'reaction': {
+      const seq = (state.reactions.at(-1)?.seq ?? 0) + 1;
+      const reactions = [...state.reactions, { seq, at: now, reaction: msg.reaction }];
+      return { state: { ...state, reactions: reactions.slice(-REACTION_MEMORY) }, effects: [] };
+    }
   }
 }
 

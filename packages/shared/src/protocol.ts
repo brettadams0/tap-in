@@ -73,6 +73,17 @@ export type DrinkReason =
   | 'fooled'
   /** Two Truths: nobody fell for the spotlight player's fake. */
   | 'nobodyFooled'
+  | 'furthest'
+  | 'fewestTaps'
+  | 'fewestVotes'
+  /** Countdown: tapped at the same time as someone else. */
+  | 'collision'
+  /** Spin the Bottle: picked Drink over the dare (or ran out of time to pick). */
+  | 'choseDrink'
+  /** Spin the Bottle: the room voted Nope on the dare. */
+  | 'dareFailed'
+  /** Connected, but never answered (R5). */
+  | 'noAnswer'
   /** Took the drink for a player saved by the 2-in-a-row rule. */
   | 'covering';
 
@@ -90,7 +101,7 @@ export interface DrinkView {
   /** "Everyone except…": with `everyone`, these players don't drink. */
   spared: { ids: PlayerId[]; why: SpareReason } | null;
   /** Why nobody drinks, when nobody does. */
-  nobody: 'balanced' | 'lucky' | 'unanimous' | 'sharp' | null;
+  nobody: 'balanced' | 'lucky' | 'unanimous' | 'sharp' | 'counted' | 'dared' | null;
   /** Fairness cap: `saved` was excused this round; `by` drinks instead (or nobody). */
   saves: { saved: PlayerId; by: PlayerId | null }[];
 }
@@ -176,7 +187,9 @@ export type ClientMessage =
   | { type: 'hostAction'; action: HostAction }
   | { type: 'ping'; t0: number }
   | { type: 'resync' }
-  | { type: 'leave' };
+  | { type: 'leave' }
+  /** A reaction to another player: one of the fixed emoji, or a note id from the pools (exactly one). */
+  | { type: 'react'; to: PlayerId; emoji?: string; note?: string };
 
 export type ErrorCode =
   | 'BAD_MESSAGE'
@@ -207,7 +220,22 @@ export type ServerMessage =
   | { type: 'error'; code: ErrorCode; message: string }
   | { type: 'claimPending'; playerId: PlayerId }
   | { type: 'claimDenied'; playerId: PlayerId }
-  | { type: 'sessionEnded'; reason: EndReason };
+  | { type: 'sessionEnded'; reason: EndReason }
+  | { type: 'reaction'; reaction: ReactionEvent };
+
+/**
+ * A reaction, as one phone sees it. The recipient gets a note's words; everyone else only learns
+ * that a note was sent and which tab (a 💌, or a 🍩 for Glaze). Never stored, never versioned.
+ */
+export type ReactionEvent =
+  | { from: PlayerId; to: PlayerId; kind: 'emoji'; emoji: string }
+  | {
+      from: PlayerId;
+      to: PlayerId;
+      kind: 'note';
+      tab: 'kind' | 'funny' | 'glaze';
+      line: string | null;
+    };
 
 /** HTTP: POST /rooms → { code }. GET /rooms/:code → RoomStatus. */
 export interface RoomStatus {

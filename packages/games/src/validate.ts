@@ -6,6 +6,10 @@ import { SPICE_LEVELS, type Spice } from '@tap-in/shared';
 import type { z } from 'zod';
 import {
   bankSchema,
+  blankEntrySchema,
+  dareEntrySchema,
+  rankEntrySchema,
+  reactionEntrySchema,
   fakeFactEntrySchema,
   liarEntrySchema,
   secretEntrySchema,
@@ -16,11 +20,24 @@ import {
 /** The Drink instruction is only ever "Drink": no amounts or drink-size words in prompts. */
 export const BANNED = /\b(sips?|shots?|chug(s|ging)?|finish (your|the) drink|\d+\s+drinks?)\b/i;
 
+/**
+ * Dares never involve touching anyone, contact info, filming or leaving the area (SPEC §9),
+ * and nothing about bodies or clothes coming off.
+ */
+export const UNSAFE_DARE =
+  /\b(touch\w*|kiss\w*|hug\w*|lick\w*|sit on|lap|undress\w*|strip\w*|naked|shirt off|number|instagram|snapchat|tiktok|socials?|text (your|an?)|call (your|an?)|dm|film\w*|record\w*|video|photo|selfie|outside|leave the|go to the)\b/i;
+
+/** Reaction notes: no bodies or appearance, nothing about touching, meeting up or contact info (DESIGN §12). */
+export const UNSAFE_NOTE =
+  /\b(cute|pretty|beautiful|gorgeous|handsome|sexy|ugly|fat|skinny|body|legs|lips|eyes|smile|outfit|touch\w*|kiss\w*|hug\w*|number|instagram|snapchat|socials?|dm|meet up|come over|my place|bed)\b/i;
+
 export interface BankRule {
   file: string;
   schema: z.ZodType<{ entries: ({ id: string; spice: Spice } & Record<string, unknown>)[] }>;
   /** Text fields checked for duplicates and banned words. */
   textFields: string[];
+  /** Extra wording that may never appear in this bank. */
+  unsafe?: RegExp;
   minimumPerSpice: number;
 }
 
@@ -54,6 +71,32 @@ export const BANKS: BankRule[] = [
     schema: bankSchema(triviaEntrySchema),
     textFields: ['question'],
     minimumPerSpice: 50,
+  },
+  {
+    file: 'rankIt.v1.json',
+    schema: bankSchema(rankEntrySchema),
+    textFields: ['prompt'],
+    minimumPerSpice: 30,
+  },
+  {
+    file: 'spinTheBottle.v1.json',
+    schema: bankSchema(dareEntrySchema),
+    textFields: ['dare'],
+    minimumPerSpice: 40,
+    unsafe: UNSAFE_DARE,
+  },
+  {
+    file: 'reactions.v1.json',
+    schema: bankSchema(reactionEntrySchema),
+    textFields: ['line'],
+    minimumPerSpice: 40,
+    unsafe: UNSAFE_NOTE,
+  },
+  {
+    file: 'fillInTheBlank.v1.json',
+    schema: bankSchema(blankEntrySchema),
+    textFields: ['prompt'],
+    minimumPerSpice: 60,
   },
 ];
 
@@ -92,6 +135,8 @@ export function validateBank(rule: BankRule, json: unknown): Report {
     for (const f of rule.textFields) {
       if (BANNED.test(field(entry, f)))
         errors.push(`${rule.file}: ${entry.id}.${f} uses banned drink wording`);
+      if (rule.unsafe?.test(field(entry, f)))
+        errors.push(`${rule.file}: ${entry.id}.${f} breaks the stranger-safety rules`);
     }
   }
   for (const level of SPICE_LEVELS) {

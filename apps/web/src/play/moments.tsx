@@ -98,6 +98,13 @@ const REASON: Record<DrinkReason, string> = {
   wrongGuess: 'Caught, and guessed wrong',
   fooled: 'Fell for a fake',
   nobodyFooled: 'Nobody fell for it',
+  furthest: 'Furthest from the group',
+  fewestTaps: 'Fewest taps',
+  fewestVotes: 'Fewest votes',
+  collision: 'Collided!',
+  choseDrink: 'Chose the Drink',
+  dareFailed: 'The room said Nope',
+  noAnswer: 'Sat it out',
   covering: 'Taking one for the team',
 };
 
@@ -112,6 +119,8 @@ const NOBODY: Record<NonNullable<DrinkView['nobody']>, string> = {
   unanimous: 'Great minds…',
   lucky: 'Lucky escape!',
   sharp: 'Nobody got fooled. Sharp crowd.',
+  counted: 'You counted it! Teamwork.',
+  dared: 'Dare done. Respect.',
 };
 
 /** The Drink moment. On the drinker's phone it's a full-screen takeover; elsewhere a coaster. */

@@ -23,6 +23,7 @@ import {
   type PlayerId,
   type PlayerView,
   type PlayView,
+  type ReactionEvent,
   type Rng,
   type RoomPhase,
   type RoomView,
@@ -31,8 +32,15 @@ import {
   type WelcomeInfo,
 } from '@tap-in/shared';
 import { GAMES, isReject, playableGames, type AnyGame, type GameCtx } from '@tap-in/games';
-import { applyFairnessCap, buildResults, drinkersOf } from './drinks.js';
+import { applyFairnessCap, buildResults, CAP_IN_A_ROW, drinkersOf } from './drinks.js';
 import { isProfane, parseClientMessage } from '@tap-in/shared/server';
+import {
+  canReact,
+  findNote,
+  REACT_GAP_MS,
+  REACT_PER_TARGET_PER_MIN,
+  REACTION_EMOJI,
+} from '@tap-in/shared/reactions';
 import { TokenBucket } from './rateLimit.js';
 import {
   CLAIM_TIMEOUT_MS,
@@ -91,6 +99,8 @@ export const CLOSE_ENDED = 4000;
 
 export class RoomEngine {
   private readonly conns = new Map<string, Conn>();
+  /** Recent reactions per sender, for the rate limits. In memory only: reactions are never stored. */
+  private readonly reactLog = new Map<PlayerId, { to: PlayerId; at: number }[]>();
   private dirty = false;
 
   constructor(
@@ -244,6 +254,9 @@ export class RoomEngine {
         return;
       case 'ready':
         this.drinkDone(me);
+        return;
+      case 'react':
+        this.react(connId, me, msg.to, msg.emoji, msg.note);
         return;
     }
   }
@@ -412,7 +425,7 @@ export class RoomEngine {
         const next = { ...this.state.settings, ...action.settings };
         next.games = [...new Set(next.games)];
         if (next.games.length < MIN_ENABLED_GAMES) {
-          this.error(connId, 'NOT_ALLOWED', `Keep at least ${MIN_ENABLED_GAMES} games on.`);
+          this.error(connId, 'NOT_ALLOWED', 'Keep at least one game on.');
           return;
         }
         this.state.settings = next;
@@ -427,10 +440,6 @@ export class RoomEngine {
         const ready = this.seated().filter((p) => p.connected).length;
         if (ready < MIN_PLAYERS) {
           this.error(connId, 'NOT_ENOUGH_PLAYERS', `Need ${MIN_PLAYERS}+ players to start.`);
-          return;
-        }
-        if (playableGames(this.state.settings.games).length === 0) {
-          this.error(connId, 'NOT_ALLOWED', 'None of the games you picked are ready yet.');
           return;
         }
         this.startSession();
@@ -536,6 +545,9 @@ export class RoomEngine {
       used,
       ms: (d) => this.ms(d),
       lead: LEAD_MS,
+      capped: Object.entries(session.streak)
+        .filter(([, n]) => n >= CAP_IN_A_ROW)
+        .map(([id]) => id),
     };
   }
 
@@ -896,6 +908,56 @@ export class RoomEngine {
       drinks: { ...session.drinks },
       results: phase === 'results' ? session.results : null,
     };
+  }
+
+  // ---------------------------------------------------------------- reactions (DESIGN §12)
+
+  private react(
+    connId: string,
+    me: PlayerRecord,
+    toId: PlayerId,
+    emoji: string | undefined,
+    noteId: string | undefined,
+  ): void {
+    const to = this.player(toId);
+    if (!to || to.id === me.id) {
+      this.error(connId, 'UNKNOWN_PLAYER', 'No such player.');
+      return;
+    }
+    if (!canReact(this.viewFor(me.id), me.id)) {
+      this.error(connId, 'NOT_ALLOWED', 'Not right now.');
+      return;
+    }
+    const note = noteId === undefined ? undefined : findNote(noteId, this.state.settings.spice);
+    const validEmoji = emoji !== undefined && (REACTION_EMOJI as readonly string[]).includes(emoji);
+    if (!validEmoji && !note) {
+      this.error(connId, 'BAD_MESSAGE', 'Unknown reaction.');
+      return;
+    }
+    const now = this.deps.now();
+    const log = (this.reactLog.get(me.id) ?? []).filter((r) => now - r.at < 60_000);
+    const last = log.at(-1);
+    const toSame = log.filter((r) => r.to === to.id).length;
+    if ((last && now - last.at < REACT_GAP_MS) || toSame >= REACT_PER_TARGET_PER_MIN) {
+      this.error(connId, 'RATE_LIMITED', 'Easy, tiger.');
+      return;
+    }
+    log.push({ to: to.id, at: now });
+    this.reactLog.set(me.id, log);
+    for (const [cid, conn] of this.conns) {
+      if (!conn.playerId) continue;
+      // Only the recipient learns a note's words; everyone else sees which tab it came from.
+      const reaction: ReactionEvent = note
+        ? {
+            from: me.id,
+            to: to.id,
+            kind: 'note',
+            tab: note.tab,
+            line: conn.playerId === to.id ? note.line : null,
+          }
+        : { from: me.id, to: to.id, kind: 'emoji', emoji: emoji ?? '' };
+      this.deps.send(cid, { type: 'reaction', reaction });
+    }
   }
 
   // ---------------------------------------------------------------- state helpers

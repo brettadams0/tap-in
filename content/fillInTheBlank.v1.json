@@ -1,0 +1,286 @@
+{
+  "bank": "fillInTheBlank",
+  "version": 1,
+  "entries": [
+    {
+      "id": "fb-c-001",
+      "spice": "chill",
+      "prompt": "The worst thing to hear from your Uber driver is ___."
+    },
+    {
+      "id": "fb-c-002",
+      "spice": "chill",
+      "prompt": "My secret talent is ___."
+    },
+    {
+      "id": "fb-c-003",
+      "spice": "chill",
+      "prompt": "The best thing about Canada is ___."
+    },
+    {
+      "id": "fb-c-004",
+      "spice": "chill",
+      "prompt": "The worst flavour of chip would be ___."
+    },
+    {
+      "id": "fb-c-005",
+      "spice": "chill",
+      "prompt": "I knew the party was over when ___."
+    },
+    {
+      "id": "fb-c-006",
+      "spice": "chill",
+      "prompt": "If my cat could talk, the first thing it would say is ___."
+    },
+    {
+      "id": "fb-c-007",
+      "spice": "chill",
+      "prompt": "The worst name for a hockey team is ___."
+    },
+    {
+      "id": "fb-c-008",
+      "spice": "chill",
+      "prompt": "My autobiography would be called ___."
+    },
+    {
+      "id": "fb-c-009",
+      "spice": "chill",
+      "prompt": "Nobody tells you that being an adult means ___."
+    },
+    {
+      "id": "fb-c-010",
+      "spice": "chill",
+      "prompt": "The most overrated thing in the world is ___."
+    },
+    {
+      "id": "fb-c-011",
+      "spice": "chill",
+      "prompt": "A terrible thing to bring to a potluck is ___."
+    },
+    {
+      "id": "fb-c-012",
+      "spice": "chill",
+      "prompt": "The worst thing to find in your Tim Hortons cup is ___."
+    },
+    {
+      "id": "fb-c-013",
+      "spice": "chill",
+      "prompt": "My villain origin story starts with ___."
+    },
+    {
+      "id": "fb-c-014",
+      "spice": "chill",
+      "prompt": "The best excuse for being late is ___."
+    },
+    {
+      "id": "fb-c-015",
+      "spice": "chill",
+      "prompt": "The weirdest thing in my fridge right now is ___."
+    },
+    {
+      "id": "fb-c-016",
+      "spice": "chill",
+      "prompt": "Scientists finally discovered ___."
+    },
+    {
+      "id": "fb-c-017",
+      "spice": "chill",
+      "prompt": "The worst theme for a kids' birthday party is ___."
+    },
+    {
+      "id": "fb-c-018",
+      "spice": "chill",
+      "prompt": "The real reason dinosaurs went extinct: ___."
+    },
+    {
+      "id": "fb-c-019",
+      "spice": "chill",
+      "prompt": "If I won the lottery, the first thing I'd buy is ___."
+    },
+    {
+      "id": "fb-c-020",
+      "spice": "chill",
+      "prompt": "The worst possible fortune cookie message: ___."
+    },
+    {
+      "id": "fb-s-001",
+      "spice": "spicy",
+      "prompt": "The worst thing to say on a first date is ___."
+    },
+    {
+      "id": "fb-s-002",
+      "spice": "spicy",
+      "prompt": "My dating profile should just say ___."
+    },
+    {
+      "id": "fb-s-003",
+      "spice": "spicy",
+      "prompt": "The real reason I'm single is ___."
+    },
+    {
+      "id": "fb-s-004",
+      "spice": "spicy",
+      "prompt": "Nothing ruins a night out like ___."
+    },
+    {
+      "id": "fb-s-005",
+      "spice": "spicy",
+      "prompt": "The worst pickup line ever: ___."
+    },
+    {
+      "id": "fb-s-006",
+      "spice": "spicy",
+      "prompt": "My toxic trait is ___."
+    },
+    {
+      "id": "fb-s-007",
+      "spice": "spicy",
+      "prompt": "What happens at the cottage stays at the cottage, especially ___."
+    },
+    {
+      "id": "fb-s-008",
+      "spice": "spicy",
+      "prompt": "The most awkward thing to see in someone's apartment is ___."
+    },
+    {
+      "id": "fb-s-009",
+      "spice": "spicy",
+      "prompt": "My ex would describe me as ___."
+    },
+    {
+      "id": "fb-s-010",
+      "spice": "spicy",
+      "prompt": "The worst thing to hear during a slow dance: ___."
+    },
+    {
+      "id": "fb-s-011",
+      "spice": "spicy",
+      "prompt": "Tonight's theme is ___."
+    },
+    {
+      "id": "fb-s-012",
+      "spice": "spicy",
+      "prompt": "The worst text to wake up to: ___."
+    },
+    {
+      "id": "fb-s-013",
+      "spice": "spicy",
+      "prompt": "A red flag that I'd totally ignore: ___."
+    },
+    {
+      "id": "fb-s-014",
+      "spice": "spicy",
+      "prompt": "The next big dating app is for people who love ___."
+    },
+    {
+      "id": "fb-s-015",
+      "spice": "spicy",
+      "prompt": "The worst song to play at a wedding is ___."
+    },
+    {
+      "id": "fb-s-016",
+      "spice": "spicy",
+      "prompt": "My love language is ___."
+    },
+    {
+      "id": "fb-s-017",
+      "spice": "spicy",
+      "prompt": "The last thing you want to hear from a bartender: ___."
+    },
+    {
+      "id": "fb-s-018",
+      "spice": "spicy",
+      "prompt": "Sexy, but make it Canadian: ___."
+    },
+    {
+      "id": "fb-u-001",
+      "spice": "unhinged",
+      "prompt": "I'm not proud of it, but I once ___."
+    },
+    {
+      "id": "fb-u-002",
+      "spice": "unhinged",
+      "prompt": "The worst thing to yell in a quiet library: ___."
+    },
+    {
+      "id": "fb-u-003",
+      "spice": "unhinged",
+      "prompt": "My last words will probably be ___."
+    },
+    {
+      "id": "fb-u-004",
+      "spice": "unhinged",
+      "prompt": "The weirdest thing to bring to a funeral is ___."
+    },
+    {
+      "id": "fb-u-005",
+      "spice": "unhinged",
+      "prompt": "If raccoons ran the government, the first law would be ___."
+    },
+    {
+      "id": "fb-u-006",
+      "spice": "unhinged",
+      "prompt": "My search history is mostly ___."
+    },
+    {
+      "id": "fb-u-007",
+      "spice": "unhinged",
+      "prompt": "The worst thing to find in a hotel room drawer: ___."
+    },
+    {
+      "id": "fb-u-008",
+      "spice": "unhinged",
+      "prompt": "A cursed new ice cream flavour: ___."
+    },
+    {
+      "id": "fb-u-009",
+      "spice": "unhinged",
+      "prompt": "The real reason the goose is angry: ___."
+    },
+    {
+      "id": "fb-u-010",
+      "spice": "unhinged",
+      "prompt": "My therapist's notes on me just say ___."
+    },
+    {
+      "id": "fb-u-011",
+      "spice": "unhinged",
+      "prompt": "The worst thing to say to a cop: ___."
+    },
+    {
+      "id": "fb-u-012",
+      "spice": "unhinged",
+      "prompt": "The worst thing to hear from your surgeon: ___."
+    },
+    {
+      "id": "fb-u-013",
+      "spice": "unhinged",
+      "prompt": "My ghost will haunt people by ___."
+    },
+    {
+      "id": "fb-u-014",
+      "spice": "unhinged",
+      "prompt": "Rejected Olympic sport: ___."
+    },
+    {
+      "id": "fb-u-015",
+      "spice": "unhinged",
+      "prompt": "What's really in the back of the Zamboni: ___."
+    },
+    {
+      "id": "fb-u-016",
+      "spice": "unhinged",
+      "prompt": "The worst possible tattoo: ___."
+    },
+    {
+      "id": "fb-u-017",
+      "spice": "unhinged",
+      "prompt": "My cult's only rule is ___."
+    },
+    {
+      "id": "fb-u-018",
+      "spice": "unhinged",
+      "prompt": "A terrible thing to whisper at a wedding: ___."
+    }
+  ]
+}

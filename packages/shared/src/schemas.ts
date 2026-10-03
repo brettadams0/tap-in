@@ -53,6 +53,14 @@ export const clientMessageSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('ping'), t0: z.number() }),
   z.strictObject({ type: z.literal('resync') }),
   z.strictObject({ type: z.literal('leave') }),
+  z
+    .strictObject({
+      type: z.literal('react'),
+      to: id,
+      emoji: z.string().min(1).max(16).optional(),
+      note: id.optional(),
+    })
+    .refine((m) => (m.emoji === undefined) !== (m.note === undefined), 'an emoji or a note'),
 ]);
 
 export type ParseResult = { ok: true; message: ClientMessage } | { ok: false; reason: string };

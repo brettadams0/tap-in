@@ -156,6 +156,32 @@ export const nope: Recipe = (ctx, out, t) => {
   tone(ctx, out, t, { type: 'triangle', freq: 180, to: 120, peak: 0.3, decay: 0.18 });
 };
 
+/** Bottle spin: a whoosh that slows down. */
+export const whoosh: Recipe = (ctx, out, t) => {
+  for (let i = 0; i < 6; i++) {
+    burst(ctx, out, t + i * (0.18 + i * 0.07), {
+      type: 'bandpass',
+      freq: 900 - i * 90,
+      q: 2,
+      peak: 0.22,
+      attack: 0.05,
+      decay: 0.16,
+    });
+  }
+};
+
+/** Bottle lands: a glass clunk. */
+export const clunk: Recipe = (ctx, out, t, v) => {
+  thump(ctx, out, t, v);
+  clink(ctx, out, t + 0.02, { freq: 660, timbre: 'glass' });
+};
+
+/** Countdown collision buzzer. */
+export const buzzer: Recipe = (ctx, out, t) => {
+  tone(ctx, out, t, { type: 'sawtooth', freq: 110, peak: 0.25, decay: 0.45 });
+  tone(ctx, out, t, { type: 'square', freq: 116, peak: 0.12, decay: 0.45 });
+};
+
 /** Comedy brass: detuned saws with a lip bend down and vibrato ("You drink"). */
 export const horn: Recipe = (ctx, out, t, v) => {
   const f = ctx.createBiquadFilter();
@@ -296,6 +322,46 @@ export function sting(game: GameId): Recipe {
         // a con-artist whistle: up, then down
         tone(ctx, out, t, { freq: 988, to: 1568, glide: 0.18, peak: 0.12, decay: 0.2 });
         tone(ctx, out, t + 0.24, { freq: 1568, to: 784, glide: 0.3, peak: 0.12, decay: 0.35 });
+        return;
+      case 'rankIt':
+        // four ascending clinks, one per item
+        [0, 0.1, 0.2, 0.3].forEach((d, i) => {
+          clink(ctx, out, t + d, { freq: 660 * 1.25 ** i, timbre: 'glass' });
+        });
+        return;
+      case 'tapRace':
+        // a drumroll of taps that speeds up
+        for (let i = 0; i < 8; i++) {
+          burst(ctx, out, t + i * (0.11 - i * 0.008), {
+            type: 'bandpass',
+            freq: 3000,
+            q: 4,
+            peak: 0.25,
+            decay: 0.03,
+          });
+        }
+        return;
+      case 'spinTheBottle':
+        whoosh(ctx, out, t, v);
+        clunk(ctx, out, t + 0.75, v);
+        return;
+      case 'fillInTheBlank':
+        // a pen click and a scribble
+        burst(ctx, out, t, { type: 'highpass', freq: 4000, peak: 0.3, decay: 0.02 });
+        burst(ctx, out, t + 0.12, {
+          type: 'bandpass',
+          freq: 1800,
+          to: 2600,
+          q: 3,
+          peak: 0.18,
+          attack: 0.04,
+          decay: 0.4,
+        });
+        return;
+      case 'countdown':
+        [0, 0.22, 0.44].forEach((d, i) => {
+          clink(ctx, out, t + d, { freq: 523.25 * (i + 1), timbre: 'wood' });
+        });
         return;
       default:
         thump(ctx, out, t, v);

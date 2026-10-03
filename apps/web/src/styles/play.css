@@ -1159,3 +1159,230 @@ li:nth-child(3n) .cap-eyes-live {
   font-size: clamp(40px, 12vw, 64px);
   text-align: center;
 }
+
+/* ---------- phase 4 games ---------- */
+
+/* shared bar chart (Rank It distances, Tap Race counts) */
+.bars {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bar-row {
+  display: grid;
+  grid-template-columns: 32px 88px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 3px solid var(--stout-3);
+  background: var(--stout-2);
+}
+.bar-row.is-worst {
+  border-color: var(--tap);
+}
+.bar-name {
+  font-size: 18px;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bar-track {
+  height: 22px;
+  border-radius: 11px;
+  background: var(--stout);
+  overflow: hidden;
+}
+.bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left center;
+  transition: transform 0.9s var(--snap);
+}
+.bar-n {
+  text-align: right;
+  font-size: 20px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Rank It */
+.rank-list {
+  position: relative;
+  list-style: none;
+  touch-action: none;
+}
+.rank-row {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  background: var(--foam);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  font-size: 22px;
+  font-weight: 800;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  transition: transform 0.18s var(--snap);
+}
+.rank-row.is-dragging {
+  z-index: 2;
+  transition: none;
+  background: var(--accent);
+  box-shadow: 8px 8px 0 #000;
+  cursor: grabbing;
+}
+.rank-row.is-placed .rank-num {
+  background: var(--accent);
+  color: var(--ink);
+}
+.rank-num {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--foam);
+  font-size: 20px;
+}
+.rank-text {
+  flex: 1;
+  line-height: 1.1;
+}
+.rank-grip {
+  color: #8f7f6b;
+  font-size: 24px;
+}
+.rank-done {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 22px;
+  font-weight: 800;
+}
+.rank-done li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Tap Race */
+.tap-pad {
+  flex: 1;
+  min-height: 60dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 3px solid var(--ink);
+  border-radius: 26px;
+  background: var(--stout-2);
+  color: var(--foam);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.tap-pad.is-live {
+  background: var(--accent);
+  color: var(--ink);
+}
+.tap-pad.is-live:active {
+  transform: scale(0.98);
+}
+.tap-pad.is-done {
+  background: var(--stout-3);
+}
+.tap-big {
+  font-size: 120px;
+}
+.tap-small {
+  font-size: 22px;
+  font-weight: 800;
+}
+.tap-tick {
+  animation: stamp 0.12s ease-out both;
+}
+
+/* Spin the Bottle */
+.spin-ring {
+  position: relative;
+  width: 290px;
+  height: 290px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px dashed var(--stout-3);
+}
+.spin-seat {
+  position: absolute;
+  left: calc(50% - 22px);
+  top: calc(50% - 30px);
+  transition: transform 0.3s var(--spring);
+}
+.spin-seat.is-chosen {
+  filter: drop-shadow(0 0 10px var(--accent));
+}
+.spin-bottle {
+  position: absolute;
+  left: calc(50% - 24px);
+  top: calc(50% - 72px);
+  transform-origin: 50% 50%;
+}
+.dare {
+  padding: 12px 16px;
+}
+.dare .label {
+  color: #6b5c49;
+}
+.dare-text {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.choice-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Fill in the Blank */
+.blank {
+  display: inline-block;
+  min-width: 4ch;
+  border-bottom: 4px solid var(--ink);
+  padding: 0 4px;
+}
+.blank.is-filled {
+  background: var(--accent);
+}
+
+/* Countdown */
+.count-num {
+  font-size: clamp(120px, 40vw, 200px);
+  line-height: 1;
+}
+.count-num.is-crash {
+  font-size: clamp(44px, 13vw, 72px);
+  color: var(--tap);
+}
+.count-crash {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.count-btn {
+  min-height: 96px;
+}

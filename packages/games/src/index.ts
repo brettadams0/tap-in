@@ -30,3 +30,8 @@ export {
   type FakeState,
 } from './fakeAnswer/index.js';
 export * from './kit/text.js';
+export { rankIt, RANK_MS, type RankState } from './rankIt/index.js';
+export { tapRace, TAP_MS, MAX_TAPS, type TapState } from './tapRace/index.js';
+export { spinTheBottle, type SpinState } from './spinTheBottle/index.js';
+export { fillInTheBlank, type BlankState } from './fillInTheBlank/index.js';
+export { countdown, COLLISION_MS, type CountState } from './countdown/index.js';

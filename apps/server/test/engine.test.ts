@@ -133,7 +133,7 @@ describe('host controls', () => {
     expect(guest.view?.settings).toMatchObject({ spice: 'spicy', games: ['tapRace', 'countdown'] });
     host.send({
       type: 'hostAction',
-      action: { kind: 'settings', settings: { games: ['tapRace'] } },
+      action: { kind: 'settings', settings: { games: [] } },
     });
     expect(host.errors()).toContain('NOT_ALLOWED');
   });

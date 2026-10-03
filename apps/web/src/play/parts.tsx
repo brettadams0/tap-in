@@ -6,6 +6,7 @@ import type { RoomConnection } from '../net/connection.js';
 import { Cap } from '../ui/Cap.js';
 import { Sheet } from '../ui/Sheet.js';
 import { TapButton } from '../ui/TapButton.js';
+import { reactionPrefs, useReactionPrefs } from './reactions.js';
 import { useServerNow } from './sync.js';
 
 export function inkOf(gameId: GameId | null | undefined): string {
@@ -152,6 +153,7 @@ export function useAudio() {
 /** Corner chip: sound always one tap away; the host also gets Pause and End here. */
 export function CornerMenu({ conn, view }: { conn: RoomConnection; view: RoomView }) {
   const a = useAudio();
+  const rx = useReactionPrefs();
   const [open, setOpen] = useState(false);
   const isHost = view.hostId === view.you.id;
   const playing = view.phase !== 'results';
@@ -204,6 +206,17 @@ export function CornerMenu({ conn, view }: { conn: RoomConnection; view: RoomVie
               if (a.muted) audio.setMuted(false);
             }}
           />
+          {view.settings.reactions && (
+            <TapButton
+              className="btn-ghost btn-small"
+              aria-pressed={!rx.off}
+              onClick={() => {
+                reactionPrefs.set({ off: !rx.off });
+              }}
+            >
+              {rx.off ? 'Reactions: off 🙈' : 'Reactions: on 💌'}
+            </TapButton>
+          )}
           {isHost && playing && (
             <div className="menu-actions">
               <TapButton

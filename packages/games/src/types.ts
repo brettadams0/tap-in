@@ -29,6 +29,8 @@ export interface GameCtx {
   ms(duration: number): number;
   /** Lead time a synced cue needs, in ms (never scaled). */
   lead: number;
+  /** Players the fairness cap would excuse this round (Spin the Bottle never lands on them). */
+  capped: readonly PlayerId[];
 }
 
 export interface Drinker {
@@ -49,7 +51,7 @@ export interface RoundResult<R> {
   /** Worst → best, for redirecting a capped drink. Empty when the game has no ranking. */
   ranking: PlayerId[];
   /** Why nobody drinks, when that's a designed outcome. */
-  nobody: 'balanced' | 'unanimous' | 'sharp' | null;
+  nobody: 'balanced' | 'unanimous' | 'sharp' | 'counted' | 'dared' | null;
   /** Per-player stats for the results screen (reaction ms, people fooled). */
   stats?: Record<PlayerId, { reactionMs?: number; liarPoints?: number }>;
 }
