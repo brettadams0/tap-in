@@ -30,7 +30,7 @@ export const wouldYouRather: GameModule<'wouldYouRather', WyrState> = {
   init: () => ({ round: 0, step: 'done', endsAt: null, players: [], prompt: null, votes: {} }),
 
   startRound(s, ctx) {
-    const entry = pickEntry(wyrBank, ctx.spice, ctx.used, ctx.rng);
+    const entry = pickEntry(wyrBank, ctx);
     return {
       round: s.round + 1,
       step: 'vote',
@@ -50,6 +50,8 @@ export const wouldYouRather: GameModule<'wouldYouRather', WyrState> = {
   onTimer: (s) => ({ ...s, step: 'done', endsAt: null }),
 
   step: (s) => s.step,
+  prompt: (s) =>
+    s.step === 'vote' && s.prompt ? { bankId: 'wouldYouRather', promptId: s.prompt.id } : null,
   deadline: (s) => s.endsAt,
   roundOver: (s) => s.step === 'done',
   awaiting: (s) => (s.step === 'vote' ? s.players.filter((p) => !s.votes[p]) : []),

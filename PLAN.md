@@ -304,9 +304,9 @@ Every phase ends with: CI green → deployed (client + server) → `e2e:prod` sm
 
 ### Phase 5: Content
 
-- [ ] All 8 banks at their minimums for all 3 spice levels (per Q4), stranger-safety review pass, validator green
-- [ ] Reaction pools (Kind / Funny / Glaze, 40+ each, spice-tagged), plus Capn commentary lines
-- [ ] Skip-prompt flag flow (2 flags → skip + log)
+- [x] All 8 banks at their minimums for all 3 spice levels (per Q4), stranger-safety review pass, validator green
+- [x] Reaction pools (Kind / Funny / Glaze, 40+ each, spice-tagged), plus Capn commentary lines
+- [x] Skip-prompt flag flow (2 flags → skip + log)
 
 ### Phase 6: Polish
 

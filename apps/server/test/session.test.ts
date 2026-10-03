@@ -281,6 +281,50 @@ describe('session flow', () => {
     });
     expect(phase(host)).toBe('roundReveal');
   });
+
+  it('skips a prompt after two flags, logs only bank and prompt ids, and never deals it again', () => {
+    const { h, players, host } = session(['wouldYouRather']);
+    const [p1, p2, p3] = players as [FakeClient, FakeClient, FakeClient];
+    // Nothing to flag before the round starts.
+    p1.send({ type: 'flag' });
+    expect(p1.errors()).toContain('WRONG_STEP');
+    h.until(() => phase(host) === 'roundInput');
+    expect(sess(p1).flag).toEqual({ mine: false });
+    const play = () => {
+      const p = sess(host).play;
+      if (p?.gameId !== 'wouldYouRather') throw new Error('not WYR');
+      return p.pub;
+    };
+    const first = play();
+    p2.send({ type: 'submit', step: 'vote', data: { side: 'a' } });
+    h.advance(3000);
+
+    p1.send({ type: 'flag' });
+    p1.send({ type: 'flag' }); // a second flag from the same phone doesn't count
+    expect(sess(p1).flag).toEqual({ mine: true });
+    expect(sess(p3).flag).toEqual({ mine: false }); // who flagged stays private
+    expect(play()).toEqual(first);
+    expect(h.logs).toEqual([]);
+
+    p3.send({ type: 'flag' });
+    // Re-dealt: a new prompt, a fresh timer, the same round number, votes cleared.
+    expect(play()).not.toEqual(first);
+    expect(sess(host).round).toBe(1);
+    expect(sess(host).locked).toEqual([]);
+    expect(view(host).phaseEndsAt).toBe(h.time + 15_000);
+    expect(sess(host).skippedAt).toBe(h.time);
+    expect(sess(p1).flag).toEqual({ mine: false });
+    expect(h.logs).toHaveLength(1);
+    expect(Object.keys(h.logs[0] ?? {}).sort()).toEqual(['bankId', 'event', 'promptId']);
+    expect(h.logs[0]?.bankId).toBe('wouldYouRather');
+    const skippedId = h.logs[0]?.promptId ?? '';
+    expect(h.saved?.session?.skipped?.wouldYouRather).toEqual([skippedId]);
+
+    // Flags close once the reveal starts.
+    for (const p of players) p.send({ type: 'submit', step: 'vote', data: { side: 'a' } });
+    expect(phase(host)).toBe('roundReveal');
+    expect(sess(p1).flag).toBeNull();
+  });
 });
 
 const avatarFallback = {

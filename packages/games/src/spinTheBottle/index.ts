@@ -61,7 +61,7 @@ export const spinTheBottle: GameModule<'spinTheBottle', SpinState> = {
   startRound(s, ctx) {
     const open = ctx.players.filter((p) => !ctx.capped.includes(p));
     const chosen = ctx.rng.pick(open.length > 0 ? open : ctx.players);
-    const e = pickEntry(dareBank, ctx.spice, ctx.used, ctx.rng);
+    const e = pickEntry(dareBank, ctx);
     const spinAt = ctx.now + ctx.lead;
     const landAt = spinAt + Math.max(2000, ctx.ms(SPIN_MS));
     return {
@@ -118,6 +118,8 @@ export const spinTheBottle: GameModule<'spinTheBottle', SpinState> = {
   },
 
   step: (s) => s.step,
+  prompt: (s) =>
+    s.step === 'choice' && s.dare ? { bankId: 'spinTheBottle', promptId: s.dare.id } : null,
   deadline: (s) => s.endsAt,
   roundOver: (s) => s.step === 'done',
   awaiting: (s) => {

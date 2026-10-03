@@ -147,6 +147,13 @@ export interface SessionView {
   overlay: OverlayView | null;
   /** Session drink tally. */
   drinks: Record<PlayerId, number>;
+  /**
+   * Skip-prompt flag (SPEC "Stranger-safety"): non-null while this round's prompt can be flagged;
+   * `mine` once you've flagged it. Who else flagged is never shown.
+   */
+  flag: { mine: boolean } | null;
+  /** Server time a prompt was last skipped after two flags (the phone shows "Skipped"). */
+  skippedAt: number | null;
   results: ResultsView | null;
 }
 
@@ -188,6 +195,8 @@ export type ClientMessage =
   | { type: 'ping'; t0: number }
   | { type: 'resync' }
   | { type: 'leave' }
+  /** Flag the current prompt; two flags from different players skip it (R17). */
+  | { type: 'flag' }
   /** A reaction to another player: one of the fixed emoji, or a note id from the pools (exactly one). */
   | { type: 'react'; to: PlayerId; emoji?: string; note?: string };
 

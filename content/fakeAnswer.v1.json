@@ -123,6 +123,192 @@
       "answer": "A joey"
     },
     {
+      "id": "fa-c-021",
+      "spice": "chill",
+      "question": "What is a group of crows called?",
+      "answer": "A murder"
+    },
+    {
+      "id": "fa-c-022",
+      "spice": "chill",
+      "question": "What is Canada's official national summer sport?",
+      "answer": "Lacrosse"
+    },
+    {
+      "id": "fa-c-023",
+      "spice": "chill",
+      "question": "Which planet has a day that lasts longer than its year?",
+      "answer": "Venus"
+    },
+    {
+      "id": "fa-c-024",
+      "spice": "chill",
+      "question": "Which food has been found still edible in ancient Egyptian tombs?",
+      "answer": "Honey"
+    },
+    {
+      "id": "fa-c-025",
+      "spice": "chill",
+      "question": "How many bones does an adult human have?",
+      "answer": "206"
+    },
+    {
+      "id": "fa-c-026",
+      "spice": "chill",
+      "question": "In which country was the Hawaiian pizza invented?",
+      "answer": "Canada"
+    },
+    {
+      "id": "fa-c-027",
+      "spice": "chill",
+      "question": "What is a group of jellyfish called?",
+      "answer": "A smack"
+    },
+    {
+      "id": "fa-c-028",
+      "spice": "chill",
+      "question": "What is a baby hedgehog called?",
+      "answer": "A hoglet"
+    },
+    {
+      "id": "fa-c-029",
+      "spice": "chill",
+      "question": "Which Canadian invented basketball?",
+      "answer": "James Naismith"
+    },
+    {
+      "id": "fa-c-030",
+      "spice": "chill",
+      "question": "What did Alexander Graham Bell want people to say when answering the phone?",
+      "answer": "Ahoy"
+    },
+    {
+      "id": "fa-c-031",
+      "spice": "chill",
+      "question": "What is the smallest bone in the human body?",
+      "answer": "The stapes"
+    },
+    {
+      "id": "fa-c-032",
+      "spice": "chill",
+      "question": "Which country has the most lakes in the world?",
+      "answer": "Canada"
+    },
+    {
+      "id": "fa-c-033",
+      "spice": "chill",
+      "question": "What is the name of the dog on the Cracker Jack box?",
+      "answer": "Bingo"
+    },
+    {
+      "id": "fa-c-034",
+      "spice": "chill",
+      "question": "What was the name of the first cloned mammal?",
+      "answer": "Dolly the sheep"
+    },
+    {
+      "id": "fa-c-035",
+      "spice": "chill",
+      "question": "In which city was insulin discovered in 1921?",
+      "answer": "Toronto"
+    },
+    {
+      "id": "fa-c-036",
+      "spice": "chill",
+      "question": "What is the Toronto Raptors' mascot called?",
+      "answer": "The Raptor"
+    },
+    {
+      "id": "fa-c-037",
+      "spice": "chill",
+      "question": "Which is the only letter that doesn't appear in any US state name?",
+      "answer": "Q"
+    },
+    {
+      "id": "fa-c-038",
+      "spice": "chill",
+      "question": "In which year did the Canadarm first go to space?",
+      "answer": "1981"
+    },
+    {
+      "id": "fa-c-039",
+      "spice": "chill",
+      "question": "Which board game was invented in Montreal in 1979?",
+      "answer": "Trivial Pursuit"
+    },
+    {
+      "id": "fa-c-040",
+      "spice": "chill",
+      "question": "What colour is an airplane's 'black box' flight recorder?",
+      "answer": "Orange"
+    },
+    {
+      "id": "fa-c-041",
+      "spice": "chill",
+      "question": "Which province sends Boston a giant Christmas tree every year?",
+      "answer": "Nova Scotia"
+    },
+    {
+      "id": "fa-c-042",
+      "spice": "chill",
+      "question": "What is the tallest kind of grass in the world?",
+      "answer": "Bamboo"
+    },
+    {
+      "id": "fa-c-043",
+      "spice": "chill",
+      "question": "What is a female fox called?",
+      "answer": "A vixen"
+    },
+    {
+      "id": "fa-c-044",
+      "spice": "chill",
+      "question": "How many squares are on a chessboard?",
+      "answer": "64"
+    },
+    {
+      "id": "fa-c-045",
+      "spice": "chill",
+      "question": "What is the largest organ of the human body?",
+      "answer": "The skin"
+    },
+    {
+      "id": "fa-c-046",
+      "spice": "chill",
+      "question": "Which planet is famous for its Great Red Spot?",
+      "answer": "Jupiter"
+    },
+    {
+      "id": "fa-c-047",
+      "spice": "chill",
+      "question": "What was the name of the first dog to orbit the Earth?",
+      "answer": "Laika"
+    },
+    {
+      "id": "fa-c-048",
+      "spice": "chill",
+      "question": "Which bird is the only one that can fly backwards?",
+      "answer": "The hummingbird"
+    },
+    {
+      "id": "fa-c-049",
+      "spice": "chill",
+      "question": "What is the largest rodent in the world?",
+      "answer": "The capybara"
+    },
+    {
+      "id": "fa-c-050",
+      "spice": "chill",
+      "question": "What is the only mammal capable of true flight?",
+      "answer": "The bat"
+    },
+    {
+      "id": "fa-c-051",
+      "spice": "chill",
+      "question": "What is a group of porcupines called?",
+      "answer": "A prickle"
+    },
+    {
       "id": "fa-s-001",
       "spice": "spicy",
       "question": "What is the dent in the bottom of a wine bottle called?",
@@ -225,6 +411,210 @@
       "answer": "Suprasternal notch"
     },
     {
+      "id": "fa-s-018",
+      "spice": "spicy",
+      "question": "Which spirit is a Moscow Mule made with?",
+      "answer": "Vodka"
+    },
+    {
+      "id": "fa-s-019",
+      "spice": "spicy",
+      "question": "Bourbon must be made mostly from which grain?",
+      "answer": "Corn"
+    },
+    {
+      "id": "fa-s-020",
+      "spice": "spicy",
+      "question": "Calvados is a brandy made from which fruit?",
+      "answer": "Apples"
+    },
+    {
+      "id": "fa-s-021",
+      "spice": "spicy",
+      "question": "What does 'IPA' stand for on a beer menu?",
+      "answer": "India Pale Ale"
+    },
+    {
+      "id": "fa-s-022",
+      "spice": "spicy",
+      "question": "Which Cuban place gave its name to a classic rum cocktail?",
+      "answer": "Daiquirí"
+    },
+    {
+      "id": "fa-s-023",
+      "spice": "spicy",
+      "question": "What is the fear of dancing called?",
+      "answer": "Chorophobia"
+    },
+    {
+      "id": "fa-s-024",
+      "spice": "spicy",
+      "question": "What is the fear of falling in love called?",
+      "answer": "Philophobia"
+    },
+    {
+      "id": "fa-s-025",
+      "spice": "spicy",
+      "question": "What was Lady Gaga's debut single?",
+      "answer": "Just Dance"
+    },
+    {
+      "id": "fa-s-026",
+      "spice": "spicy",
+      "question": "Which band sang 'Mr. Brightside'?",
+      "answer": "The Killers"
+    },
+    {
+      "id": "fa-s-027",
+      "spice": "spicy",
+      "question": "Which Canadian singer released 'Call Me Maybe' in 2011?",
+      "answer": "Carly Rae Jepsen"
+    },
+    {
+      "id": "fa-s-028",
+      "spice": "spicy",
+      "question": "In 'Dirty Dancing', where does nobody put Baby?",
+      "answer": "In a corner"
+    },
+    {
+      "id": "fa-s-029",
+      "spice": "spicy",
+      "question": "What is the traditional gift for a first wedding anniversary?",
+      "answer": "Paper"
+    },
+    {
+      "id": "fa-s-030",
+      "spice": "spicy",
+      "question": "What is the traditional gift for a 60th wedding anniversary?",
+      "answer": "Diamond"
+    },
+    {
+      "id": "fa-s-031",
+      "spice": "spicy",
+      "question": "Besides prosecco, what fruit goes into a Bellini?",
+      "answer": "Peach"
+    },
+    {
+      "id": "fa-s-032",
+      "spice": "spicy",
+      "question": "What do you call a cocktail of Guinness and champagne?",
+      "answer": "A Black Velvet"
+    },
+    {
+      "id": "fa-s-033",
+      "spice": "spicy",
+      "question": "In the ABBA song, what time is the 'man after'?",
+      "answer": "Midnight"
+    },
+    {
+      "id": "fa-s-034",
+      "spice": "spicy",
+      "question": "Who sang 'Summer of '69'?",
+      "answer": "Bryan Adams"
+    },
+    {
+      "id": "fa-s-035",
+      "spice": "spicy",
+      "question": "What was the name of Shania Twain's 1997 album?",
+      "answer": "Come On Over"
+    },
+    {
+      "id": "fa-s-036",
+      "spice": "spicy",
+      "question": "In what year did Drake release 'Hotline Bling'?",
+      "answer": "2015"
+    },
+    {
+      "id": "fa-s-037",
+      "spice": "spicy",
+      "question": "Which Canadian city hosted the 1976 Summer Olympics?",
+      "answer": "Montreal"
+    },
+    {
+      "id": "fa-s-038",
+      "spice": "spicy",
+      "question": "What was the first music video ever played on MTV?",
+      "answer": "Video Killed the Radio Star"
+    },
+    {
+      "id": "fa-s-039",
+      "spice": "spicy",
+      "question": "Vodka, coffee liqueur and cream make which cocktail?",
+      "answer": "A White Russian"
+    },
+    {
+      "id": "fa-s-040",
+      "spice": "spicy",
+      "question": "What gives a Tequila Sunrise its red layer?",
+      "answer": "Grenadine"
+    },
+    {
+      "id": "fa-s-041",
+      "spice": "spicy",
+      "question": "Which spirit is the base of a classic Negroni?",
+      "answer": "Gin"
+    },
+    {
+      "id": "fa-s-042",
+      "spice": "spicy",
+      "question": "Prosecco comes from which country?",
+      "answer": "Italy"
+    },
+    {
+      "id": "fa-s-043",
+      "spice": "spicy",
+      "question": "What is a wine expert at a restaurant called?",
+      "answer": "A sommelier"
+    },
+    {
+      "id": "fa-s-044",
+      "spice": "spicy",
+      "question": "What does RSVP stand for?",
+      "answer": "Répondez s'il vous plaît"
+    },
+    {
+      "id": "fa-s-045",
+      "spice": "spicy",
+      "question": "Sake is brewed from what?",
+      "answer": "Rice"
+    },
+    {
+      "id": "fa-s-046",
+      "spice": "spicy",
+      "question": "In which country did the mojito originate?",
+      "answer": "Cuba"
+    },
+    {
+      "id": "fa-s-047",
+      "spice": "spicy",
+      "question": "Which herb is muddled into a mojito?",
+      "answer": "Mint"
+    },
+    {
+      "id": "fa-s-048",
+      "spice": "spicy",
+      "question": "What is the fear of being alone called?",
+      "answer": "Monophobia"
+    },
+    {
+      "id": "fa-s-049",
+      "spice": "spicy",
+      "question": "Which saint is the patron saint of lovers?",
+      "answer": "Saint Valentine"
+    },
+    {
+      "id": "fa-s-050",
+      "spice": "spicy",
+      "question": "What year did the Macarena top the Billboard Hot 100?",
+      "answer": "1996"
+    },
+    {
+      "id": "fa-s-051",
+      "spice": "spicy",
+      "question": "Which Shakespeare play features the line 'Parting is such sweet sorrow'?",
+      "answer": "Romeo and Juliet"
+    },
+    {
       "id": "fa-u-001",
       "spice": "unhinged",
       "question": "What did some ancient Romans rinse their teeth with?",
@@ -313,6 +703,222 @@
       "spice": "unhinged",
       "question": "What is the scientific name for the gorilla?",
       "answer": "Gorilla gorilla"
+    },
+    {
+      "id": "fa-u-016",
+      "spice": "unhinged",
+      "question": "What is the fear of clowns called?",
+      "answer": "Coulrophobia"
+    },
+    {
+      "id": "fa-u-017",
+      "spice": "unhinged",
+      "question": "What is the fear of the number 13 called?",
+      "answer": "Triskaidekaphobia"
+    },
+    {
+      "id": "fa-u-018",
+      "spice": "unhinged",
+      "question": "What is the fear of belly buttons called?",
+      "answer": "Omphalophobia"
+    },
+    {
+      "id": "fa-u-019",
+      "spice": "unhinged",
+      "question": "What is the fear of buttons called?",
+      "answer": "Koumpounophobia"
+    },
+    {
+      "id": "fa-u-020",
+      "spice": "unhinged",
+      "question": "In seahorses, which parent gives birth?",
+      "answer": "The father"
+    },
+    {
+      "id": "fa-u-021",
+      "spice": "unhinged",
+      "question": "Where is a shrimp's heart?",
+      "answer": "In its head"
+    },
+    {
+      "id": "fa-u-022",
+      "spice": "unhinged",
+      "question": "Which animal has the largest eyes on Earth?",
+      "answer": "The colossal squid"
+    },
+    {
+      "id": "fa-u-023",
+      "spice": "unhinged",
+      "question": "Turritopsis dohrnii is a jellyfish nicknamed what?",
+      "answer": "The immortal jellyfish"
+    },
+    {
+      "id": "fa-u-024",
+      "spice": "unhinged",
+      "question": "Tardigrades are also known as what?",
+      "answer": "Water bears"
+    },
+    {
+      "id": "fa-u-025",
+      "spice": "unhinged",
+      "question": "What is a group of rhinos called?",
+      "answer": "A crash"
+    },
+    {
+      "id": "fa-u-026",
+      "spice": "unhinged",
+      "question": "What is a group of hippos called?",
+      "answer": "A bloat"
+    },
+    {
+      "id": "fa-u-027",
+      "spice": "unhinged",
+      "question": "Which country has the most pyramids?",
+      "answer": "Sudan"
+    },
+    {
+      "id": "fa-u-028",
+      "spice": "unhinged",
+      "question": "In the 1700s, what was blown into drowning victims to try to revive them?",
+      "answer": "Tobacco smoke"
+    },
+    {
+      "id": "fa-u-029",
+      "spice": "unhinged",
+      "question": "Which smelly fruit is banned on Singapore's subway?",
+      "answer": "Durian"
+    },
+    {
+      "id": "fa-u-030",
+      "spice": "unhinged",
+      "question": "Kopi luwak coffee is made from beans that pass through which animal?",
+      "answer": "The civet"
+    },
+    {
+      "id": "fa-u-031",
+      "spice": "unhinged",
+      "question": "What is the loudest animal on Earth?",
+      "answer": "The sperm whale"
+    },
+    {
+      "id": "fa-u-032",
+      "spice": "unhinged",
+      "question": "Roughly how long can a cockroach live without its head?",
+      "answer": "About a week"
+    },
+    {
+      "id": "fa-u-033",
+      "spice": "unhinged",
+      "question": "What colour is a polar bear's fur, really?",
+      "answer": "Transparent"
+    },
+    {
+      "id": "fa-u-034",
+      "spice": "unhinged",
+      "question": "In 1858, the 'Great Stink' struck which city?",
+      "answer": "London"
+    },
+    {
+      "id": "fa-u-035",
+      "spice": "unhinged",
+      "question": "Which Alberta town built a UFO landing pad in 1967?",
+      "answer": "St. Paul"
+    },
+    {
+      "id": "fa-u-036",
+      "spice": "unhinged",
+      "question": "Which Ontario town is famous for its giant goose statue?",
+      "answer": "Wawa"
+    },
+    {
+      "id": "fa-u-037",
+      "spice": "unhinged",
+      "question": "What two things make a 'Canadian tuxedo'?",
+      "answer": "A jean jacket and jeans"
+    },
+    {
+      "id": "fa-u-038",
+      "spice": "unhinged",
+      "question": "Which Alberta town has the world's largest dinosaur statue?",
+      "answer": "Drumheller"
+    },
+    {
+      "id": "fa-u-039",
+      "spice": "unhinged",
+      "question": "Which Alberta village has a giant perogy statue?",
+      "answer": "Glendon"
+    },
+    {
+      "id": "fa-u-040",
+      "spice": "unhinged",
+      "question": "Which Ontario city has a 9-metre replica of a coin?",
+      "answer": "Sudbury"
+    },
+    {
+      "id": "fa-u-041",
+      "spice": "unhinged",
+      "question": "What can't hippos actually do, despite living in water?",
+      "answer": "Swim"
+    },
+    {
+      "id": "fa-u-042",
+      "spice": "unhinged",
+      "question": "What colour is a horseshoe crab's blood?",
+      "answer": "Blue"
+    },
+    {
+      "id": "fa-u-043",
+      "spice": "unhinged",
+      "question": "Casu marzu is a Sardinian cheese made with what?",
+      "answer": "Live maggots"
+    },
+    {
+      "id": "fa-u-044",
+      "spice": "unhinged",
+      "question": "What is Iceland's fermented shark dish called?",
+      "answer": "Hákarl"
+    },
+    {
+      "id": "fa-u-045",
+      "spice": "unhinged",
+      "question": "Balut, a street food in the Philippines, is what?",
+      "answer": "A fertilised duck egg"
+    },
+    {
+      "id": "fa-u-046",
+      "spice": "unhinged",
+      "question": "What part of a cow is tripe?",
+      "answer": "The stomach lining"
+    },
+    {
+      "id": "fa-u-047",
+      "spice": "unhinged",
+      "question": "In Victorian times, mourning jewellery was often made from what?",
+      "answer": "Human hair"
+    },
+    {
+      "id": "fa-u-048",
+      "spice": "unhinged",
+      "question": "What is a young eel called?",
+      "answer": "An elver"
+    },
+    {
+      "id": "fa-u-049",
+      "spice": "unhinged",
+      "question": "What is a group of pugs called?",
+      "answer": "A grumble"
+    },
+    {
+      "id": "fa-u-050",
+      "spice": "unhinged",
+      "question": "What is a baby oyster called?",
+      "answer": "A spat"
+    },
+    {
+      "id": "fa-u-051",
+      "spice": "unhinged",
+      "question": "What is the fear of holes in clusters called?",
+      "answer": "Trypophobia"
     }
   ]
 }

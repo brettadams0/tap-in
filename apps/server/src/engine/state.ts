@@ -31,6 +31,8 @@ export const OUTRO_MS = 3000;
 export const PAUSE_MS = 60_000;
 export const WATER_MS = 10_000;
 export const WATER_EVERY_MS = 10 * 60_000;
+/** Flags from different players that skip a prompt (SPEC "Stranger-safety"). */
+export const FLAGS_TO_SKIP = 2;
 
 export type PlayerStatus = 'active' | 'gone' | 'removed';
 
@@ -86,6 +88,14 @@ export interface SessionState {
   /** People fooled or escapes made, per player (Best liar award). Optional: older saved rooms lack it. */
   liarPoints?: Record<PlayerId, number>;
   lastBreakAt: number;
+  /** Skip-prompt flags on the current round's prompt (`bankId:promptId`). Optional in older saves. */
+  flags?: { key: string; by: PlayerId[] } | null;
+  /** Prompt ids skipped after two flags, per game: never dealt again this session. */
+  skipped?: Partial<Record<GameId, string[]>>;
+  /** The game state from just before this round started, so a skipped prompt can deal again. */
+  roundBase?: unknown;
+  /** When a prompt was last skipped (the phones show "Skipped"). */
+  skippedAt?: number | null;
   overlay: OverlayState | null;
   results: ResultsView | null;
 }

@@ -195,6 +195,186 @@
       "b": "Have your mood shown as a hat colour"
     },
     {
+      "id": "wyr-c-033",
+      "spice": "chill",
+      "a": "Have a snow day every Monday",
+      "b": "Have a long weekend every month"
+    },
+    {
+      "id": "wyr-c-034",
+      "spice": "chill",
+      "a": "Be able to fly but only 1 metre off the ground",
+      "b": "Be invisible but only when no one is looking"
+    },
+    {
+      "id": "wyr-c-035",
+      "spice": "chill",
+      "a": "Have free coffee for life",
+      "b": "Have free Wi-Fi everywhere for life"
+    },
+    {
+      "id": "wyr-c-036",
+      "spice": "chill",
+      "a": "Live in a world with no winter",
+      "b": "Live in a world with no summer"
+    },
+    {
+      "id": "wyr-c-037",
+      "spice": "chill",
+      "a": "Always have to sing instead of talk",
+      "b": "Always have to dance instead of walk"
+    },
+    {
+      "id": "wyr-c-038",
+      "spice": "chill",
+      "a": "Have a pause button for other people",
+      "b": "Have a mute button for other people"
+    },
+    {
+      "id": "wyr-c-039",
+      "spice": "chill",
+      "a": "Be a wizard",
+      "b": "Be a superhero"
+    },
+    {
+      "id": "wyr-c-040",
+      "spice": "chill",
+      "a": "Only use a flip phone forever",
+      "b": "Only use a laptop from 2005 forever"
+    },
+    {
+      "id": "wyr-c-041",
+      "spice": "chill",
+      "a": "Eat breakfast for every meal",
+      "b": "Eat dinner for every meal"
+    },
+    {
+      "id": "wyr-c-042",
+      "spice": "chill",
+      "a": "Have a photographic memory",
+      "b": "Be able to forget anything you want"
+    },
+    {
+      "id": "wyr-c-043",
+      "spice": "chill",
+      "a": "Have a cottage on a lake",
+      "b": "Have a condo downtown"
+    },
+    {
+      "id": "wyr-c-044",
+      "spice": "chill",
+      "a": "Be the best player on a bad team",
+      "b": "Be the worst player on a great team"
+    },
+    {
+      "id": "wyr-c-045",
+      "spice": "chill",
+      "a": "Always know the time without a clock",
+      "b": "Always know which way is north"
+    },
+    {
+      "id": "wyr-c-046",
+      "spice": "chill",
+      "a": "Have every red light turn green for you",
+      "b": "Never wait in a line again"
+    },
+    {
+      "id": "wyr-c-047",
+      "spice": "chill",
+      "a": "Be able to breathe underwater",
+      "b": "Be able to see in the dark"
+    },
+    {
+      "id": "wyr-c-048",
+      "spice": "chill",
+      "a": "Have a lifetime supply of poutine",
+      "b": "Have a lifetime supply of butter tarts"
+    },
+    {
+      "id": "wyr-c-049",
+      "spice": "chill",
+      "a": "Live in the Harry Potter world",
+      "b": "Live in the Star Wars world"
+    },
+    {
+      "id": "wyr-c-050",
+      "spice": "chill",
+      "a": "Be a famous athlete",
+      "b": "Be a famous musician"
+    },
+    {
+      "id": "wyr-c-051",
+      "spice": "chill",
+      "a": "Have to wear a winter coat all summer",
+      "b": "Have to wear shorts all winter"
+    },
+    {
+      "id": "wyr-c-052",
+      "spice": "chill",
+      "a": "Have unlimited battery on your phone",
+      "b": "Have unlimited data on your phone"
+    },
+    {
+      "id": "wyr-c-053",
+      "spice": "chill",
+      "a": "Be a professional video gamer",
+      "b": "Be a professional food critic"
+    },
+    {
+      "id": "wyr-c-054",
+      "spice": "chill",
+      "a": "Only watch comedies forever",
+      "b": "Only watch action movies forever"
+    },
+    {
+      "id": "wyr-c-055",
+      "spice": "chill",
+      "a": "Be able to read any book in a minute",
+      "b": "Be able to learn any skill in a week"
+    },
+    {
+      "id": "wyr-c-056",
+      "spice": "chill",
+      "a": "Have a talking parrot",
+      "b": "Have a dog that can text you"
+    },
+    {
+      "id": "wyr-c-057",
+      "spice": "chill",
+      "a": "Know how every movie ends",
+      "b": "Know how every sports game ends"
+    },
+    {
+      "id": "wyr-c-058",
+      "spice": "chill",
+      "a": "Hike to the top of a mountain",
+      "b": "Swim to the bottom of a lake"
+    },
+    {
+      "id": "wyr-c-059",
+      "spice": "chill",
+      "a": "Never have to do laundry again",
+      "b": "Never have to do dishes again"
+    },
+    {
+      "id": "wyr-c-060",
+      "spice": "chill",
+      "a": "Be able to instantly fall asleep",
+      "b": "Be able to instantly wake up fully rested"
+    },
+    {
+      "id": "wyr-c-061",
+      "spice": "chill",
+      "a": "Win a gold medal",
+      "b": "Win an Oscar"
+    },
+    {
+      "id": "wyr-c-062",
+      "spice": "chill",
+      "a": "Have a giant backyard",
+      "b": "Have a giant kitchen"
+    },
+    {
       "id": "wyr-s-001",
       "spice": "spicy",
       "a": "Have your search history read out loud",
@@ -222,7 +402,7 @@
       "id": "wyr-s-005",
       "spice": "spicy",
       "a": "Kiss a frog for luck",
-      "b": "Get kissed by a stranger on New Year's"
+      "b": "Walk under a ladder for luck"
     },
     {
       "id": "wyr-s-006",
@@ -373,6 +553,192 @@
       "spice": "spicy",
       "a": "Have your dance moves go viral",
       "b": "Have your karaoke go viral"
+    },
+    {
+      "id": "wyr-s-031",
+      "spice": "spicy",
+      "a": "Have your group chat read aloud at a wedding",
+      "b": "Have your notes app read aloud at work"
+    },
+    {
+      "id": "wyr-s-032",
+      "spice": "spicy",
+      "a": "Date someone who loves camping",
+      "b": "Date someone who loves clubbing"
+    },
+    {
+      "id": "wyr-s-033",
+      "spice": "spicy",
+      "a": "Go on a date that's all small talk",
+      "b": "Go on a date that's all deep talk"
+    },
+    {
+      "id": "wyr-s-034",
+      "spice": "spicy",
+      "a": "Always be overdressed at parties",
+      "b": "Always be underdressed at parties"
+    },
+    {
+      "id": "wyr-s-035",
+      "spice": "spicy",
+      "a": "Have a partner who snores like a chainsaw",
+      "b": "Have a partner who steals every blanket"
+    },
+    {
+      "id": "wyr-s-036",
+      "spice": "spicy",
+      "a": "Only date people who love karaoke",
+      "b": "Only date people who hate music"
+    },
+    {
+      "id": "wyr-s-037",
+      "spice": "spicy",
+      "a": "Have your last ten texts shown to the room",
+      "b": "Have your last ten searches shown to the room"
+    },
+    {
+      "id": "wyr-s-038",
+      "spice": "spicy",
+      "a": "Get a slow clap after every date",
+      "b": "Get a scorecard after every date"
+    },
+    {
+      "id": "wyr-s-039",
+      "spice": "spicy",
+      "a": "Have your ex as your boss",
+      "b": "Have your boss as your ex"
+    },
+    {
+      "id": "wyr-s-040",
+      "spice": "spicy",
+      "a": "Be set up by a dating app algorithm",
+      "b": "Be set up by your grandparents"
+    },
+    {
+      "id": "wyr-s-041",
+      "spice": "spicy",
+      "a": "Accidentally wave at someone who wasn't waving at you",
+      "b": "Accidentally say \"you too\" when the server says enjoy your meal"
+    },
+    {
+      "id": "wyr-s-042",
+      "spice": "spicy",
+      "a": "Only go on dates at fast-food places",
+      "b": "Only go on dates at fancy restaurants with tiny portions"
+    },
+    {
+      "id": "wyr-s-043",
+      "spice": "spicy",
+      "a": "Have every crush know you like them",
+      "b": "Never know if anyone likes you"
+    },
+    {
+      "id": "wyr-s-044",
+      "spice": "spicy",
+      "a": "Date a professional clown",
+      "b": "Date a professional mime"
+    },
+    {
+      "id": "wyr-s-045",
+      "spice": "spicy",
+      "a": "Give a toast at your best friend's wedding",
+      "b": "Give a eulogy for a stranger"
+    },
+    {
+      "id": "wyr-s-046",
+      "spice": "spicy",
+      "a": "Have a terrible pickup line tattooed on your arm",
+      "b": "Have your worst haircut photo as your ID forever"
+    },
+    {
+      "id": "wyr-s-047",
+      "spice": "spicy",
+      "a": "Always say what you're thinking on dates",
+      "b": "Never be able to say what you're thinking on dates"
+    },
+    {
+      "id": "wyr-s-048",
+      "spice": "spicy",
+      "a": "Go viral for a bad dance",
+      "b": "Go viral for a bad breakup speech"
+    },
+    {
+      "id": "wyr-s-049",
+      "spice": "spicy",
+      "a": "Get a love song written about you",
+      "b": "Get a roast written about you"
+    },
+    {
+      "id": "wyr-s-050",
+      "spice": "spicy",
+      "a": "Have your first date filmed for a reality show",
+      "b": "Have your first date narrated by a sports commentator"
+    },
+    {
+      "id": "wyr-s-051",
+      "spice": "spicy",
+      "a": "Have a partner who's always early",
+      "b": "Have a partner who's always late"
+    },
+    {
+      "id": "wyr-s-052",
+      "spice": "spicy",
+      "a": "Only flirt in Shakespearean English",
+      "b": "Only flirt in emojis"
+    },
+    {
+      "id": "wyr-s-053",
+      "spice": "spicy",
+      "a": "Be stuck at a party with your ex",
+      "b": "Be stuck at a party with your boss"
+    },
+    {
+      "id": "wyr-s-054",
+      "spice": "spicy",
+      "a": "Confess a crush by billboard",
+      "b": "Confess a crush by skywriting"
+    },
+    {
+      "id": "wyr-s-055",
+      "spice": "spicy",
+      "a": "Wear a onesie on every first date",
+      "b": "Bring your mom on every first date"
+    },
+    {
+      "id": "wyr-s-056",
+      "spice": "spicy",
+      "a": "Have a group chat that never stops",
+      "b": "Have a group chat that never answers"
+    },
+    {
+      "id": "wyr-s-057",
+      "spice": "spicy",
+      "a": "Go home at 10 pm every night out",
+      "b": "Stay out until sunrise every night out"
+    },
+    {
+      "id": "wyr-s-058",
+      "spice": "spicy",
+      "a": "Have a dramatic slow-motion entrance everywhere",
+      "b": "Have a dramatic exit with a theme song everywhere"
+    },
+    {
+      "id": "wyr-s-059",
+      "spice": "spicy",
+      "a": "Date someone who's obsessed with their cat",
+      "b": "Date someone who's obsessed with their car"
+    },
+    {
+      "id": "wyr-s-060",
+      "spice": "spicy",
+      "a": "Be roasted by a comedian in front of a crowd",
+      "b": "Be serenaded by a comedian in front of a crowd"
+    },
+    {
+      "id": "wyr-s-061",
+      "spice": "spicy",
+      "a": "Never be able to use an emoji again",
+      "b": "Never be able to send a voice note again"
     },
     {
       "id": "wyr-u-001",
@@ -553,6 +919,192 @@
       "spice": "unhinged",
       "a": "Have toes for fingers",
       "b": "Have fingers for toes"
+    },
+    {
+      "id": "wyr-u-031",
+      "spice": "unhinged",
+      "a": "Have a moose follow you everywhere",
+      "b": "Have a beaver build dams in your house"
+    },
+    {
+      "id": "wyr-u-032",
+      "spice": "unhinged",
+      "a": "Be chased by a flock of seagulls daily",
+      "b": "Be stared at by an owl all night"
+    },
+    {
+      "id": "wyr-u-033",
+      "spice": "unhinged",
+      "a": "Eat a bowl of cold gravy",
+      "b": "Eat a spoonful of mayonnaise"
+    },
+    {
+      "id": "wyr-u-034",
+      "spice": "unhinged",
+      "a": "Have a laugh like a hyena",
+      "b": "Have a sneeze like a foghorn"
+    },
+    {
+      "id": "wyr-u-035",
+      "spice": "unhinged",
+      "a": "Live in a giant pickle jar",
+      "b": "Live in a giant bouncy castle"
+    },
+    {
+      "id": "wyr-u-036",
+      "spice": "unhinged",
+      "a": "Only travel by pogo stick",
+      "b": "Only travel by unicycle"
+    },
+    {
+      "id": "wyr-u-037",
+      "spice": "unhinged",
+      "a": "Have your fridge talk back to you",
+      "b": "Have your toaster judge your choices"
+    },
+    {
+      "id": "wyr-u-038",
+      "spice": "unhinged",
+      "a": "Be a ghost who can only flicker lights",
+      "b": "Be a ghost who can only move spoons"
+    },
+    {
+      "id": "wyr-u-039",
+      "spice": "unhinged",
+      "a": "Have a pet raccoon that steals for you",
+      "b": "Have a pet goose that fights for you"
+    },
+    {
+      "id": "wyr-u-040",
+      "spice": "unhinged",
+      "a": "Wear clown shoes to every wedding",
+      "b": "Wear a top hat to every funeral"
+    },
+    {
+      "id": "wyr-u-041",
+      "spice": "unhinged",
+      "a": "Sound like a chipmunk forever",
+      "b": "Sound like a movie trailer narrator forever"
+    },
+    {
+      "id": "wyr-u-042",
+      "spice": "unhinged",
+      "a": "Be followed by a tiny rain cloud",
+      "b": "Be followed by a spotlight"
+    },
+    {
+      "id": "wyr-u-043",
+      "spice": "unhinged",
+      "a": "Have a mullet for the rest of your life",
+      "b": "Have a rat tail for the rest of your life"
+    },
+    {
+      "id": "wyr-u-044",
+      "spice": "unhinged",
+      "a": "Have every song you hear stuck in your head",
+      "b": "Never be able to remember a song again"
+    },
+    {
+      "id": "wyr-u-045",
+      "spice": "unhinged",
+      "a": "Swim in a pool of jelly",
+      "b": "Swim in a pool of baked beans"
+    },
+    {
+      "id": "wyr-u-046",
+      "spice": "unhinged",
+      "a": "Turn into a pigeon every Tuesday",
+      "b": "Turn into a raccoon every full moon"
+    },
+    {
+      "id": "wyr-u-047",
+      "spice": "unhinged",
+      "a": "Only eat food shaped like animals",
+      "b": "Only eat food that's blue"
+    },
+    {
+      "id": "wyr-u-048",
+      "spice": "unhinged",
+      "a": "Have a houseplant that screams when thirsty",
+      "b": "Have a houseplant that gossips about you"
+    },
+    {
+      "id": "wyr-u-049",
+      "spice": "unhinged",
+      "a": "Have a narrator who roasts you",
+      "b": "Have a narrator who hypes you up too much"
+    },
+    {
+      "id": "wyr-u-050",
+      "spice": "unhinged",
+      "a": "Have a duck that follows you to every meeting",
+      "b": "Have a bagpiper who plays when you're nervous"
+    },
+    {
+      "id": "wyr-u-051",
+      "spice": "unhinged",
+      "a": "Be the world's best kazoo player",
+      "b": "Be the world's worst opera singer, loudly"
+    },
+    {
+      "id": "wyr-u-052",
+      "spice": "unhinged",
+      "a": "Have to clap after every sentence",
+      "b": "Have to bow after every sentence"
+    },
+    {
+      "id": "wyr-u-053",
+      "spice": "unhinged",
+      "a": "Eat dessert with chopsticks forever",
+      "b": "Eat soup with a fork forever"
+    },
+    {
+      "id": "wyr-u-054",
+      "spice": "unhinged",
+      "a": "Replace your doorbell with a goose honk",
+      "b": "Replace your alarm with a screaming goat"
+    },
+    {
+      "id": "wyr-u-055",
+      "spice": "unhinged",
+      "a": "Be a time traveller who can only go back 5 minutes",
+      "b": "Be a mind reader who can only read pets"
+    },
+    {
+      "id": "wyr-u-056",
+      "spice": "unhinged",
+      "a": "Get a tattoo of a hot dog",
+      "b": "Get a tattoo of a raccoon in sunglasses"
+    },
+    {
+      "id": "wyr-u-057",
+      "spice": "unhinged",
+      "a": "Live inside a video game for a week",
+      "b": "Live inside a reality show for a week"
+    },
+    {
+      "id": "wyr-u-058",
+      "spice": "unhinged",
+      "a": "Have hiccups for a year",
+      "b": "Have the feeling you're about to sneeze for a year"
+    },
+    {
+      "id": "wyr-u-059",
+      "spice": "unhinged",
+      "a": "Become the official mascot of a hot sauce",
+      "b": "Become the official mascot of a toilet paper brand"
+    },
+    {
+      "id": "wyr-u-060",
+      "spice": "unhinged",
+      "a": "Be chased by a kangaroo with a grudge",
+      "b": "Be chased by a toddler with a water gun"
+    },
+    {
+      "id": "wyr-u-061",
+      "spice": "unhinged",
+      "a": "Have a pet octopus that rearranges your stuff",
+      "b": "Have a pet parrot that only repeats your secrets"
     }
   ]
 }

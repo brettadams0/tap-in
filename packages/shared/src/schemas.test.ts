@@ -20,6 +20,7 @@ describe('client message schemas', () => {
       { type: 'ping', t0: 123.4 },
       { type: 'resync' },
       { type: 'leave' },
+      { type: 'flag' },
       { type: 'submit', step: 'vote', data: { side: 'a' } },
       { type: 'ready' },
       ...['pause', 'resume', 'rematch', 'lobby', 'end'].map((kind) => ({

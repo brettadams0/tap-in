@@ -16,14 +16,27 @@ describe('content', () => {
     const chill = wyrBank.filter((e) => e.spice === 'chill');
     const seen = new Set<string>();
     for (let i = 0; i < chill.length; i++) {
-      const e = pickEntry(wyrBank, 'chill', used, rng);
+      const e = pickEntry(wyrBank, { spice: 'chill', used, rng, skipped: [] });
       expect(e.spice).toBe('chill');
       seen.add(e.id);
     }
     expect(seen.size).toBe(chill.length);
-    pickEntry(wyrBank, 'chill', used, rng);
+    pickEntry(wyrBank, { spice: 'chill', used, rng, skipped: [] });
     expect(used).toHaveLength(1);
-    expect(() => pickEntry([], 'chill', [], rng)).toThrow();
+    expect(() => pickEntry([], { spice: 'chill', used: [], rng, skipped: [] })).toThrow();
+  });
+
+  it('never deals a skipped prompt again, unless nothing else is left', () => {
+    const rng = createRng('skip');
+    const chill = wyrBank.filter((e) => e.spice === 'chill');
+    const skipped = chill.slice(1).map((e) => e.id);
+    const used: string[] = [];
+    for (let i = 0; i < 5; i++) {
+      expect(pickEntry(wyrBank, { spice: 'chill', used, rng, skipped }).id).toBe(chill[0]?.id);
+    }
+    const all = chill.map((e) => e.id);
+    const tiny = [chill[0], chill[1]].filter((e) => e !== undefined);
+    expect(all).toContain(pickEntry(tiny, { spice: 'chill', used: [], rng, skipped: all }).id);
   });
 
   it('registers the playable games', () => {

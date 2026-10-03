@@ -251,6 +251,73 @@ export function CornerMenu({ conn, view }: { conn: RoomConnection; view: RoomVie
  * Shown when iOS suspended audio (lock, refresh) or on first unlock (silent switch notice).
  * It sits in the page flow above the screen, so it can never cover a button (DESIGN.md §0).
  */
+const SKIP_NOTICE_MS = 3500;
+
+/**
+ * Skip-prompt flag (SPEC "Stranger-safety", R17): a small 🚩 under the header strip, in the page
+ * flow, on screens showing a flaggable prompt. A sheet confirms, so a stray tap never flags.
+ */
+export function FlagChip({ conn, view }: { conn: RoomConnection; view: RoomView }) {
+  const [open, setOpen] = useState(false);
+  const flag = view.session?.flag;
+  const skippedAt = view.session?.skippedAt ?? null;
+  const now = useServerNow(conn, 250, skippedAt !== null);
+  if (!flag) return null;
+  // After two flags re-deal the prompt, the row says so for a moment (no layout shift).
+  const skipped = skippedAt !== null && now - skippedAt < SKIP_NOTICE_MS && now > skippedAt - 1000;
+  return (
+    <div className="flag-row">
+      {skipped && (
+        <p className="flag-skipped" role="status">
+          Skipped! Fresh one.
+        </p>
+      )}
+      <button
+        type="button"
+        className="flag-chip"
+        data-testid="flag-prompt"
+        disabled={flag.mine}
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        {flag.mine ? '🚩 Flagged' : '🚩 Skip prompt?'}
+      </button>
+      {open && !flag.mine && (
+        <Sheet
+          title="Skip this prompt?"
+          onClose={() => {
+            setOpen(false);
+          }}
+        >
+          <p className="hint">
+            Not okay for this group? If one more person flags it, it&apos;s skipped and a fresh one
+            is dealt. Nobody sees who flagged.
+          </p>
+          <div className="menu-actions">
+            <TapButton
+              onClick={() => {
+                conn.flag();
+                setOpen(false);
+              }}
+            >
+              🚩 Flag it
+            </TapButton>
+            <TapButton
+              className="btn-ghost"
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              Never mind
+            </TapButton>
+          </div>
+        </Sheet>
+      )}
+    </div>
+  );
+}
+
 export function SoundChips() {
   const a = useAudio();
   useEffect(() => {

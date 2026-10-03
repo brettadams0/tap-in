@@ -16,7 +16,7 @@ import { TapInput, TapReveal } from './games/TapRace.js';
 import { TruthsInput, TruthsReveal } from './games/TwoTruths.js';
 import { WyrInput, WyrReveal } from './games/WouldYouRather.js';
 import { DrinkMoment, Intro, OverlayCard, Outro, TitleCard } from './moments.js';
-import { CornerMenu, HeaderStrip, inkOf, SoundChips } from './parts.js';
+import { CornerMenu, FlagChip, HeaderStrip, inkOf, SoundChips } from './parts.js';
 import { ReactionLane } from './reactions.js';
 import { Results } from './Results.js';
 
@@ -62,6 +62,7 @@ function PhaseBody({ conn, view }: { conn: RoomConnection; view: RoomView }) {
             view={view}
             timer={play.gameId !== 'reactionShotgun' && play.gameId !== 'tapRace'}
           />
+          {!reveal && <FlagChip conn={conn} view={view} />}
           {play.gameId === 'wouldYouRather' &&
             (reveal ? (
               <WyrReveal conn={conn} view={view} play={play} />

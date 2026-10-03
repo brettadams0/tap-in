@@ -3,78 +3,6 @@
   "version": 1,
   "entries": [
     {
-      "id": "rx-c-k01",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "You're a legend."
-    },
-    {
-      "id": "rx-c-k02",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "Glad you're here!"
-    },
-    {
-      "id": "rx-c-k03",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "Carry me, please."
-    },
-    {
-      "id": "rx-c-k04",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "You make this fun."
-    },
-    {
-      "id": "rx-c-k05",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "Best teammate tonight."
-    },
-    {
-      "id": "rx-c-k06",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "Your answers are elite."
-    },
-    {
-      "id": "rx-c-k07",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "You're on fire tonight."
-    },
-    {
-      "id": "rx-c-k08",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "Okay, you're good at this."
-    },
-    {
-      "id": "rx-c-k09",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "Respect. Genuinely."
-    },
-    {
-      "id": "rx-c-k10",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "10/10 energy."
-    },
-    {
-      "id": "rx-c-k11",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "Thanks for being a good sport!"
-    },
-    {
-      "id": "rx-c-k12",
-      "spice": "chill",
-      "tab": "kind",
-      "line": "You're the MVP."
-    },
-    {
       "id": "rx-c-f01",
       "spice": "chill",
       "tab": "funny",
@@ -147,6 +75,174 @@
       "line": "Main character syndrome, confirmed."
     },
     {
+      "id": "rx-c-f13",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Explain yourself."
+    },
+    {
+      "id": "rx-c-f14",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "I'm calling a lawyer."
+    },
+    {
+      "id": "rx-c-f15",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "That was illegal and you know it."
+    },
+    {
+      "id": "rx-c-f16",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Who raised you? 😂"
+    },
+    {
+      "id": "rx-c-f17",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Your strategy is chaos and it works."
+    },
+    {
+      "id": "rx-c-f18",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "I'm putting that on your tombstone."
+    },
+    {
+      "id": "rx-c-f19",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Respectfully, what was that?"
+    },
+    {
+      "id": "rx-c-f20",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Ten points for confidence. Zero for accuracy."
+    },
+    {
+      "id": "rx-c-f21",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "You're the plot twist nobody asked for."
+    },
+    {
+      "id": "rx-c-f22",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Certified goofball."
+    },
+    {
+      "id": "rx-c-f23",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Your brain is on airplane mode."
+    },
+    {
+      "id": "rx-c-f24",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "The judges are confused."
+    },
+    {
+      "id": "rx-c-f25",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Never let me sit next to you again 😂"
+    },
+    {
+      "id": "rx-c-f26",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Did you even read the question?"
+    },
+    {
+      "id": "rx-c-f27",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Somebody check on this one."
+    },
+    {
+      "id": "rx-c-f28",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "You chose violence."
+    },
+    {
+      "id": "rx-c-f29",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Ok, but why are you like this?"
+    },
+    {
+      "id": "rx-c-f30",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "I'm screenshotting this in my mind."
+    },
+    {
+      "id": "rx-c-f31",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "That answer has me on the floor."
+    },
+    {
+      "id": "rx-c-f32",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "You're running on vibes alone."
+    },
+    {
+      "id": "rx-c-f33",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "That was a whole performance."
+    },
+    {
+      "id": "rx-c-f34",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "I'm filing a complaint with the Capn."
+    },
+    {
+      "id": "rx-c-f35",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Sneaky. Very sneaky."
+    },
+    {
+      "id": "rx-c-f36",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Speedrunning embarrassment, I see."
+    },
+    {
+      "id": "rx-c-f37",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "That was the most chaotic thing tonight."
+    },
+    {
+      "id": "rx-c-f38",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Your poker face is a fun face."
+    },
+    {
+      "id": "rx-c-f39",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "Mild menace. Respect."
+    },
+    {
+      "id": "rx-c-f40",
+      "spice": "chill",
+      "tab": "funny",
+      "line": "You're a cartoon character."
+    },
+    {
       "id": "rx-c-g01",
       "spice": "chill",
       "tab": "glaze",
@@ -207,28 +303,430 @@
       "line": "Top-tier vibes, honestly."
     },
     {
-      "id": "rx-s-k01",
-      "spice": "spicy",
-      "tab": "kind",
-      "line": "You're carrying this whole room."
+      "id": "rx-c-g11",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "You're kind of the best part of this game."
     },
     {
-      "id": "rx-s-k02",
-      "spice": "spicy",
-      "tab": "kind",
-      "line": "Never change."
+      "id": "rx-c-g12",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Is it just me, or are you winning tonight? 😉"
     },
     {
-      "id": "rx-s-k03",
-      "spice": "spicy",
-      "tab": "kind",
-      "line": "You're the reason this is fun."
+      "id": "rx-c-g13",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "You make losing feel like winning."
     },
     {
-      "id": "rx-s-k04",
-      "spice": "spicy",
+      "id": "rx-c-g14",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Okay, you're charming. I said it."
+    },
+    {
+      "id": "rx-c-g15",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Your answers are dangerously good."
+    },
+    {
+      "id": "rx-c-g16",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "I'd team up with you any day."
+    },
+    {
+      "id": "rx-c-g17",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Hard not to root for you."
+    },
+    {
+      "id": "rx-c-g18",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "You make this room better."
+    },
+    {
+      "id": "rx-c-g19",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "My favourite person to play with tonight."
+    },
+    {
+      "id": "rx-c-g20",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "You've got a great laugh, just saying."
+    },
+    {
+      "id": "rx-c-g21",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "That answer? Swoon."
+    },
+    {
+      "id": "rx-c-g22",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Low-key obsessed with your answers."
+    },
+    {
+      "id": "rx-c-g23",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "You're the highlight of this round."
+    },
+    {
+      "id": "rx-c-g24",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Charm level: off the charts."
+    },
+    {
+      "id": "rx-c-g25",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Stop being so effortlessly cool."
+    },
+    {
+      "id": "rx-c-g26",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "You had me at your first answer."
+    },
+    {
+      "id": "rx-c-g27",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Are you a Drink moment? Because you're unforgettable."
+    },
+    {
+      "id": "rx-c-g28",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Your vibe? Immaculate."
+    },
+    {
+      "id": "rx-c-g29",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "If this were a dating show, I'd pick you."
+    },
+    {
+      "id": "rx-c-g30",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "You're a total catch at this game."
+    },
+    {
+      "id": "rx-c-g31",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "I'm rooting for you more than for me."
+    },
+    {
+      "id": "rx-c-g32",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "You make this look easy 😉"
+    },
+    {
+      "id": "rx-c-g33",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Smoothest player here."
+    },
+    {
+      "id": "rx-c-g34",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Is it warm in here or is it your energy?"
+    },
+    {
+      "id": "rx-c-g35",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "10/10 would play again with you."
+    },
+    {
+      "id": "rx-c-g36",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Okay, I'm a fan."
+    },
+    {
+      "id": "rx-c-g37",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Your confidence is contagious."
+    },
+    {
+      "id": "rx-c-g38",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Somebody's got rizz."
+    },
+    {
+      "id": "rx-c-g39",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Golden retriever energy and I love it."
+    },
+    {
+      "id": "rx-c-g40",
+      "spice": "chill",
+      "tab": "glaze",
+      "line": "Okay, you're cool. Annoyingly cool."
+    },
+    {
+      "id": "rx-c-k01",
+      "spice": "chill",
       "tab": "kind",
-      "line": "Legend behaviour, as always."
+      "line": "You're a legend."
+    },
+    {
+      "id": "rx-c-k02",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Glad you're here!"
+    },
+    {
+      "id": "rx-c-k03",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Carry me, please."
+    },
+    {
+      "id": "rx-c-k04",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You make this fun."
+    },
+    {
+      "id": "rx-c-k05",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Best teammate tonight."
+    },
+    {
+      "id": "rx-c-k06",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Your answers are elite."
+    },
+    {
+      "id": "rx-c-k07",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You're on fire tonight."
+    },
+    {
+      "id": "rx-c-k08",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Okay, you're good at this."
+    },
+    {
+      "id": "rx-c-k09",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Respect. Genuinely."
+    },
+    {
+      "id": "rx-c-k10",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "10/10 energy."
+    },
+    {
+      "id": "rx-c-k11",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Thanks for being a good sport!"
+    },
+    {
+      "id": "rx-c-k12",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You're the MVP."
+    },
+    {
+      "id": "rx-c-k13",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "That was brilliant."
+    },
+    {
+      "id": "rx-c-k14",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You're so good at this."
+    },
+    {
+      "id": "rx-c-k15",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Okay, genius."
+    },
+    {
+      "id": "rx-c-k16",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You've got this next round."
+    },
+    {
+      "id": "rx-c-k17",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Love your energy."
+    },
+    {
+      "id": "rx-c-k18",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Team you, always."
+    },
+    {
+      "id": "rx-c-k19",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "That answer made my night."
+    },
+    {
+      "id": "rx-c-k20",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You're a natural."
+    },
+    {
+      "id": "rx-c-k21",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Unstoppable tonight."
+    },
+    {
+      "id": "rx-c-k22",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Big brain move."
+    },
+    {
+      "id": "rx-c-k23",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Happy to lose to you."
+    },
+    {
+      "id": "rx-c-k24",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You're the glue of this game."
+    },
+    {
+      "id": "rx-c-k25",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "That was clutch."
+    },
+    {
+      "id": "rx-c-k26",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "So glad you came tonight."
+    },
+    {
+      "id": "rx-c-k27",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You make strangers feel like friends."
+    },
+    {
+      "id": "rx-c-k28",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You're a joy to play with."
+    },
+    {
+      "id": "rx-c-k29",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Honestly impressive."
+    },
+    {
+      "id": "rx-c-k30",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You deserve a trophy."
+    },
+    {
+      "id": "rx-c-k31",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Best laugh in the room."
+    },
+    {
+      "id": "rx-c-k32",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Your vibe is unmatched."
+    },
+    {
+      "id": "rx-c-k33",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Respect for that move."
+    },
+    {
+      "id": "rx-c-k34",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Teach me your ways."
+    },
+    {
+      "id": "rx-c-k35",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You're crushing it."
+    },
+    {
+      "id": "rx-c-k36",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You read the room perfectly."
+    },
+    {
+      "id": "rx-c-k37",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Main-character energy, the good kind."
+    },
+    {
+      "id": "rx-c-k38",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Absolute champion."
+    },
+    {
+      "id": "rx-c-k39",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "You're a great sport."
+    },
+    {
+      "id": "rx-c-k40",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Everyone needs a friend like you."
+    },
+    {
+      "id": "rx-c-k41",
+      "spice": "chill",
+      "tab": "kind",
+      "line": "Hall of fame answer."
     },
     {
       "id": "rx-s-f01",
@@ -253,6 +751,42 @@
       "spice": "spicy",
       "tab": "funny",
       "line": "I'm telling everyone you said that."
+    },
+    {
+      "id": "rx-s-f05",
+      "spice": "spicy",
+      "tab": "funny",
+      "line": "That was unhinged and I support it."
+    },
+    {
+      "id": "rx-s-f06",
+      "spice": "spicy",
+      "tab": "funny",
+      "line": "You did NOT just do that."
+    },
+    {
+      "id": "rx-s-f07",
+      "spice": "spicy",
+      "tab": "funny",
+      "line": "Your lies are a little too good."
+    },
+    {
+      "id": "rx-s-f08",
+      "spice": "spicy",
+      "tab": "funny",
+      "line": "Someone get this person a reality show."
+    },
+    {
+      "id": "rx-s-f09",
+      "spice": "spicy",
+      "tab": "funny",
+      "line": "Agent of chaos, confirmed."
+    },
+    {
+      "id": "rx-s-f10",
+      "spice": "spicy",
+      "tab": "funny",
+      "line": "Spicy answer. Unwell, even."
     },
     {
       "id": "rx-s-g01",
@@ -285,16 +819,100 @@
       "line": "My favourite liar in the room 😏"
     },
     {
-      "id": "rx-u-k01",
-      "spice": "unhinged",
-      "tab": "kind",
-      "line": "You're a national treasure."
+      "id": "rx-s-g06",
+      "spice": "spicy",
+      "tab": "glaze",
+      "line": "You're dangerous and I like it."
     },
     {
-      "id": "rx-u-k02",
-      "spice": "unhinged",
+      "id": "rx-s-g07",
+      "spice": "spicy",
+      "tab": "glaze",
+      "line": "You can lie to me any round 😏"
+    },
+    {
+      "id": "rx-s-g08",
+      "spice": "spicy",
+      "tab": "glaze",
+      "line": "Flirting is a game and you're winning."
+    },
+    {
+      "id": "rx-s-g09",
+      "spice": "spicy",
+      "tab": "glaze",
+      "line": "Careful, I might start cheering for you."
+    },
+    {
+      "id": "rx-s-g10",
+      "spice": "spicy",
+      "tab": "glaze",
+      "line": "That wink-energy is not fair."
+    },
+    {
+      "id": "rx-s-g11",
+      "spice": "spicy",
+      "tab": "glaze",
+      "line": "You're trouble and I'm here for it."
+    },
+    {
+      "id": "rx-s-k01",
+      "spice": "spicy",
       "tab": "kind",
-      "line": "Protect this person at all costs."
+      "line": "You're carrying this whole room."
+    },
+    {
+      "id": "rx-s-k02",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "Never change."
+    },
+    {
+      "id": "rx-s-k03",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "You're the reason this is fun."
+    },
+    {
+      "id": "rx-s-k04",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "Legend behaviour, as always."
+    },
+    {
+      "id": "rx-s-k05",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "You deserve a raise for this."
+    },
+    {
+      "id": "rx-s-k06",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "Okay, life of the party."
+    },
+    {
+      "id": "rx-s-k07",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "Ride or die, right here."
+    },
+    {
+      "id": "rx-s-k08",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "You're carrying my whole night."
+    },
+    {
+      "id": "rx-s-k09",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "Fave human of the evening."
+    },
+    {
+      "id": "rx-s-k10",
+      "spice": "spicy",
+      "tab": "kind",
+      "line": "Pure legend energy."
     },
     {
       "id": "rx-u-f01",
@@ -315,6 +933,48 @@
       "line": "The goose would be proud of you."
     },
     {
+      "id": "rx-u-f04",
+      "spice": "unhinged",
+      "tab": "funny",
+      "line": "Raccoon energy, top tier."
+    },
+    {
+      "id": "rx-u-f05",
+      "spice": "unhinged",
+      "tab": "funny",
+      "line": "You are a cryptid and I believe in you."
+    },
+    {
+      "id": "rx-u-f06",
+      "spice": "unhinged",
+      "tab": "funny",
+      "line": "The geese have been notified."
+    },
+    {
+      "id": "rx-u-f07",
+      "spice": "unhinged",
+      "tab": "funny",
+      "line": "Gremlin hours activated."
+    },
+    {
+      "id": "rx-u-f08",
+      "spice": "unhinged",
+      "tab": "funny",
+      "line": "You belong in a museum of chaos."
+    },
+    {
+      "id": "rx-u-f09",
+      "spice": "unhinged",
+      "tab": "funny",
+      "line": "That answer needs a warning label."
+    },
+    {
+      "id": "rx-u-f10",
+      "spice": "unhinged",
+      "tab": "funny",
+      "line": "Feral. Simply feral."
+    },
+    {
       "id": "rx-u-g01",
       "spice": "unhinged",
       "tab": "glaze",
@@ -325,6 +985,114 @@
       "spice": "unhinged",
       "tab": "glaze",
       "line": "You'd survive a zombie apocalypse and I'd follow you."
+    },
+    {
+      "id": "rx-u-g03",
+      "spice": "unhinged",
+      "tab": "glaze",
+      "line": "Chaotic and charming. Pick one. Please."
+    },
+    {
+      "id": "rx-u-g04",
+      "spice": "unhinged",
+      "tab": "glaze",
+      "line": "You're the plot twist I'd watch again."
+    },
+    {
+      "id": "rx-u-g05",
+      "spice": "unhinged",
+      "tab": "glaze",
+      "line": "Your chaos is kind of attractive."
+    },
+    {
+      "id": "rx-u-g06",
+      "spice": "unhinged",
+      "tab": "glaze",
+      "line": "I'd share my last poutine with you."
+    },
+    {
+      "id": "rx-u-g07",
+      "spice": "unhinged",
+      "tab": "glaze",
+      "line": "Villain era suits you."
+    },
+    {
+      "id": "rx-u-g08",
+      "spice": "unhinged",
+      "tab": "glaze",
+      "line": "If you were a cryptid, I'd believe."
+    },
+    {
+      "id": "rx-u-g09",
+      "spice": "unhinged",
+      "tab": "glaze",
+      "line": "Dangerously charming. Call the geese."
+    },
+    {
+      "id": "rx-u-g10",
+      "spice": "unhinged",
+      "tab": "glaze",
+      "line": "You've unlocked my respect. And more."
+    },
+    {
+      "id": "rx-u-k01",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "You're a national treasure."
+    },
+    {
+      "id": "rx-u-k02",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "Protect this person at all costs."
+    },
+    {
+      "id": "rx-u-k03",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "I'd follow you into a goose fight."
+    },
+    {
+      "id": "rx-u-k04",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "Unhinged and wholesome. Rare."
+    },
+    {
+      "id": "rx-u-k05",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "You'd win any apocalypse."
+    },
+    {
+      "id": "rx-u-k06",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "Chaos never looked so kind."
+    },
+    {
+      "id": "rx-u-k07",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "Absolute icon behaviour."
+    },
+    {
+      "id": "rx-u-k08",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "You're the Capn's favourite, I can tell."
+    },
+    {
+      "id": "rx-u-k09",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "Legendary. Possibly cursed."
+    },
+    {
+      "id": "rx-u-k10",
+      "spice": "unhinged",
+      "tab": "kind",
+      "line": "You're a gift. A weird gift."
     }
   ]
 }

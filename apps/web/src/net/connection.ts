@@ -73,6 +73,10 @@ export class RoomConnection {
   submit(step: string, data: unknown): void {
     this.send({ type: 'submit', step, data });
   }
+  /** Skip-prompt flag on the current prompt (two flags skip it). */
+  flag(): void {
+    this.send({ type: 'flag' });
+  }
   react(to: string, reaction: { emoji: string } | { note: string }): void {
     this.send({ type: 'react', to, ...reaction });
   }

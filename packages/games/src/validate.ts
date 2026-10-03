@@ -5,6 +5,7 @@
 import { SPICE_LEVELS, type Spice } from '@tap-in/shared';
 import type { z } from 'zod';
 import {
+  allowedAt,
   bankSchema,
   blankEntrySchema,
   dareEntrySchema,
@@ -39,6 +40,12 @@ export interface BankRule {
   /** Extra wording that may never appear in this bank. */
   unsafe?: RegExp;
   minimumPerSpice: number;
+  /**
+   * Counts are per value of this field (reaction tabs): each group needs `minimumPerSpice` entries
+   * tagged at every level, and `minimumAvailable` entries playable at every level.
+   */
+  groupBy?: string;
+  minimumAvailable?: number;
 }
 
 export const BANKS: BankRule[] = [
@@ -89,7 +96,10 @@ export const BANKS: BankRule[] = [
     file: 'reactions.v1.json',
     schema: bankSchema(reactionEntrySchema),
     textFields: ['line'],
-    minimumPerSpice: 40,
+    // 40+ lines per tab at every spice (DESIGN §12), and each level adds 10+ of its own per tab.
+    groupBy: 'tab',
+    minimumPerSpice: 10,
+    minimumAvailable: 40,
     unsafe: UNSAFE_NOTE,
   },
   {
@@ -139,10 +149,24 @@ export function validateBank(rule: BankRule, json: unknown): Report {
         errors.push(`${rule.file}: ${entry.id}.${f} breaks the stranger-safety rules`);
     }
   }
-  for (const level of SPICE_LEVELS) {
-    const count = parsed.data.entries.filter((e) => e.spice === level).length;
-    if (count < rule.minimumPerSpice)
-      short.push(`${rule.file}: ${level} has ${count}/${rule.minimumPerSpice}`);
+  const groups = rule.groupBy
+    ? [...new Set(parsed.data.entries.map((e) => field(e, rule.groupBy ?? '')))]
+    : [''];
+  for (const group of groups) {
+    const inGroup = parsed.data.entries.filter(
+      (e) => !rule.groupBy || field(e, rule.groupBy) === group,
+    );
+    const label = group ? `${group} ` : '';
+    for (const level of SPICE_LEVELS) {
+      const count = inGroup.filter((e) => e.spice === level).length;
+      if (count < rule.minimumPerSpice)
+        short.push(`${rule.file}: ${label}${level} has ${count}/${rule.minimumPerSpice}`);
+      const available = inGroup.filter((e) => allowedAt(e.spice, level)).length;
+      if (rule.minimumAvailable && available < rule.minimumAvailable)
+        short.push(
+          `${rule.file}: ${label}at ${level} offers ${available}/${rule.minimumAvailable}`,
+        );
+    }
   }
   return { errors, short };
 }

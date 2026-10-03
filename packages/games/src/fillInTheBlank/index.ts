@@ -55,7 +55,7 @@ export const fillInTheBlank: GameModule<'fillInTheBlank', BlankState> = {
   }),
 
   startRound(s, ctx) {
-    const e = pickEntry(blankBank, ctx.spice, ctx.used, ctx.rng);
+    const e = pickEntry(blankBank, ctx);
     return {
       ...fillInTheBlank.init(ctx),
       round: s.round + 1,
@@ -108,6 +108,8 @@ export const fillInTheBlank: GameModule<'fillInTheBlank', BlankState> = {
   },
 
   step: (s) => s.step,
+  prompt: (s) =>
+    s.step === 'write' && s.entry ? { bankId: 'fillInTheBlank', promptId: s.entry.id } : null,
   deadline: (s) => s.endsAt,
   roundOver: (s) => s.step === 'done',
   awaiting: (s) => {

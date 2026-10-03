@@ -70,6 +70,8 @@ export class Harness {
   alarmAt: number | null = null;
   saved: RoomState | null = null;
   destroyed = false;
+  /** Content-review log lines (skipped prompts). */
+  readonly logs: Record<string, string>[] = [];
   readonly engine: RoomEngine;
   private readonly clients = new Map<string, FakeClient>();
   private seq = 0;
@@ -95,6 +97,7 @@ export class Harness {
       destroy: () => {
         this.destroyed = true;
       },
+      log: (entry) => this.logs.push(entry),
     });
   }
 
