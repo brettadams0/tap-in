@@ -4,7 +4,14 @@
  */
 import { SPICE_LEVELS, type Spice } from '@tap-in/shared';
 import type { z } from 'zod';
-import { bankSchema, wyrEntrySchema } from './content.js';
+import {
+  bankSchema,
+  fakeFactEntrySchema,
+  liarEntrySchema,
+  secretEntrySchema,
+  triviaEntrySchema,
+  wyrEntrySchema,
+} from './content.js';
 
 /** The Drink instruction is only ever "Drink": no amounts or drink-size words in prompts. */
 export const BANNED = /\b(sips?|shots?|chug(s|ging)?|finish (your|the) drink|\d+\s+drinks?)\b/i;
@@ -23,6 +30,30 @@ export const BANKS: BankRule[] = [
     schema: bankSchema(wyrEntrySchema),
     textFields: ['a', 'b'],
     minimumPerSpice: 60,
+  },
+  {
+    file: 'liarsPrompt.v1.json',
+    schema: bankSchema(liarEntrySchema),
+    textFields: ['main', 'imposter'],
+    minimumPerSpice: 40,
+  },
+  {
+    file: 'secretWord.v1.json',
+    schema: bankSchema(secretEntrySchema),
+    textFields: ['word'],
+    minimumPerSpice: 80,
+  },
+  {
+    file: 'twoTruths.v1.json',
+    schema: bankSchema(fakeFactEntrySchema),
+    textFields: ['fact'],
+    minimumPerSpice: 80,
+  },
+  {
+    file: 'fakeAnswer.v1.json',
+    schema: bankSchema(triviaEntrySchema),
+    textFields: ['question'],
+    minimumPerSpice: 50,
   },
 ];
 

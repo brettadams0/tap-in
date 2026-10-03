@@ -1,0 +1,318 @@
+{
+  "bank": "liarsPrompt",
+  "version": 1,
+  "entries": [
+    {
+      "id": "lp-c-001",
+      "spice": "chill",
+      "main": "Name a fruit",
+      "imposter": "Name a red fruit"
+    },
+    {
+      "id": "lp-c-002",
+      "spice": "chill",
+      "main": "Name a pizza topping",
+      "imposter": "Name a pizza topping you hate"
+    },
+    {
+      "id": "lp-c-003",
+      "spice": "chill",
+      "main": "Name a country in Europe",
+      "imposter": "Name a country with cold winters"
+    },
+    {
+      "id": "lp-c-004",
+      "spice": "chill",
+      "main": "Name a dog breed",
+      "imposter": "Name a small dog breed"
+    },
+    {
+      "id": "lp-c-005",
+      "spice": "chill",
+      "main": "Name a famous Canadian",
+      "imposter": "Name a famous singer"
+    },
+    {
+      "id": "lp-c-006",
+      "spice": "chill",
+      "main": "How many hours of sleep is perfect?",
+      "imposter": "How many hours of TV a day is perfect?"
+    },
+    {
+      "id": "lp-c-007",
+      "spice": "chill",
+      "main": "Name a breakfast food",
+      "imposter": "Name a food you'd eat at midnight"
+    },
+    {
+      "id": "lp-c-008",
+      "spice": "chill",
+      "main": "Name an animal at the zoo",
+      "imposter": "Name an animal on a farm"
+    },
+    {
+      "id": "lp-c-009",
+      "spice": "chill",
+      "main": "Name a sport",
+      "imposter": "Name a sport played on ice"
+    },
+    {
+      "id": "lp-c-010",
+      "spice": "chill",
+      "main": "Name a superpower you'd want",
+      "imposter": "Name a superpower that would be annoying"
+    },
+    {
+      "id": "lp-c-011",
+      "spice": "chill",
+      "main": "What's a good age to retire?",
+      "imposter": "What's a good age to buy a house?"
+    },
+    {
+      "id": "lp-c-012",
+      "spice": "chill",
+      "main": "Name a board game",
+      "imposter": "Name a game you'd play at a cottage"
+    },
+    {
+      "id": "lp-c-013",
+      "spice": "chill",
+      "main": "Name a vegetable",
+      "imposter": "Name a green vegetable"
+    },
+    {
+      "id": "lp-c-014",
+      "spice": "chill",
+      "main": "Name a movie everyone has seen",
+      "imposter": "Name a movie that made you cry"
+    },
+    {
+      "id": "lp-c-015",
+      "spice": "chill",
+      "main": "How much would you pay for a concert ticket?",
+      "imposter": "How much would you pay for a nice dinner?"
+    },
+    {
+      "id": "lp-c-016",
+      "spice": "chill",
+      "main": "Name a Halloween costume",
+      "imposter": "Name a superhero"
+    },
+    {
+      "id": "lp-c-017",
+      "spice": "chill",
+      "main": "Name a holiday destination",
+      "imposter": "Name a city in Canada"
+    },
+    {
+      "id": "lp-c-018",
+      "spice": "chill",
+      "main": "Name something in a kitchen",
+      "imposter": "Name something sharp"
+    },
+    {
+      "id": "lp-c-019",
+      "spice": "chill",
+      "main": "Name a colour",
+      "imposter": "Name the colour of a fruit"
+    },
+    {
+      "id": "lp-c-020",
+      "spice": "chill",
+      "main": "Name a job",
+      "imposter": "Name a job that needs a uniform"
+    },
+    {
+      "id": "lp-s-001",
+      "spice": "spicy",
+      "main": "Name something you'd bring to a party",
+      "imposter": "Name something you'd bring to a sleepover"
+    },
+    {
+      "id": "lp-s-002",
+      "spice": "spicy",
+      "main": "Rate a typical first kiss out of 10",
+      "imposter": "Rate your last haircut out of 10"
+    },
+    {
+      "id": "lp-s-003",
+      "spice": "spicy",
+      "main": "Name a dating app red flag",
+      "imposter": "Name a roommate red flag"
+    },
+    {
+      "id": "lp-s-004",
+      "spice": "spicy",
+      "main": "How many dates before saying 'I love you'?",
+      "imposter": "How many dates before meeting the parents?"
+    },
+    {
+      "id": "lp-s-005",
+      "spice": "spicy",
+      "main": "Name a cocktail",
+      "imposter": "Name a drink that's blue"
+    },
+    {
+      "id": "lp-s-006",
+      "spice": "spicy",
+      "main": "Name something to do on a first date",
+      "imposter": "Name something to do on a road trip"
+    },
+    {
+      "id": "lp-s-007",
+      "spice": "spicy",
+      "main": "Name a celebrity crush",
+      "imposter": "Name a celebrity you'd want as a best friend"
+    },
+    {
+      "id": "lp-s-008",
+      "spice": "spicy",
+      "main": "Where's the worst place to fall asleep?",
+      "imposter": "Where's the worst place to get dumped?"
+    },
+    {
+      "id": "lp-s-009",
+      "spice": "spicy",
+      "main": "Name something people lie about on a first date",
+      "imposter": "Name something people lie about on a resume"
+    },
+    {
+      "id": "lp-s-010",
+      "spice": "spicy",
+      "main": "Name a reason to leave a party early",
+      "imposter": "Name a reason to cancel plans"
+    },
+    {
+      "id": "lp-s-011",
+      "spice": "spicy",
+      "main": "What time should a night out end?",
+      "imposter": "What time should a night out start?"
+    },
+    {
+      "id": "lp-s-012",
+      "spice": "spicy",
+      "main": "Name a song for a wedding dance floor",
+      "imposter": "Name a song for karaoke"
+    },
+    {
+      "id": "lp-s-013",
+      "spice": "spicy",
+      "main": "Name a hangover cure",
+      "imposter": "Name a cure for a cold"
+    },
+    {
+      "id": "lp-s-014",
+      "spice": "spicy",
+      "main": "Name something you'd text an ex at 2 am",
+      "imposter": "Name something you'd text your boss"
+    },
+    {
+      "id": "lp-s-015",
+      "spice": "spicy",
+      "main": "Name the sexiest accent",
+      "imposter": "Name the funniest accent"
+    },
+    {
+      "id": "lp-s-016",
+      "spice": "spicy",
+      "main": "Name a bad habit",
+      "imposter": "Name a bad habit on a date"
+    },
+    {
+      "id": "lp-s-017",
+      "spice": "spicy",
+      "main": "Name something you do in the shower",
+      "imposter": "Name something you do on the toilet"
+    },
+    {
+      "id": "lp-u-001",
+      "spice": "unhinged",
+      "main": "Name something you'd find in a dumpster",
+      "imposter": "Name something you'd find in a junk drawer"
+    },
+    {
+      "id": "lp-u-002",
+      "spice": "unhinged",
+      "main": "What would you do for $1,000?",
+      "imposter": "What would you do for $100?"
+    },
+    {
+      "id": "lp-u-003",
+      "spice": "unhinged",
+      "main": "Name the weirdest thing to lick",
+      "imposter": "Name the weirdest thing to sniff"
+    },
+    {
+      "id": "lp-u-004",
+      "spice": "unhinged",
+      "main": "Name a terrible name for a baby",
+      "imposter": "Name a terrible name for a pet"
+    },
+    {
+      "id": "lp-u-005",
+      "spice": "unhinged",
+      "main": "Name something you'd hide from the police",
+      "imposter": "Name something you'd hide from your parents"
+    },
+    {
+      "id": "lp-u-006",
+      "spice": "unhinged",
+      "main": "Name the worst thing to yell in a library",
+      "imposter": "Name the worst thing to yell at a wedding"
+    },
+    {
+      "id": "lp-u-007",
+      "spice": "unhinged",
+      "main": "Name an animal you could beat in a fight",
+      "imposter": "Name an animal you'd want as a pet"
+    },
+    {
+      "id": "lp-u-008",
+      "spice": "unhinged",
+      "main": "Name a body part you could live without",
+      "imposter": "Name a body part you'd want a spare of"
+    },
+    {
+      "id": "lp-u-009",
+      "spice": "unhinged",
+      "main": "Name a weird thing to collect",
+      "imposter": "Name a weird thing to put in a sandwich"
+    },
+    {
+      "id": "lp-u-010",
+      "spice": "unhinged",
+      "main": "Name the worst smell",
+      "imposter": "Name the worst smell in a car"
+    },
+    {
+      "id": "lp-u-011",
+      "spice": "unhinged",
+      "main": "Name a crime you could get away with",
+      "imposter": "Name a crime you'd be terrible at"
+    },
+    {
+      "id": "lp-u-012",
+      "spice": "unhinged",
+      "main": "Name the worst thing to find in your bed",
+      "imposter": "Name the worst thing to find in your soup"
+    },
+    {
+      "id": "lp-u-013",
+      "spice": "unhinged",
+      "main": "Name something you'd do if you were invisible",
+      "imposter": "Name something you'd do if you were famous"
+    },
+    {
+      "id": "lp-u-014",
+      "spice": "unhinged",
+      "main": "Name a way to go in a horror movie",
+      "imposter": "Name a way to go in a cartoon"
+    },
+    {
+      "id": "lp-u-015",
+      "spice": "unhinged",
+      "main": "Name something to never say at a funeral",
+      "imposter": "Name something to never say at a job interview"
+    }
+  ]
+}

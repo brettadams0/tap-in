@@ -1,0 +1,406 @@
+{
+  "bank": "twoTruths",
+  "version": 1,
+  "entries": [
+    {
+      "id": "tt-c-001",
+      "spice": "chill",
+      "fact": "I've been to Iceland."
+    },
+    {
+      "id": "tt-c-002",
+      "spice": "chill",
+      "fact": "I once won a spelling bee."
+    },
+    {
+      "id": "tt-c-003",
+      "spice": "chill",
+      "fact": "I've never seen Star Wars."
+    },
+    {
+      "id": "tt-c-004",
+      "spice": "chill",
+      "fact": "I can juggle three balls."
+    },
+    {
+      "id": "tt-c-005",
+      "spice": "chill",
+      "fact": "I broke my arm as a kid."
+    },
+    {
+      "id": "tt-c-006",
+      "spice": "chill",
+      "fact": "I've met a famous hockey player."
+    },
+    {
+      "id": "tt-c-007",
+      "spice": "chill",
+      "fact": "I played a tree in a school play."
+    },
+    {
+      "id": "tt-c-008",
+      "spice": "chill",
+      "fact": "I've been on TV once."
+    },
+    {
+      "id": "tt-c-009",
+      "spice": "chill",
+      "fact": "I can't whistle."
+    },
+    {
+      "id": "tt-c-010",
+      "spice": "chill",
+      "fact": "I got lost at a mall as a kid."
+    },
+    {
+      "id": "tt-c-011",
+      "spice": "chill",
+      "fact": "I've eaten a bug on purpose."
+    },
+    {
+      "id": "tt-c-012",
+      "spice": "chill",
+      "fact": "I hate the taste of mint."
+    },
+    {
+      "id": "tt-c-013",
+      "spice": "chill",
+      "fact": "I've ridden a camel."
+    },
+    {
+      "id": "tt-c-014",
+      "spice": "chill",
+      "fact": "I sleep with socks on."
+    },
+    {
+      "id": "tt-c-015",
+      "spice": "chill",
+      "fact": "I learned to swim as an adult."
+    },
+    {
+      "id": "tt-c-016",
+      "spice": "chill",
+      "fact": "I've seen a bear in the wild."
+    },
+    {
+      "id": "tt-c-017",
+      "spice": "chill",
+      "fact": "I collected stamps as a kid."
+    },
+    {
+      "id": "tt-c-018",
+      "spice": "chill",
+      "fact": "I fell asleep in a movie theatre once."
+    },
+    {
+      "id": "tt-c-019",
+      "spice": "chill",
+      "fact": "I've been to Disney World."
+    },
+    {
+      "id": "tt-c-020",
+      "spice": "chill",
+      "fact": "I was born during a snowstorm."
+    },
+    {
+      "id": "tt-c-021",
+      "spice": "chill",
+      "fact": "I can solve a Rubik's cube."
+    },
+    {
+      "id": "tt-c-022",
+      "spice": "chill",
+      "fact": "I've never broken a bone."
+    },
+    {
+      "id": "tt-c-023",
+      "spice": "chill",
+      "fact": "I've gone skydiving."
+    },
+    {
+      "id": "tt-c-024",
+      "spice": "chill",
+      "fact": "I once had a pet hamster."
+    },
+    {
+      "id": "tt-c-025",
+      "spice": "chill",
+      "fact": "I know every word of a Céline Dion song."
+    },
+    {
+      "id": "tt-c-026",
+      "spice": "chill",
+      "fact": "I'm allergic to cats."
+    },
+    {
+      "id": "tt-c-027",
+      "spice": "chill",
+      "fact": "I've been to a Raptors game."
+    },
+    {
+      "id": "tt-c-028",
+      "spice": "chill",
+      "fact": "I once won a pie-eating contest."
+    },
+    {
+      "id": "tt-c-029",
+      "spice": "chill",
+      "fact": "I've slept overnight in an airport."
+    },
+    {
+      "id": "tt-c-030",
+      "spice": "chill",
+      "fact": "I've been to the top of the CN Tower."
+    },
+    {
+      "id": "tt-s-001",
+      "spice": "spicy",
+      "fact": "I've been kicked out of a karaoke bar."
+    },
+    {
+      "id": "tt-s-002",
+      "spice": "spicy",
+      "fact": "I once got a tattoo on a whim."
+    },
+    {
+      "id": "tt-s-003",
+      "spice": "spicy",
+      "fact": "I've crashed a wedding."
+    },
+    {
+      "id": "tt-s-004",
+      "spice": "spicy",
+      "fact": "I once went on three dates in one day."
+    },
+    {
+      "id": "tt-s-005",
+      "spice": "spicy",
+      "fact": "I've been on a blind date."
+    },
+    {
+      "id": "tt-s-006",
+      "spice": "spicy",
+      "fact": "I've snuck into a concert."
+    },
+    {
+      "id": "tt-s-007",
+      "spice": "spicy",
+      "fact": "I once lost my phone in a cab."
+    },
+    {
+      "id": "tt-s-008",
+      "spice": "spicy",
+      "fact": "I've danced on a bar."
+    },
+    {
+      "id": "tt-s-009",
+      "spice": "spicy",
+      "fact": "I once missed a flight because I overslept."
+    },
+    {
+      "id": "tt-s-010",
+      "spice": "spicy",
+      "fact": "I've texted something embarrassing to the wrong person."
+    },
+    {
+      "id": "tt-s-011",
+      "spice": "spicy",
+      "fact": "I've been to Vegas."
+    },
+    {
+      "id": "tt-s-012",
+      "spice": "spicy",
+      "fact": "I got a celebrity's autograph at a bar."
+    },
+    {
+      "id": "tt-s-013",
+      "spice": "spicy",
+      "fact": "I've been to a music festival in the pouring rain."
+    },
+    {
+      "id": "tt-s-014",
+      "spice": "spicy",
+      "fact": "I once fell asleep at a party."
+    },
+    {
+      "id": "tt-s-015",
+      "spice": "spicy",
+      "fact": "I've been on a cruise."
+    },
+    {
+      "id": "tt-s-016",
+      "spice": "spicy",
+      "fact": "I once dyed my hair blue."
+    },
+    {
+      "id": "tt-s-017",
+      "spice": "spicy",
+      "fact": "I've ridden a mechanical bull."
+    },
+    {
+      "id": "tt-s-018",
+      "spice": "spicy",
+      "fact": "I've been in a flash mob."
+    },
+    {
+      "id": "tt-s-019",
+      "spice": "spicy",
+      "fact": "I've stayed up for 24 hours straight."
+    },
+    {
+      "id": "tt-s-020",
+      "spice": "spicy",
+      "fact": "I've sung karaoke in another language."
+    },
+    {
+      "id": "tt-s-021",
+      "spice": "spicy",
+      "fact": "I once got locked out in my pyjamas."
+    },
+    {
+      "id": "tt-s-022",
+      "spice": "spicy",
+      "fact": "I had a crush on a teacher."
+    },
+    {
+      "id": "tt-s-023",
+      "spice": "spicy",
+      "fact": "I once walked into the wrong party."
+    },
+    {
+      "id": "tt-s-024",
+      "spice": "spicy",
+      "fact": "I've ridden in a limo."
+    },
+    {
+      "id": "tt-s-025",
+      "spice": "spicy",
+      "fact": "I've been slow-danced with a stranger."
+    },
+    {
+      "id": "tt-u-001",
+      "spice": "unhinged",
+      "fact": "I once ate a whole pizza by myself."
+    },
+    {
+      "id": "tt-u-002",
+      "spice": "unhinged",
+      "fact": "I've been chased by a goose."
+    },
+    {
+      "id": "tt-u-003",
+      "spice": "unhinged",
+      "fact": "I once got stuck in a revolving door."
+    },
+    {
+      "id": "tt-u-004",
+      "spice": "unhinged",
+      "fact": "I've licked a frozen pole."
+    },
+    {
+      "id": "tt-u-005",
+      "spice": "unhinged",
+      "fact": "I once called my teacher 'Mom'."
+    },
+    {
+      "id": "tt-u-006",
+      "spice": "unhinged",
+      "fact": "I've eaten cat food."
+    },
+    {
+      "id": "tt-u-007",
+      "spice": "unhinged",
+      "fact": "I've been bitten by a monkey."
+    },
+    {
+      "id": "tt-u-008",
+      "spice": "unhinged",
+      "fact": "I once pretended to be someone else all night."
+    },
+    {
+      "id": "tt-u-009",
+      "spice": "unhinged",
+      "fact": "I've swallowed a coin."
+    },
+    {
+      "id": "tt-u-010",
+      "spice": "unhinged",
+      "fact": "I once got stuck in a bathroom window."
+    },
+    {
+      "id": "tt-u-011",
+      "spice": "unhinged",
+      "fact": "I've talked my way out of a speeding ticket."
+    },
+    {
+      "id": "tt-u-012",
+      "spice": "unhinged",
+      "fact": "I've been banned from a buffet."
+    },
+    {
+      "id": "tt-u-013",
+      "spice": "unhinged",
+      "fact": "I once went to the wrong funeral."
+    },
+    {
+      "id": "tt-u-014",
+      "spice": "unhinged",
+      "fact": "I've fallen asleep on the toilet."
+    },
+    {
+      "id": "tt-u-015",
+      "spice": "unhinged",
+      "fact": "I've worn the same socks for a week."
+    },
+    {
+      "id": "tt-u-016",
+      "spice": "unhinged",
+      "fact": "I've set a kitchen on fire by accident."
+    },
+    {
+      "id": "tt-u-017",
+      "spice": "unhinged",
+      "fact": "I once got a fish hook in my thumb."
+    },
+    {
+      "id": "tt-u-018",
+      "spice": "unhinged",
+      "fact": "I went to a reality show casting call."
+    },
+    {
+      "id": "tt-u-019",
+      "spice": "unhinged",
+      "fact": "I've eaten a raw onion like an apple."
+    },
+    {
+      "id": "tt-u-020",
+      "spice": "unhinged",
+      "fact": "I've cried at a commercial this week."
+    },
+    {
+      "id": "tt-u-021",
+      "spice": "unhinged",
+      "fact": "I've been mistaken for a celebrity."
+    },
+    {
+      "id": "tt-u-022",
+      "spice": "unhinged",
+      "fact": "I've climbed out a window to leave a party."
+    },
+    {
+      "id": "tt-u-023",
+      "spice": "unhinged",
+      "fact": "I once lost a shoe on a night out."
+    },
+    {
+      "id": "tt-u-024",
+      "spice": "unhinged",
+      "fact": "I've slept in a car at a drive-in."
+    },
+    {
+      "id": "tt-u-025",
+      "spice": "unhinged",
+      "fact": "I once got a haircut I paid someone to fix."
+    }
+  ]
+}
