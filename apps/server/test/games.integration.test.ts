@@ -48,7 +48,7 @@ describe('games over real WebSockets', () => {
   const play = (p: Phone): PlayView | null => p.view?.session?.play ?? null;
 
   it('plays a Would You Rather round with a reconnect mid-vote', async () => {
-    const { phones, host, url } = await setup(['wouldYouRather', 'tapRace']);
+    const { phones, host, url } = await setup(['wouldYouRather']);
     await Promise.all(phones.map((p) => p.until((x) => x.view?.phase === 'roundInput', 5000)));
     const prompt = play(host);
     expect(prompt?.gameId).toBe('wouldYouRather');
@@ -96,7 +96,7 @@ describe('games over real WebSockets', () => {
   });
 
   it('plays a Reaction Shotgun round end to end', async () => {
-    const { phones, host } = await setup(['reactionShotgun', 'tapRace']);
+    const { phones, host } = await setup(['reactionShotgun']);
     await host.until((x) => {
       const pv = x.view?.session?.play;
       return pv?.gameId === 'reactionShotgun' && pv.step === 'armed';
@@ -132,7 +132,7 @@ describe('games over real WebSockets', () => {
   });
 
   it("Liar's Prompt: the imposter and their question stay private on the wire", async () => {
-    const { phones, host } = await setup(['liarsPrompt', 'tapRace']);
+    const { phones, host } = await setup(['liarsPrompt']);
     await Promise.all(phones.map((p) => p.until((x) => play(x)?.step === 'answer', 5000)));
     const questions = phones.map((p) => {
       const pv = play(p);
@@ -168,7 +168,7 @@ describe('games over real WebSockets', () => {
   });
 
   it('Secret Word: the outsider never receives the word', async () => {
-    const { phones } = await setup(['secretWord', 'tapRace']);
+    const { phones } = await setup(['secretWord']);
     await Promise.all(phones.map((p) => p.until((x) => play(x)?.step === 'hint', 5000)));
     const words = phones.map((p) => {
       const pv = play(p);
@@ -185,7 +185,7 @@ describe('games over real WebSockets', () => {
   });
 
   it('Fake Answer: the real answer is never marked before the reveal', async () => {
-    const { phones, host } = await setup(['fakeAnswer', 'tapRace']);
+    const { phones, host } = await setup(['fakeAnswer']);
     await Promise.all(phones.map((p) => p.until((x) => play(x)?.step === 'write', 5000)));
     const pv = play(host);
     const question = pv?.gameId === 'fakeAnswer' ? pv.pub.question : '';

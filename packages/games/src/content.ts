@@ -5,6 +5,9 @@
 import { SPICE_LEVELS, type Rng, type Spice } from '@tap-in/shared';
 import { z } from 'zod';
 import fakeAnswerJson from '../../../content/fakeAnswer.v1.json';
+import fillInTheBlankJson from '../../../content/fillInTheBlank.v1.json';
+import rankItJson from '../../../content/rankIt.v1.json';
+import spinTheBottleJson from '../../../content/spinTheBottle.v1.json';
 import liarsPromptJson from '../../../content/liarsPrompt.v1.json';
 import secretWordJson from '../../../content/secretWord.v1.json';
 import twoTruthsJson from '../../../content/twoTruths.v1.json';
@@ -52,6 +55,32 @@ export const triviaEntrySchema = z.strictObject({
   answer: z.string().min(1).max(40),
 });
 
+/** Rank It: a prompt and four items to rank, best first. */
+export const rankEntrySchema = z.strictObject({
+  id: promptId,
+  spice,
+  prompt: z.string().min(5).max(70),
+  items: z.array(z.string().min(2).max(32)).length(4),
+});
+
+/** Spin the Bottle: a mild, stranger-safe dare (SPEC §9). */
+export const dareEntrySchema = z.strictObject({
+  id: promptId,
+  spice,
+  dare: z.string().min(10).max(110),
+});
+
+/** Fill in the Blank: a prompt with exactly one ___ blank. */
+export const blankEntrySchema = z.strictObject({
+  id: promptId,
+  spice,
+  prompt: z
+    .string()
+    .min(10)
+    .max(120)
+    .refine((p) => p.split('___').length === 2, 'needs exactly one ___'),
+});
+
 export function bankSchema<T extends z.ZodType>(entry: T) {
   return z.strictObject({
     bank: z.string(),
@@ -65,6 +94,9 @@ export const liarBank = bankSchema(liarEntrySchema).parse(liarsPromptJson).entri
 export const secretBank = bankSchema(secretEntrySchema).parse(secretWordJson).entries;
 export const fakeFactBank = bankSchema(fakeFactEntrySchema).parse(twoTruthsJson).entries;
 export const triviaBank = bankSchema(triviaEntrySchema).parse(fakeAnswerJson).entries;
+export const rankBank = bankSchema(rankEntrySchema).parse(rankItJson).entries;
+export const dareBank = bankSchema(dareEntrySchema).parse(spinTheBottleJson).entries;
+export const blankBank = bankSchema(blankEntrySchema).parse(fillInTheBlankJson).entries;
 
 /** Higher spice levels include the lower ones (SPEC "Spice levels"). */
 export function allowedAt(entrySpice: Spice, roomSpice: Spice): boolean {

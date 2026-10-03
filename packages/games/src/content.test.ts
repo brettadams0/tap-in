@@ -1,4 +1,4 @@
-import { createRng } from '@tap-in/shared';
+import { createRng, GAME_IDS } from '@tap-in/shared';
 import { describe, expect, it } from 'vitest';
 import { allowedAt, pickEntry, wyrBank } from './content.js';
 import { GAMES, playableGames } from './registry.js';
@@ -27,14 +27,7 @@ describe('content', () => {
   });
 
   it('registers the playable games', () => {
-    expect(Object.keys(GAMES).sort()).toEqual([
-      'fakeAnswer',
-      'liarsPrompt',
-      'reactionShotgun',
-      'secretWord',
-      'twoTruths',
-      'wouldYouRather',
-    ]);
-    expect(playableGames(['tapRace', 'wouldYouRather'])).toEqual(['wouldYouRather']);
+    expect(Object.keys(GAMES).sort()).toEqual([...GAME_IDS].sort());
+    expect(playableGames(['tapRace', 'wouldYouRather'])).toEqual(['tapRace', 'wouldYouRather']);
   });
 });

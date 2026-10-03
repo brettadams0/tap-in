@@ -73,6 +73,17 @@ export type DrinkReason =
   | 'fooled'
   /** Two Truths: nobody fell for the spotlight player's fake. */
   | 'nobodyFooled'
+  | 'furthest'
+  | 'fewestTaps'
+  | 'fewestVotes'
+  /** Countdown: tapped at the same time as someone else. */
+  | 'collision'
+  /** Spin the Bottle: picked Drink over the dare (or ran out of time to pick). */
+  | 'choseDrink'
+  /** Spin the Bottle: the room voted Nope on the dare. */
+  | 'dareFailed'
+  /** Connected, but never answered (R5). */
+  | 'noAnswer'
   /** Took the drink for a player saved by the 2-in-a-row rule. */
   | 'covering';
 
@@ -90,7 +101,7 @@ export interface DrinkView {
   /** "Everyone except…": with `everyone`, these players don't drink. */
   spared: { ids: PlayerId[]; why: SpareReason } | null;
   /** Why nobody drinks, when nobody does. */
-  nobody: 'balanced' | 'lucky' | 'unanimous' | 'sharp' | null;
+  nobody: 'balanced' | 'lucky' | 'unanimous' | 'sharp' | 'counted' | 'dared' | null;
   /** Fairness cap: `saved` was excused this round; `by` drinks instead (or nobody). */
   saves: { saved: PlayerId; by: PlayerId | null }[];
 }

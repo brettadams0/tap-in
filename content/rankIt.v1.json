@@ -1,0 +1,276 @@
+{
+  "bank": "rankIt",
+  "version": 1,
+  "entries": [
+    {
+      "id": "ri-c-001",
+      "spice": "chill",
+      "prompt": "Best fast-food fries",
+      "items": ["McDonald's", "Wendy's", "Harvey's", "A&W"]
+    },
+    {
+      "id": "ri-c-002",
+      "spice": "chill",
+      "prompt": "Best pizza topping",
+      "items": ["Pepperoni", "Mushrooms", "Pineapple", "Extra cheese"]
+    },
+    {
+      "id": "ri-c-003",
+      "spice": "chill",
+      "prompt": "Best Canadian snack",
+      "items": ["Ketchup chips", "Butter tarts", "Nanaimo bars", "Poutine"]
+    },
+    {
+      "id": "ri-c-004",
+      "spice": "chill",
+      "prompt": "Best season",
+      "items": ["Spring", "Summer", "Fall", "Winter"]
+    },
+    {
+      "id": "ri-c-005",
+      "spice": "chill",
+      "prompt": "Best breakfast",
+      "items": ["Pancakes", "Eggs and bacon", "Cereal", "Just coffee"]
+    },
+    {
+      "id": "ri-c-006",
+      "spice": "chill",
+      "prompt": "Best pet",
+      "items": ["Dog", "Cat", "Fish", "Hamster"]
+    },
+    {
+      "id": "ri-c-007",
+      "spice": "chill",
+      "prompt": "Best superpower",
+      "items": ["Flying", "Invisibility", "Teleporting", "Mind reading"]
+    },
+    {
+      "id": "ri-c-008",
+      "spice": "chill",
+      "prompt": "Best way to spend a Sunday",
+      "items": ["Sleeping in", "Brunch", "A long walk", "Gaming"]
+    },
+    {
+      "id": "ri-c-009",
+      "spice": "chill",
+      "prompt": "Best chip flavour",
+      "items": ["Salt and vinegar", "All dressed", "Dill pickle", "Plain"]
+    },
+    {
+      "id": "ri-c-010",
+      "spice": "chill",
+      "prompt": "Best holiday",
+      "items": ["Halloween", "Christmas", "Canada Day", "Thanksgiving"]
+    },
+    {
+      "id": "ri-c-011",
+      "spice": "chill",
+      "prompt": "Best dessert",
+      "items": ["Ice cream", "Cheesecake", "Brownies", "Apple pie"]
+    },
+    {
+      "id": "ri-c-012",
+      "spice": "chill",
+      "prompt": "Best way to travel",
+      "items": ["Plane", "Train", "Road trip", "Boat"]
+    },
+    {
+      "id": "ri-c-013",
+      "spice": "chill",
+      "prompt": "Best board game",
+      "items": ["Monopoly", "Scrabble", "Clue", "Settlers of Catan"]
+    },
+    {
+      "id": "ri-c-014",
+      "spice": "chill",
+      "prompt": "Best sandwich",
+      "items": ["Grilled cheese", "BLT", "Club", "Peanut butter and jam"]
+    },
+    {
+      "id": "ri-c-015",
+      "spice": "chill",
+      "prompt": "Best Toronto sports team",
+      "items": ["Leafs", "Raptors", "Blue Jays", "TFC"]
+    },
+    {
+      "id": "ri-s-001",
+      "spice": "spicy",
+      "prompt": "Best first-date spot",
+      "items": ["Coffee shop", "Bar", "Bowling alley", "Picnic"]
+    },
+    {
+      "id": "ri-s-002",
+      "spice": "spicy",
+      "prompt": "Best hangover cure",
+      "items": ["Greasy breakfast", "Sleep", "Gatorade", "Hair of the dog"]
+    },
+    {
+      "id": "ri-s-003",
+      "spice": "spicy",
+      "prompt": "Worst dating app red flag",
+      "items": ["No bio", "Only group photos", "Fish photo", "Mirror selfies only"]
+    },
+    {
+      "id": "ri-s-004",
+      "spice": "spicy",
+      "prompt": "Best karaoke song",
+      "items": ["Bohemian Rhapsody", "Don't Stop Believin'", "Wannabe", "Mr. Brightside"]
+    },
+    {
+      "id": "ri-s-005",
+      "spice": "spicy",
+      "prompt": "Best cocktail",
+      "items": ["Margarita", "Caesar", "Mojito", "Espresso martini"]
+    },
+    {
+      "id": "ri-s-006",
+      "spice": "spicy",
+      "prompt": "Worst thing to hear on a date",
+      "items": ["I'm still friends with my ex", "I don't tip", "Let's split it", "My mom's coming"]
+    },
+    {
+      "id": "ri-s-007",
+      "spice": "spicy",
+      "prompt": "Best night out",
+      "items": ["House party", "Club", "Dive bar", "Karaoke"]
+    },
+    {
+      "id": "ri-s-008",
+      "spice": "spicy",
+      "prompt": "Best late-night food",
+      "items": ["Shawarma", "Pizza slice", "Poutine", "Drive-through"]
+    },
+    {
+      "id": "ri-s-009",
+      "spice": "spicy",
+      "prompt": "Most attractive skill",
+      "items": ["Cooking", "Dancing", "Singing", "Being funny"]
+    },
+    {
+      "id": "ri-s-010",
+      "spice": "spicy",
+      "prompt": "Worst party guest",
+      "items": ["Never leaves", "Brings nothing", "Picks every song", "Starts drama"]
+    },
+    {
+      "id": "ri-s-011",
+      "spice": "spicy",
+      "prompt": "Best excuse to leave early",
+      "items": ["Early meeting", "Feeding my cat", "Sudden headache", "Didn't say, just left"]
+    },
+    {
+      "id": "ri-s-012",
+      "spice": "spicy",
+      "prompt": "Best wedding moment",
+      "items": ["First dance", "Open bar", "Speeches", "Late-night snack"]
+    },
+    {
+      "id": "ri-s-013",
+      "spice": "spicy",
+      "prompt": "Best way to flirt",
+      "items": ["Eye contact", "A good joke", "Buying a round", "Bad pickup line"]
+    },
+    {
+      "id": "ri-s-014",
+      "spice": "spicy",
+      "prompt": "Worst roommate habit",
+      "items": ["Dirty dishes", "Loud phone calls", "Eats your food", "Never pays on time"]
+    },
+    {
+      "id": "ri-s-015",
+      "spice": "spicy",
+      "prompt": "Best reality show",
+      "items": ["Love Island", "Survivor", "The Bachelor", "Big Brother"]
+    },
+    {
+      "id": "ri-u-001",
+      "spice": "unhinged",
+      "prompt": "Animal you could beat in a fight",
+      "items": ["Goose", "Raccoon", "Kangaroo", "Swan"]
+    },
+    {
+      "id": "ri-u-002",
+      "spice": "unhinged",
+      "prompt": "Worst way to wake up",
+      "items": ["Fire alarm", "Cold water", "Cat on your face", "Your own snoring"]
+    },
+    {
+      "id": "ri-u-003",
+      "spice": "unhinged",
+      "prompt": "Worst smell",
+      "items": ["Wet dog", "Gym bag", "Fish market", "Burnt popcorn"]
+    },
+    {
+      "id": "ri-u-004",
+      "spice": "unhinged",
+      "prompt": "Best zombie apocalypse weapon",
+      "items": ["Baseball bat", "Frying pan", "Hockey stick", "Leaf blower"]
+    },
+    {
+      "id": "ri-u-005",
+      "spice": "unhinged",
+      "prompt": "Worst superpower",
+      "items": ["Talk to pigeons", "Always slightly damp", "Hiccups on command", "Smell colours"]
+    },
+    {
+      "id": "ri-u-006",
+      "spice": "unhinged",
+      "prompt": "Worst thing to find in your sandwich",
+      "items": ["A hair", "A toenail", "A tooth", "A note"]
+    },
+    {
+      "id": "ri-u-007",
+      "spice": "unhinged",
+      "prompt": "Best way to go viral",
+      "items": ["Cat video", "Epic fail", "Dance trend", "Unhinged rant"]
+    },
+    {
+      "id": "ri-u-008",
+      "spice": "unhinged",
+      "prompt": "Worst job",
+      "items": ["Sewer cleaner", "Mall Santa", "Mascot in July", "Clown at a kids' party"]
+    },
+    {
+      "id": "ri-u-009",
+      "spice": "unhinged",
+      "prompt": "Creepiest thing",
+      "items": ["Clowns", "Dolls", "Ventriloquist dummies", "Mimes"]
+    },
+    {
+      "id": "ri-u-010",
+      "spice": "unhinged",
+      "prompt": "Best thing to yell on a rollercoaster",
+      "items": ["Mom!", "I regret nothing", "Not like this", "My eyebrows!"]
+    },
+    {
+      "id": "ri-u-011",
+      "spice": "unhinged",
+      "prompt": "Worst pizza topping",
+      "items": ["Anchovies", "Pineapple", "Gummy bears", "Sardines"]
+    },
+    {
+      "id": "ri-u-012",
+      "spice": "unhinged",
+      "prompt": "Best fake name at a coffee shop",
+      "items": ["Beyoncé", "Gandalf", "Your Majesty", "Steve"]
+    },
+    {
+      "id": "ri-u-013",
+      "spice": "unhinged",
+      "prompt": "Most useless body part",
+      "items": ["Appendix", "Pinky toe", "Wisdom teeth", "Earlobes"]
+    },
+    {
+      "id": "ri-u-014",
+      "spice": "unhinged",
+      "prompt": "Best cryptid",
+      "items": ["Bigfoot", "Loch Ness Monster", "Mothman", "Ogopogo"]
+    },
+    {
+      "id": "ri-u-015",
+      "spice": "unhinged",
+      "prompt": "Worst thing to say at a funeral",
+      "items": ["Called it", "Can I have his stuff?", "Party at mine after", "He owed me $20"]
+    }
+  ]
+}

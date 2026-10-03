@@ -27,15 +27,8 @@ export const GAME_NAMES: Record<GameId, string> = {
   countdown: 'Countdown',
 };
 
-/** Games playable in this build (the rest arrive in phases 3–4). The lobby marks the others "Soon". */
-export const READY_GAMES: readonly GameId[] = [
-  'wouldYouRather',
-  'reactionShotgun',
-  'liarsPrompt',
-  'twoTruths',
-  'secretWord',
-  'fakeAnswer',
-];
+/** Games playable in this build. All 11 ship from phase 4 on; the lobby still marks any not listed "Soon". */
+export const READY_GAMES: readonly GameId[] = GAME_IDS;
 
 export const SPICE_LEVELS = ['chill', 'spicy', 'unhinged'] as const;
 export type Spice = (typeof SPICE_LEVELS)[number];
@@ -52,7 +45,7 @@ export interface RoomSettings {
   reactions: boolean;
 }
 
-export const MIN_ENABLED_GAMES = 2;
+export const MIN_ENABLED_GAMES = 1;
 
 export function defaultSettings(): RoomSettings {
   return { spice: 'chill', length: 'standard', games: [...GAME_IDS], reactions: true };

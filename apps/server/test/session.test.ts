@@ -40,7 +40,7 @@ function voteAll(players: FakeClient[], sides: ('a' | 'b' | null)[]) {
 
 describe('session flow', () => {
   it('runs intro → title card → rounds → reveal → Drink → next round', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace']);
+    const { h, players, host } = session(['wouldYouRather']);
     expect(phase(host)).toBe('intro');
     expect(view(host).phaseAt).toBe(h.time + LEAD_MS);
     expect(sess(host).drinks).toEqual(Object.fromEntries(players.map((p) => [p.playerId, 0])));
@@ -107,7 +107,7 @@ describe('session flow', () => {
   });
 
   it('keeps every vote private until the reveal', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace']);
+    const { h, players, host } = session(['wouldYouRather']);
     h.until(() => phase(host) === 'roundInput');
     const [p1, p2] = players as [FakeClient, FakeClient];
     const before = p2.inbox.length;
@@ -122,7 +122,7 @@ describe('session flow', () => {
   });
 
   it('applies the 2-in-a-row fairness cap', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace']);
+    const { h, players, host } = session(['wouldYouRather']);
     const loner = players[4] as FakeClient;
     const drinkersPerRound: string[][] = [];
     for (let round = 0; round < 3; round++) {
@@ -141,7 +141,7 @@ describe('session flow', () => {
   });
 
   it('runs Reaction Shotgun with a synced flash and a ms leaderboard', () => {
-    const { h, players, host } = session(['reactionShotgun', 'tapRace']);
+    const { h, players, host } = session(['reactionShotgun']);
     h.until(() => phase(host) === 'roundInput');
     expect(sess(host).play?.step).toBe('ready');
     h.until(() => sess(host).play?.step === 'armed');
@@ -163,7 +163,7 @@ describe('session flow', () => {
   });
 
   it('rejects input for the wrong step, bad data and outside play', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace']);
+    const { h, players, host } = session(['wouldYouRather']);
     const p = players[1] as FakeClient;
     p.send({ type: 'submit', step: 'vote', data: { side: 'a' } });
     expect(p.errors()).toContain('WRONG_STEP');
@@ -176,7 +176,7 @@ describe('session flow', () => {
   });
 
   it('pauses (host only), shifts the timer on resume and auto-resumes after 60 s', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace']);
+    const { h, players, host } = session(['wouldYouRather']);
     h.until(() => phase(host) === 'roundInput');
     players[1]?.send({ type: 'hostAction', action: { kind: 'pause' } });
     expect(players[1]?.errors()).toContain('NOT_HOST');
@@ -210,7 +210,7 @@ describe('session flow', () => {
   });
 
   it('waits for players when fewer than 3 are active, and resumes when one returns', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace'], 3);
+    const { h, players, host } = session(['wouldYouRather'], 3);
     h.until(() => phase(host) === 'roundInput');
     const leaver = players[2] as FakeClient;
     leaver.disconnect();
@@ -224,7 +224,7 @@ describe('session flow', () => {
   });
 
   it('freezes when nobody is connected', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace'], 3);
+    const { h, players, host } = session(['wouldYouRather'], 3);
     h.until(() => phase(host) === 'roundInput');
     for (const p of players) p.disconnect();
     expect(h.saved?.session?.overlay?.kind).toBe('waiting');
@@ -232,7 +232,7 @@ describe('session flow', () => {
   });
 
   it('ends early to results, then rematch or back to the lobby', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace']);
+    const { h, players, host } = session(['wouldYouRather']);
     host.send({ type: 'hostAction', action: { kind: 'rematch' } });
     expect(host.errors()).toContain('NOT_ALLOWED');
     h.until(() => phase(host) === 'roundInput');
@@ -261,23 +261,17 @@ describe('session flow', () => {
     expect(host.errors().at(-1)).toBe('NOT_ALLOWED');
   });
 
-  it("won't start when none of the enabled games are playable yet", () => {
+  it("can't pause before the game starts", () => {
     const h = new Harness();
     const players = COLORS.slice(0, 3).map((c, i) => h.join(`P${i + 1}`, c));
     const host = players[0] as FakeClient;
-    host.send({
-      type: 'hostAction',
-      action: { kind: 'settings', settings: { games: ['tapRace', 'countdown'] } },
-    });
-    host.send({ type: 'hostAction', action: { kind: 'start' } });
-    expect(host.errors()).toContain('NOT_ALLOWED');
     expect(phase(host)).toBe('lobby');
     host.send({ type: 'hostAction', action: { kind: 'pause' } });
     expect(host.errors().at(-1)).toBe('NOT_ALLOWED');
   });
 
   it('a removed player mid-round no longer holds the round up', () => {
-    const { h, players, host } = session(['wouldYouRather', 'tapRace']);
+    const { h, players, host } = session(['wouldYouRather']);
     h.until(() => phase(host) === 'roundInput');
     voteAll(players, ['a', 'a', 'b', 'b', null]);
     expect(phase(host)).toBe('roundInput');

@@ -31,7 +31,7 @@ import {
   type WelcomeInfo,
 } from '@tap-in/shared';
 import { GAMES, isReject, playableGames, type AnyGame, type GameCtx } from '@tap-in/games';
-import { applyFairnessCap, buildResults, drinkersOf } from './drinks.js';
+import { applyFairnessCap, buildResults, CAP_IN_A_ROW, drinkersOf } from './drinks.js';
 import { isProfane, parseClientMessage } from '@tap-in/shared/server';
 import { TokenBucket } from './rateLimit.js';
 import {
@@ -412,7 +412,7 @@ export class RoomEngine {
         const next = { ...this.state.settings, ...action.settings };
         next.games = [...new Set(next.games)];
         if (next.games.length < MIN_ENABLED_GAMES) {
-          this.error(connId, 'NOT_ALLOWED', `Keep at least ${MIN_ENABLED_GAMES} games on.`);
+          this.error(connId, 'NOT_ALLOWED', 'Keep at least one game on.');
           return;
         }
         this.state.settings = next;
@@ -427,10 +427,6 @@ export class RoomEngine {
         const ready = this.seated().filter((p) => p.connected).length;
         if (ready < MIN_PLAYERS) {
           this.error(connId, 'NOT_ENOUGH_PLAYERS', `Need ${MIN_PLAYERS}+ players to start.`);
-          return;
-        }
-        if (playableGames(this.state.settings.games).length === 0) {
-          this.error(connId, 'NOT_ALLOWED', 'None of the games you picked are ready yet.');
           return;
         }
         this.startSession();
@@ -536,6 +532,9 @@ export class RoomEngine {
       used,
       ms: (d) => this.ms(d),
       lead: LEAD_MS,
+      capped: Object.entries(session.streak)
+        .filter(([, n]) => n >= CAP_IN_A_ROW)
+        .map(([id]) => id),
     };
   }
 

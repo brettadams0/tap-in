@@ -15,7 +15,7 @@ function session(gameId: GameId, opts: { length?: 'short' } = {}) {
   const host = players[0] as FakeClient;
   host.send({
     type: 'hostAction',
-    action: { kind: 'settings', settings: { games: [gameId, 'tapRace'], ...opts } },
+    action: { kind: 'settings', settings: { games: [gameId], ...opts } },
   });
   host.send({ type: 'hostAction', action: { kind: 'start' } });
   h.until(() => host.view?.phase === 'roundInput');
