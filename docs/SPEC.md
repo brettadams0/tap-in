@@ -1,12 +1,12 @@
-# Tap In — Claude Code Build Spec
+# Tap In: rules and architecture
 
 Oct 2, 2026 · @Brett
 
-## Mission and how to use this spec
+## What it is
 
-Build Tap In, a browser-based party drinking game for 5 strangers, each playing on their own phone, with no TV, no app install and no accounts. Players join a room by link, QR or 4-letter code, and a rotating "party mix" of 11 mini-games tells losers to **Drink**.
+Tap In is a browser-based party drinking game for 5 strangers, each playing on their own phone, with no TV, no app install and no accounts. Players join a room by link, QR or 4-letter code, and a rotating "party mix" of 11 mini-games tells losers to **Drink**.
 
-**Naming:** the product name is **Tap In** everywhere players see it (title screen, tab title, share text, docs). The GitHub repo is `tap-in`, and package names, deploy project names and the default room-link domain use `tap-in`. The name should shape the identity: taps, bursts and punchy energy are the brand.
+**Naming:** the product name is **Tap In** everywhere players see it (title screen, tab title, share text, docs). The GitHub repo is `tap-in`, and package names, deploy project names and the default room-link domain use `tap-in`.
 
 **Hard constraints (non-negotiable)**
 
@@ -17,14 +17,6 @@ Build Tap In, a browser-based party drinking game for 5 strangers, each playing 
 - Designed for 5 players. The lobby accepts 3 to 8 so one dropout or extra friend doesn't kill the game, but all balancing and testing targets 5.
 - A refresh, locked phone or dropped connection must never break the game. Players rejoin silently into the current phase.
 - All 11 games listed in Game rules ship in v1.
-
-**Where the session has creative freedom**
-
-- Visual identity, name, mascot, palette, typography, animation choreography and sound palette.
-- Exact timer lengths, scoring tweaks and prompt wording, within the rules below.
-- Library and hosting choices, as long as they meet the architecture requirements and the reasoning is written in `DECISIONS.md`.
-
-When this spec is silent, choose what makes the game more fun for 5 tipsy strangers holding phones in a loud room, and record the choice in `DECISIONS.md`.
 
 ## Product overview
 
@@ -66,7 +58,7 @@ A session is a lobby, then 20 to 40 minutes of rotating mini-games, then a resul
 
 ## Game rules
 
-Each game is a self-contained module with its own phases, timers, private views and reveal animation. Timers are defaults the session may tune. Every input phase ends early when all connected players have submitted.
+Each game is a self-contained module with its own phases, timers, private views and reveal animation. Every input phase ends early when all connected players have submitted.
 
 | Game | Type | Rounds | Input timer | Who drinks |
 | --- | --- | --- | --- | --- |
@@ -107,7 +99,7 @@ Each game is a self-contained module with its own phases, timers, private views 
 - Setup: each player privately types two true, harmless facts about themselves. The app adds one fake fact from a bank, written to sound plausible for anyone ("I've been to Iceland").
 - Each round spotlights one player. All phones show their 3 facts, shuffled. The spotlight player can't vote.
 - Everyone else guesses which fact the app invented. Wrong guessers drink. If nobody is fooled, the spotlight player drinks.
-- Spotlight order rotates until every player has had a turn. If time is short, the session may cap it at 3 spotlights.
+- Spotlight order rotates until every player has had a turn. In a Short game, or with more than 6 players, it caps at 3 spotlights.
 - Typed facts are filtered for profanity and length, and never stored past the session.
 
 ### 5. Secret Word
@@ -200,12 +192,12 @@ A build-time script checks every bank for schema, duplicates, length limits and 
 
 ## Visual design and animation
 
-The game should look like a hand-crafted party game, not an AI-generated template. Read the `frontend-design` guidance (or equivalent) before designing, and commit to one bold, cohesive art direction.
+One bold, cohesive art direction, described in `DESIGN.md`.
 
 **Art direction requirements**
 
-- Pick a distinct theme and carry it everywhere. Examples: retro arcade cabinet, neon dive-bar signage, risograph zine, sticker-bomb collage. The session chooses.
-- Avoid generic AI-look tells: purple-to-blue gradients on white, glassmorphism cards everywhere, Inter-only typography, default shadcn styling, emoji as the only illustration.
+- One theme carried everywhere ("Bottle Cap Riot").
+- No template looks: purple-to-blue gradients on white, glassmorphism cards everywhere, Inter-only typography, default shadcn styling, emoji as the only illustration.
 - A characterful display font for titles and Drink moments, plus a highly legible body font. Self-host the fonts.
 - Each mini-game gets its own accent color and title-card treatment within the shared system, so players feel the switch.
 - Player avatars and colors stay consistent all session so strangers can tell each other apart fast.
@@ -221,7 +213,7 @@ The game should look like a hand-crafted party game, not an AI-generated templat
 **Animation requirements**
 
 - Animate every state change: joins, lock-ins, reveals, transitions and Drink moments. No hard cuts.
-- Required signature animations (designs are the session's call):
+- Required signature animations:
   - Lobby: players pop in with their avatar as they join.
   - Game title card: a bold slam-in or flip per game.
   - Lock-in: a satisfying stamp or check when a player submits, visible on everyone's phone.
@@ -288,9 +280,9 @@ Sound should make five phones in one room feel like one game: shared moments pla
 
 The server owns all game state and every timer, and phones are thin clients that render whatever phase the server says the room is in.
 
-**Recommended stack (the session may substitute with reasons in `DECISIONS.md`)**
+**Stack options** (what shipped, and why, is in `DECISIONS.md` D1–D4)
 
-| Layer | Recommendation | Why |
+| Layer | Options | Why |
 | --- | --- | --- |
 | Language | TypeScript, strict mode, everywhere | Shared types between client and server |
 | Client | Next.js (App Router) or Vite + React | Fast mobile web, easy Vercel deploy |
@@ -298,7 +290,7 @@ The server owns all game state and every timer, and phones are thin clients that
 | Audio | Web Audio API (optionally Howler.js or Tone.js) | Precise scheduled playback |
 | Realtime room server | PartyKit or Cloudflare Durable Objects, or a Node WebSocket server on Fly.io/Railway | Needs a long-lived, stateful process per room with its own timers |
 | Validation | Zod schemas for every message | Reject malformed or cheating input |
-| Client hosting | Vercel | Matches the user's existing setup |
+| Client hosting | Vercel | Matches the existing setup |
 
 Important: Vercel serverless functions can't hold WebSocket connections or run room timers, so the realtime room server must live on a stateful platform. Pure client-side broadcast (for example, Supabase Realtime with the host phone as authority) is not acceptable, because a host refresh would freeze the game.
 
@@ -385,21 +377,7 @@ The automated suite can't prove sound sync, haptics or audio unlock, so include 
 - [ ] Wake lock keeps screens on during play.
 - [ ] The game is readable and playable in a dim room.
 
-## Build phases and definition of done
-
-Build in vertical slices, so a playable, deployed game exists after phase 2 and every later phase adds to something that already works.
-
-1. **Foundation:** monorepo, TypeScript strict, lint, CI, shared message schemas, room server with lobby, join, rejoin, host transfer and clock sync. Deploy the client to Vercel and the room server to its host on day one.
-2. **First playable:** the art direction, sound system with synced scheduling, Drink system, rotation engine and two games (Would You Rather, Reaction Shotgun), fully tested on real phones.
-3. **Deception games:** Liar's Prompt, Secret Word, Two Truths One App, Fake Answer, with private-view leak tests.
-4. **Remaining games:** Rank It, Tap Race, Spin the Bottle, Fill in the Blank, Countdown.
-5. **Content:** fill every prompt bank to its minimum for all three spice levels and pass validation.
-6. **Polish:** signature animations, per-device sound signatures, end-screen awards, reduced-motion mode, performance budgets.
-7. **Hardening:** full e2e suite on WebKit and Chromium, chaos tests (random disconnects during every phase), Lighthouse budgets, the manual real-device checklist.
-
-At the end of each phase, update `PROGRESS.md` with what works, what's next and any known issues, and commit.
-
-**Definition of done (v1)**
+## Definition of done (v1)
 
 - [x] All 11 games are playable end to end by 5 phones from a single production URL.
 - [ ] Works in iOS Safari and Android Chrome with no install and no login.
@@ -409,6 +387,6 @@ At the end of each phase, update `PROGRESS.md` with what works, what's next and 
 - [ ] Every state change is animated, every key moment has a matching sound, and synced sounds land together.
 - [x] Private information never reaches another player's device.
 - [x] Unit, integration and e2e suites pass in CI, and performance budgets are met.
-- [x] Production deploy is live, with `README.md` (setup, env vars, deploy), `DECISIONS.md`, `TESTING.md`, `CREDITS.md` and `PROGRESS.md` complete.
+- [x] Production deploy is live, with `README.md` (setup, env vars, deploy), `DECISIONS.md`, `TESTING.md` and `CREDITS.md` complete.
 
 _Status 2026-10-03:_ the two open items are built and pass on emulated WebKit (iPhone 14) and Chromium (Pixel 7) in CI and against production; they're ticked after the real-device checklist in `TESTING.md` (an iPhone and an Android in one room).
