@@ -1,6 +1,6 @@
 # Decisions
 
-One line per open choice, with the reason. Newest at the bottom of each section. See PLAN.md §0 for longer context.
+One line per open choice, with the reason. Newest at the bottom of each section.
 
 ## Platform and stack
 

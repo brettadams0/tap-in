@@ -1,5 +1,5 @@
 /**
- * Wire protocol shared by client and server (PLAN.md §5).
+ * Wire protocol shared by client and server.
  * Types only: runtime validation lives in ./schemas.ts and is used by the server.
  */
 import type { Avatar, CapColor } from './avatar.js';

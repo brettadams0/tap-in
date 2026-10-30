@@ -5,7 +5,14 @@ Real five-phone rounds on the local build, captured by `apps/web/e2e/promo.spec.
 - `hero.png`: a wide banner (Would You Rather title card, the vote, a Drink, Liar's Prompt answers, Tap Race, the Fill in the Blank reveal).
 - `screens/`: 19 shots, numbered in the order they happen in a night.
 
-Re-take the screens after a visual change (see VERIFY.md), then rebuild the banner with ImageMagick 6:
+Re-take the screens after a visual change (local Node server, real timers):
+
+```bash
+cd apps/web
+PROMO_DIR=$PWD/../../promo/screens PW_SKIP_WEBKIT=1 pnpm exec playwright test e2e/promo.spec.ts
+```
+
+Then rebuild the banner with ImageMagick 6:
 
 ```bash
 cd promo

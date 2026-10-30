@@ -1,5 +1,5 @@
 /**
- * Text kit for the typing games (PLAN.md §9 phase 3, DECISIONS R10/R12).
+ * Text kit for the typing games (DECISIONS R10/R12).
  * Normalisation, similarity, word containment and the profanity tiers for typed answers.
  */
 import { graphemes, type Spice } from '@tap-in/shared';

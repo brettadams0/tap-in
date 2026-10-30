@@ -1,5 +1,5 @@
 /**
- * RoomEngine: the single authority for one room (PLAN.md §3).
+ * RoomEngine: the single authority for one room.
  * Host-agnostic: the Durable Object and the Node adapter both drive it through
  * connect / message / disconnect / alarm, and it talks back through EngineDeps.
  */
@@ -517,7 +517,7 @@ export class RoomEngine {
     }
   }
 
-  // ---------------------------------------------------------------- session flow (PLAN.md §3)
+  // ---------------------------------------------------------------- session flow
 
   private ms(duration: number): number {
     return Math.round(duration * (this.deps.timeScale ?? 1));

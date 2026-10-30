@@ -1,5 +1,5 @@
 /**
- * NTP-style clock offset estimation (PLAN.md §5, DECISIONS D11).
+ * NTP-style clock offset estimation (DECISIONS D11).
  * offset = serverTime - midpoint(t0, t1); we keep the median offset of the
  * lowest-RTT samples, because low RTT means the least asymmetric error.
  */
