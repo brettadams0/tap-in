@@ -1,5 +1,5 @@
 /**
- * Game rotation (SPEC "Game rotation rules", PLAN.md §3). Pure, seeded.
+ * Game rotation (SPEC "Game rotation rules"). Pure, seeded.
  *
  * Hard rule: no repeats until every enabled game has played once in this cycle.
  * Soft rules, relaxed in this order when they can't all hold:

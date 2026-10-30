@@ -4,7 +4,7 @@ import type { RoomConnection } from '../net/connection.js';
 
 /**
  * True once server time `at` has been reached on this phone. A timer wakes ~30 ms early, then a
- * rAF lands the change on the first frame at or after the target (PLAN.md §5 step 5).
+ * rAF lands the change on the first frame at or after the target.
  * `onFrame` gets the rAF timestamp of that frame (used to time Reaction Shotgun taps).
  */
 export function useReached(

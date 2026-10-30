@@ -19,7 +19,7 @@ export const GONE_AFTER_MS = 3 * 60_000;
 export const ROOM_EXPIRY_MS = 30 * 60_000;
 export const CLAIM_TIMEOUT_MS = 60_000;
 
-/** Phase lengths (ms, before time scaling). PLAN.md §3. */
+/** Phase lengths (ms, before time scaling). */
 export const LEAD_MS = 600;
 export const INTRO_MS = 4200;
 export const TITLE_MS = 3600;

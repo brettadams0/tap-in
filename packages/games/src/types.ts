@@ -1,5 +1,5 @@
 /**
- * The contract every mini-game implements (PLAN.md §4).
+ * The contract every mini-game implements.
  * Games are pure: no I/O, no Date, no Math.random. Time and randomness come in through GameCtx,
  * and state must stay JSON-serialisable so a Durable Object can persist and restore it.
  */

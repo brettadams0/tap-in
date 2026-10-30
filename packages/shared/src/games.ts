@@ -1,5 +1,5 @@
 /**
- * Per-game metadata and the shapes of each game's views (PLAN.md §4).
+ * Per-game metadata and the shapes of each game's views.
  * Types and constants only: game logic lives server-side in @tap-in/games.
  */
 import type { GameId } from './settings.js';

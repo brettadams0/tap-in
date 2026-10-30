@@ -1,6 +1,6 @@
 /**
  * Prompt banks (content/*.json). Server-side only: banks never ship to the client,
- * only the current round's text does (PLAN.md §4).
+ * only the current round's text does.
  */
 import { SPICE_LEVELS, type Spice } from '@tap-in/shared';
 import { z } from 'zod';

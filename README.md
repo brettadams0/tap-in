@@ -5,10 +5,9 @@
 A party drinking game for 3–8 people (built for 5), each on their own phone. There's no TV, no app and no logins. Open a link, tap in, and a rotating party mix of mini-games tells the losers to **Drink**.
 
 - **Spec:** [SPEC.md](./SPEC.md)
-- **Plan:** [PLAN.md](./PLAN.md)
 - **Design:** [DESIGN.md](./DESIGN.md)
 - **Decisions:** [DECISIONS.md](./DECISIONS.md)
-- **Progress:** [PROGRESS.md](./PROGRESS.md)
+- **Contributing:** [CONTRIBUTING.md](./CONTRIBUTING.md)
 - **Testing:** [TESTING.md](./TESTING.md)
 
 ## Repo layout
@@ -96,3 +95,7 @@ If the project URL isn't `https://tap-in.vercel.app` (the name may be taken), ad
 ## Privacy
 
 There are no accounts and no analytics. Room state, including anything typed during a game, lives only in that room's Durable Object storage and is deleted when the room expires (30 minutes with nobody connected).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
