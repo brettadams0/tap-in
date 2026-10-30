@@ -13,7 +13,7 @@ import {
   type RoomSettings,
 } from '@tap-in/shared';
 
-/** Timing rules from SPEC.md "Rejoin and resilience". */
+/** Timing rules from SPEC "Rejoin and resilience". */
 export const HOST_TRANSFER_MS = 30_000;
 export const GONE_AFTER_MS = 3 * 60_000;
 export const ROOM_EXPIRY_MS = 30 * 60_000;

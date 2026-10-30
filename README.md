@@ -4,7 +4,7 @@
 
 A party drinking game for 3–8 people (built for 5), each on their own phone. There's no TV, no app and no logins. Open a link, tap in, and a rotating party mix of mini-games tells the losers to **Drink**.
 
-- **Spec:** [SPEC.md](./SPEC.md)
+- **Rules and architecture:** [docs/SPEC.md](./docs/SPEC.md)
 - **Design:** [DESIGN.md](./DESIGN.md)
 - **Decisions:** [DECISIONS.md](./DECISIONS.md)
 - **Contributing:** [CONTRIBUTING.md](./CONTRIBUTING.md)

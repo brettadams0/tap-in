@@ -10,3 +10,5 @@ test-results
 .DS_Store
 .vercel
 .lighthouseci/
+# Windows/MSYS tools write these when they crash; never source
+*.stackdump

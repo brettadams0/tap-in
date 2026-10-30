@@ -1,6 +1,6 @@
 # Tap In: notes for Claude
 
-Start with [CONTRIBUTING.md](./CONTRIBUTING.md): architecture, how to add a game, gotchas, known issues. Source of truth: [SPEC.md](./SPEC.md). Recorded choices: [DECISIONS.md](./DECISIONS.md).
+Start with [CONTRIBUTING.md](./CONTRIBUTING.md): architecture, how to add a game, gotchas, known issues. Source of truth: [docs/SPEC.md](./docs/SPEC.md). Recorded choices: [DECISIONS.md](./DECISIONS.md).
 
 - Before pushing: `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test`.
 - e2e in the Claude cloud sandbox: `PW_CHROMIUM_PATH=/opt/pw-browsers/chromium PW_SKIP_WEBKIT=1 pnpm e2e` (WebKit runs in CI only). Add `E2E_TIME_SCALE=1` to run real timers like the production e2e does.

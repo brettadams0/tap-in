@@ -4,6 +4,6 @@ coverage
 .wrangler
 playwright-report
 test-results
-SPEC.md
+docs/SPEC.md
 design/styletile.html
 AGENTS.md
